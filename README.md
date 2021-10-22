@@ -1,3 +1,5 @@
+[![Github CI](https://github.com/ChimeHQ/LanguageServerProtocol/workflows/CI/badge.svg)](https://github.com/ChimeHQ/LanguageServerProtocol/actions)
+
 # LanguageServerProtocol
 
 This is a Swift library for interacting with [Language Server Protocol](https://microsoft.github.io/language-server-protocol/). It contains type definitions and utilities useful for both server- and client-side projects.
