@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AnyCodable",
+        "repositoryURL": "https://github.com/Flight-School/AnyCodable",
+        "state": {
+          "branch": null,
+          "revision": "b1a7a8a6186f2fcb28f7bda67cfc545de48b3c80",
+          "version": "0.6.2"
+        }
+      },
+      {
+        "package": "JSONRPC",
+        "repositoryURL": "https://github.com/ChimeHQ/JSONRPC",
+        "state": {
+          "branch": null,
+          "revision": "c593da32092ab5945524fbe0602f8beff647f290",
+          "version": "0.2.1"
+        }
+      },
+      {
+        "package": "NullCodable",
+        "repositoryURL": "https://github.com/g-mark/NullCodable",
+        "state": {
+          "branch": null,
+          "revision": "dcdda8a5b079827f65e283ab7c29d5caae4caf89",
+          "version": "1.1.0"
+        }
+      },
+      {
+        "package": "SwiftLSPClient",
+        "repositoryURL": "https://github.com/ChimeHQ/SwiftLSPClient",
+        "state": {
+          "branch": "main",
+          "revision": "d20357512b88e973d9ee9c36715c86a4e7c38c1d",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
