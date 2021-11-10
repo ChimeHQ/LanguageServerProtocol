@@ -35,6 +35,26 @@ public protocol Server {
 }
 
 public extension Server {
+    /// Send a request that expects either null or an omitted result
+    func sendRequestWithErrorOnlyResult(_ request: ClientRequest, completionHandler: @escaping (ServerError?) -> Void) {
+        sendRequest(request) { (result: ServerResult<UnusedResult>) in
+            switch result {
+            case .failure(let error):
+                // we have to special-case this, because we know we'll get back null
+                if case ServerError.missingExpectedResult = error {
+                    completionHandler(nil)
+                    return
+                }
+
+                completionHandler(error)
+            case .success(_):
+                completionHandler(nil)
+            }
+        }
+    }
+}
+
+public extension Server {
     func initialize(params: InitializeParams, block: @escaping (ServerResult<InitializationResponse>) -> Void) {
         sendRequest(.initialize(params), completionHandler: block)
     }
@@ -44,14 +64,7 @@ public extension Server {
     }
 
     func shutdown(block: @escaping (ServerError?) -> Void) {
-        sendRequest(.shutdown) { (result: ServerResult<UnusedResult>) in
-            switch result {
-            case .failure(let error):
-                block(error)
-            case .success(_):
-                block(nil)
-            }
-        }
+        sendRequestWithErrorOnlyResult(.shutdown, completionHandler: block)
     }
 
     func exit(block: @escaping (ServerError?) -> Void) {

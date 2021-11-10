@@ -238,17 +238,6 @@ extension JSONRPCLanguageServer {
         }
     }
 
-    private func sendRequestWithErrorOnlyHandler<Params: Codable>(_ params: Params, method: String, handler: @escaping (ServerError?) -> Void) {
-        sendRequestWithHandler(params, method: method) { (result: ServerResult<UnusedResult>) in
-            switch result {
-            case .failure(let error):
-                handler(error)
-            case .success:
-                handler(nil)
-            }
-        }
-    }
-
     public func sendRequest<Response: Codable>(_ request: ClientRequest, completionHandler: @escaping (ServerResult<Response>) -> Void) {
         let method = request.method.rawValue
 
