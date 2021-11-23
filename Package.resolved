@@ -32,9 +32,9 @@
         "package": "SwiftLSPClient",
         "repositoryURL": "https://github.com/ChimeHQ/SwiftLSPClient",
         "state": {
-          "branch": "main",
+          "branch": null,
           "revision": "c5ea0613ee55bf642aca78b2de376d9f798930cb",
-          "version": null
+          "version": "0.9.1"
         }
       }
     ]

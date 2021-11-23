@@ -13,7 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/ChimeHQ/JSONRPC", from: "0.2.1"),
-        .package(url: "https://github.com/ChimeHQ/SwiftLSPClient", .branch("main"))
+        .package(url: "https://github.com/ChimeHQ/SwiftLSPClient", from: "0.9.1")
     ],
     targets: [
         .target(
