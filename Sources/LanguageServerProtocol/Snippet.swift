@@ -1,7 +1,7 @@
 import Foundation
 
-struct Snippet {
-    enum Element: Equatable {
+public struct Snippet {
+    public enum Element: Equatable {
         case text(String)
         case tabstop(Int)
         case placeholder(Int, String)
@@ -10,21 +10,21 @@ struct Snippet {
         case variableTransform(String, String, String, String)
     }
 
-    let value: String
+    public let value: String
 
-    init(value: String) {
+    public init(value: String) {
         self.value = value
     }
 }
 
 extension Snippet {
-    var elementRanges: [NSRange] {
+    public var elementRanges: [NSRange] {
         let regex = try! NSRegularExpression(pattern: #"\$(\w+|\{([^$]+)\})"#)
 
         return regex.matches(inFullString: value).map({ $0.range })
     }
 
-    func enumerateElements(block: (Element) -> Void) {
+    public func enumerateElements(block: (Element) -> Void) {
         let ranges = elementRanges
 
         var location = 0
@@ -52,7 +52,7 @@ extension Snippet {
         }
     }
 
-    var elements: [Snippet.Element] {
+    public var elements: [Snippet.Element] {
         var list = [Snippet.Element]()
 
         enumerateElements { (element) in
@@ -141,7 +141,7 @@ extension Snippet {
 }
 
 extension Snippet {
-    static func parsePlaceholderValue(_ value: String) -> (String, String) {
+    public static func parsePlaceholderValue(_ value: String) -> (String, String) {
         guard let regex = try? NSRegularExpression(pattern: "(\\w+)\\b(.+)") else {
             return (value, value)
         }
