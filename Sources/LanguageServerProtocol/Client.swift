@@ -33,7 +33,10 @@ extension Registration {
         case .workspaceDidChangeWorkspaceFolders:
             throw ServerError.unhandledMethod(method)
         case .textDocumentSemanticTokens:
-            throw ServerError.unhandledMethod(method)
+            let options = try reintrepretOptions(SemanticTokensRegistrationOptions.self)
+
+            return .textDocumentSemanticTokens(options)
+
         }
     }
 
@@ -44,6 +47,10 @@ extension Registration {
 
 public struct RegistrationParams: Codable {
     public var registrations: [Registration]
+
+    public var serverRegistrations: [ServerRegistration] {
+        return registrations.compactMap({ $0.serverRegistration })
+    }
 }
 
 public struct Unregistration: Codable {
