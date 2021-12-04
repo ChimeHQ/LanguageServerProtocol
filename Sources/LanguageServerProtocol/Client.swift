@@ -29,9 +29,9 @@ extension Registration {
 
             return .workspaceDidChangeWatchedFiles(options)
         case .workspaceDidChangeConfiguration:
-            throw ServerError.unhandledMethod(method)
+            return .workspaceDidChangeConfiguration
         case .workspaceDidChangeWorkspaceFolders:
-            throw ServerError.unhandledMethod(method)
+            return .workspaceDidChangeWorkspaceFolders
         case .textDocumentSemanticTokens:
             let options = try reintrepretOptions(SemanticTokensRegistrationOptions.self)
 

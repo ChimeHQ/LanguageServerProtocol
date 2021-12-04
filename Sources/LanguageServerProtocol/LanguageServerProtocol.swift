@@ -221,6 +221,8 @@ public enum ServerRegistration {
 
     case workspaceDidChangeWatchedFiles(DidChangeWatchedFilesRegistrationOptions)
     case textDocumentSemanticTokens(SemanticTokensRegistrationOptions)
+    case workspaceDidChangeConfiguration
+    case workspaceDidChangeWorkspaceFolders
 
     public var method: Method {
         switch self {
@@ -228,6 +230,10 @@ public enum ServerRegistration {
             return .workspaceDidChangeWatchedFiles
         case .textDocumentSemanticTokens:
             return .textDocumentSemanticTokens
+        case .workspaceDidChangeConfiguration:
+            return .workspaceDidChangeConfiguration
+        case .workspaceDidChangeWorkspaceFolders:
+            return .workspaceDidChangeWorkspaceFolders
         }
     }
 }
