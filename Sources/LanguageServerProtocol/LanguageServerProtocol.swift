@@ -9,6 +9,8 @@ public enum ClientNotification {
         case initialized
         case exit
         case workspaceDidChangeWatchedFiles = "workspace/didChangeWatchedFiles"
+        case workspaceDidChangeConfiguration = "workspace/didChangeConfiguration"
+        case workspaceDidChangeWorkspaceFolders = "workspace/didChangeWorkspaceFolders"
         case textDocumentDidOpen = "textDocument/didOpen"
         case textDocumentDidChange = "textDocument/didChange"
         case textDocumentDidClose = "textDocument/didClose"
@@ -204,6 +206,25 @@ public enum ServerRequest {
             return .workspaceSemanticTokenRefresh
         case .windowShowMessageRequest:
             return .windowShowMessageRequest
+        }
+    }
+}
+
+public enum ServerRegistration {
+    public enum Method: String {
+        case workspaceDidChangeWatchedFiles = "workspace/didChangeWatchedFiles"
+        case workspaceDidChangeConfiguration = "workspace/didChangeConfiguration"
+        case workspaceDidChangeWorkspaceFolders = "workspace/didChangeWorkspaceFolders"
+
+        case textDocumentSemanticTokens = "textDocument/semanticTokens"
+    }
+
+    case workspaceDidChangeWatchedFiles(DidChangeWatchedFilesRegistrationOptions)
+
+    public var method: Method {
+        switch self {
+        case .workspaceDidChangeWatchedFiles:
+            return .workspaceDidChangeWatchedFiles
         }
     }
 }
