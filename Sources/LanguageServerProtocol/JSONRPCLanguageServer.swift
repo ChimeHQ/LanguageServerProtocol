@@ -15,8 +15,10 @@ public class JSONRPCLanguageServer: Server {
     public init(protocolTransport: ProtocolTransport) {
         self.protocolTransport = protocolTransport
 
-        protocolTransport.requestHandler = { [unowned self] in self.handleRequest($0, data: $1, callback: $2) }
-        protocolTransport.notificationHandler = { [unowned self] in self.handleNotification($0, data: $1, block: $2) }
+        // These can be racy, where some data comes in just after deallocation. Happens during shutdown most
+        // commonly. Making these weak, along with unsetting then in deinit should be safe.
+        protocolTransport.requestHandler = { [weak self] in self?.handleRequest($0, data: $1, callback: $2) }
+        protocolTransport.notificationHandler = { [weak self] in self?.handleNotification($0, data: $1, block: $2) }
         protocolTransport.errorHandler = { error in
             // We're intentionally doing nothing here but logging because
             // there's a reasonable expectation that future interactions might
@@ -34,6 +36,11 @@ public class JSONRPCLanguageServer: Server {
         self.init(protocolTransport: ProtocolTransport(messageTransport: messageTransport))
     }
 
+    deinit {
+        protocolTransport.requestHandler = nil
+        protocolTransport.notificationHandler = nil
+    }
+    
     public var logMessages: Bool {
         get { return protocolTransport.logMessages }
         set { protocolTransport.logMessages = newValue }
