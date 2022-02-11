@@ -95,6 +95,10 @@ public extension Server {
         sendNotification(.didSaveTextDocument(params), completionHandler: block)
     }
 
+    func didChangeWatchedFiles(params: DidChangeWatchedFilesParams, block: @escaping (ServerError?) -> Void) {
+        sendNotification(.didChangeWatchedFiles(params), completionHandler: block)
+    }
+
     func completion(params: CompletionParams, block: @escaping (ServerResult<CompletionResponse>) -> Void) {
         sendRequest(.completion(params), completionHandler: block)
     }
