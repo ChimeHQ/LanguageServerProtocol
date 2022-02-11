@@ -8,6 +8,8 @@ This project was derived from, and still depends on [SwiftLSPClient](https://git
 
 However, there's a lot in SwiftLSPClient, so a full migration is going to take a while. In the mean time, you should assume that SwiftLSPClient is soft-deprecated. New projects shouldn't use it. A soon-to-be released Swift library that focuses on a higher-level client implementations is forthcoming.
 
+If you are looking for a way to interact with servers, you probably want to use the higher-level [LanguageClient](https://github.com/ChimeHQ/LanguageClient).
+
 ## Supported Features
 
 The LSP [specification](https://microsoft.github.io/language-server-protocol/specification) is large, and this library currently does not implement it all. The intention is to support the 3.x specification, but be as backwards-compatible as possible with pre-3.0 servers. 
