@@ -26,6 +26,7 @@ public enum ClientNotification {
     case didCloseTextDocument(DidCloseTextDocumentParams)
     case willSaveTextDocument(WillSaveTextDocumentParams)
     case didSaveTextDocument(DidSaveTextDocumentParams)
+    case didChangeWatchedFiles(DidChangeWatchedFilesParams)
 
     public var method: Method {
         switch self {
@@ -45,6 +46,8 @@ public enum ClientNotification {
             return .textDocumentDidChange
         case .didSaveTextDocument:
             return .textDocumentDidSave
+        case .didChangeWatchedFiles:
+            return .workspaceDidChangeWatchedFiles
         }
     }
 }

@@ -141,6 +141,10 @@ extension JSONRPCLanguageServer {
             protocolTransport.sendNotification(params, method: method) { error in
                 completionHandler(error.map({ .unableToSendNotification($0) }))
             }
+        case .didChangeWatchedFiles(let params):
+            protocolTransport.sendNotification(params, method: method) { error in
+                completionHandler(error.map({ .unableToSendNotification($0) }))
+            }
         }
     }
 }
