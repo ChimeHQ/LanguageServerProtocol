@@ -32,6 +32,7 @@ public enum ClientNotification {
     case protocolCancelRequest(CancelParams)
     case protocolSetTrace(SetTraceParams)
     case workspaceDidChangeWorkspaceFolders(DidChangeWorkspaceFoldersParams)
+    case workspaceDidChangeConfiguration(DidChangeConfigurationParams)
 
     public var method: Method {
         switch self {
@@ -59,6 +60,8 @@ public enum ClientNotification {
             return .protocolSetTrace
         case .workspaceDidChangeWorkspaceFolders:
             return .workspaceDidChangeWorkspaceFolders
+        case .workspaceDidChangeConfiguration:
+            return .workspaceDidChangeConfiguration
         }
     }
 }

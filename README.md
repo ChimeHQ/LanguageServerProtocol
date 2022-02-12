@@ -34,7 +34,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | client/unregisterCapability | ✅ |
 | workspace/workspaceFolders | ✅ |
 | workspace/didChangeWorkspaceFolders | ✅ |
-| workspace/didChangeConfiguration | - |
+| workspace/didChangeConfiguration | ✅ |
 | workspace/configuration | ✅ |
 | workspace/didChangeWatchedFiles | ✅ |
 | workspace/symbol | - |
