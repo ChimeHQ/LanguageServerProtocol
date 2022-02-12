@@ -109,6 +109,10 @@ extension JSONRPCLanguageServer {
                 try relayNotification(data: data) { (params: ProgressParams) in
                     handler(.protocolProgress(params), block)
                 }
+            case .protocolLogTrace:
+                try relayNotification(data: data) { (params: LogTraceParams) in
+                    handler(.protocolLogTrace(params), block)
+                }
             }
         } catch {
             block(error)
@@ -158,6 +162,10 @@ extension JSONRPCLanguageServer {
                 completionHandler(error.map({ .unableToSendNotification($0) }))
             }
         case .protocolCancelRequest(let params):
+            protocolTransport.sendNotification(params, method: method) { error in
+                completionHandler(error.map({ .unableToSendNotification($0) }))
+            }
+        case .protocolSetTrace(let params):
             protocolTransport.sendNotification(params, method: method) { error in
                 completionHandler(error.map({ .unableToSendNotification($0) }))
             }
