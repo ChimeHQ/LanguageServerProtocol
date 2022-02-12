@@ -189,6 +189,7 @@ public enum ServerRequest {
         case clientUnregisterCapability = "client/unregisterCapability"
         case workspaceSemanticTokenRefresh = "workspace/semanticTokens/refresh"
         case windowShowMessageRequest = "window/showMessageRequest"
+        case windowShowDocument = "window/showDocument"
     }
 
     case workspaceConfiguration(ConfigurationParams)
@@ -196,6 +197,7 @@ public enum ServerRequest {
     case clientUnregisterCapability(UnregistrationParams)
     case workspaceSemanticTokenRefresh
     case windowShowMessageRequest(ShowMessageRequestParams)
+    case windowShowDocument(ShowDocumentParams)
 
     public var method: Method {
         switch self {
@@ -209,6 +211,8 @@ public enum ServerRequest {
             return .workspaceSemanticTokenRefresh
         case .windowShowMessageRequest:
             return .windowShowMessageRequest
+        case .windowShowDocument:
+            return .windowShowDocument
         }
     }
 }

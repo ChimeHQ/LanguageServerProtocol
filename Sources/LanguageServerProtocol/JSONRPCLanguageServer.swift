@@ -221,6 +221,11 @@ extension JSONRPCLanguageServer {
             let request = requestResult.map { ServerRequest.windowShowMessageRequest($0) }
 
             relayRequest(request: request, id: id, block: block)
+        case .windowShowDocument:
+            let requestResult: ServerResult<ShowDocumentParams> = self.decodeRequestWithParams(data: data)
+            let request = requestResult.map { ServerRequest.windowShowDocument($0) }
+
+            relayRequest(request: request, id: id, block: block)
         }
     }
 

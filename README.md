@@ -18,7 +18,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | -------------------|:---------:|
 | window/showMessage | ✅ |
 | window/showMessageRequest | ✅ |
-| window/showDocument | - |
+| window/showDocument | ✅ |
 | window/logMessage | ✅ |
 | window/workDoneProgress/create | - |
 | window/workDoneProgress/cancel | - |
