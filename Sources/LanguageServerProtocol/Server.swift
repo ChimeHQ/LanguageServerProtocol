@@ -71,6 +71,10 @@ public extension Server {
         sendNotification(.exit, completionHandler: block)
     }
 
+    func cancelRequest(params: CancelParams, block: @escaping (ServerError?) -> Void) {
+        sendNotification(.protocolCancelRequest(params), completionHandler: block)
+    }
+
     func didOpenTextDocument(params: DidOpenTextDocumentParams, block: @escaping (ServerError?) -> Void) {
         sendNotification(.didOpenTextDocument(params), completionHandler: block)
     }

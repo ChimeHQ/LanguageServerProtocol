@@ -101,6 +101,14 @@ extension JSONRPCLanguageServer {
                 try relayNotification(data: data) { (params: LSPAny) in
                     handler(.telemetryEvent(params), block)
                 }
+            case .protocolCancelRequest:
+                try relayNotification(data: data) { (params: CancelParams) in
+                    handler(.protocolCancelRequest(params), block)
+                }
+            case .protocolProgress:
+                try relayNotification(data: data) { (params: ProgressParams) in
+                    handler(.protocolProgress(params), block)
+                }
             }
         } catch {
             block(error)
@@ -146,6 +154,10 @@ extension JSONRPCLanguageServer {
                 completionHandler(error.map({ .unableToSendNotification($0) }))
             }
         case .didChangeWatchedFiles(let params):
+            protocolTransport.sendNotification(params, method: method) { error in
+                completionHandler(error.map({ .unableToSendNotification($0) }))
+            }
+        case .protocolCancelRequest(let params):
             protocolTransport.sendNotification(params, method: method) { error in
                 completionHandler(error.map({ .unableToSendNotification($0) }))
             }

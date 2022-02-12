@@ -16,6 +16,8 @@ public enum ClientNotification {
         case textDocumentDidClose = "textDocument/didClose"
         case textDocumentWillSave = "textDocument/willSave"
         case textDocumentDidSave = "textDocument/didSave"
+        case protocolCancelRequest = "$/cancelRequest"
+
     }
 
     case initialized(InitializedParams)
@@ -27,6 +29,7 @@ public enum ClientNotification {
     case willSaveTextDocument(WillSaveTextDocumentParams)
     case didSaveTextDocument(DidSaveTextDocumentParams)
     case didChangeWatchedFiles(DidChangeWatchedFilesParams)
+    case protocolCancelRequest(CancelParams)
 
     public var method: Method {
         switch self {
@@ -48,6 +51,8 @@ public enum ClientNotification {
             return .textDocumentDidSave
         case .didChangeWatchedFiles:
             return .workspaceDidChangeWatchedFiles
+        case .protocolCancelRequest:
+            return .protocolCancelRequest
         }
     }
 }
@@ -165,12 +170,16 @@ public enum ServerNotification {
         case windowShowMessage = "window/showMessage"
         case textDocumentPublishDiagnostics = "textDocument/publishDiagnostics"
         case telemetryEvent = "telemetry/event"
+        case protocolCancelRequest = "$/cancelRequest"
+        case protocolProgress = "$/progress"
     }
 
     case windowLogMessage(LogMessageParams)
     case windowShowMessage(ShowMessageParams)
     case textDocumentPublishDiagnostics(PublishDiagnosticsParams)
     case telemetryEvent(LSPAny)
+    case protocolCancelRequest(CancelParams)
+    case protocolProgress(ProgressParams)
 
     public var method: Method {
         switch self {
@@ -182,6 +191,10 @@ public enum ServerNotification {
             return .textDocumentPublishDiagnostics
         case .telemetryEvent:
             return .telemetryEvent
+        case .protocolCancelRequest:
+            return .protocolCancelRequest
+        case .protocolProgress:
+            return .protocolProgress
         }
     }
 }
