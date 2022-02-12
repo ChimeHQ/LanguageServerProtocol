@@ -235,6 +235,11 @@ extension JSONRPCLanguageServer {
             let request = requestResult.map { ServerRequest.windowWorkDoneProgressCreate($0) }
 
             relayRequest(request: request, id: id, block: block)
+        case .windowWorkDoneProgressCancel:
+            let requestResult: ServerResult<WorkDoneProgressCancelParams> = self.decodeRequestWithParams(data: data)
+            let request = requestResult.map { ServerRequest.windowWorkDoneProgressCancel($0) }
+
+            relayRequest(request: request, id: id, block: block)
         }
     }
 

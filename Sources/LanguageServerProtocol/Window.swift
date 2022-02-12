@@ -22,3 +22,5 @@ public struct WorkDoneProgressCreateParams: Hashable, Codable {
         self.token = token
     }
 }
+
+public typealias WorkDoneProgressCancelParams = WorkDoneProgressCreateParams

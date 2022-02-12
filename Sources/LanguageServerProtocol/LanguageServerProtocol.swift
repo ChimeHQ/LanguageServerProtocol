@@ -195,6 +195,7 @@ public enum ServerRequest {
         case windowShowMessageRequest = "window/showMessageRequest"
         case windowShowDocument = "window/showDocument"
         case windowWorkDoneProgressCreate = "window/workDoneProgress/create"
+        case windowWorkDoneProgressCancel = "window/workDoneProgress/cancel"
     }
 
     case workspaceConfiguration(ConfigurationParams)
@@ -204,6 +205,7 @@ public enum ServerRequest {
     case windowShowMessageRequest(ShowMessageRequestParams)
     case windowShowDocument(ShowDocumentParams)
     case windowWorkDoneProgressCreate(WorkDoneProgressCreateParams)
+    case windowWorkDoneProgressCancel(WorkDoneProgressCancelParams)
 
     public var method: Method {
         switch self {
@@ -221,6 +223,8 @@ public enum ServerRequest {
             return .windowShowDocument
         case .windowWorkDoneProgressCreate:
             return .windowWorkDoneProgressCreate
+        case .windowWorkDoneProgressCancel:
+            return .windowWorkDoneProgressCancel
         }
     }
 }
