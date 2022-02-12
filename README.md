@@ -28,8 +28,8 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | shutdown | ✅ |
 | exit | ✅ |
 | telemetry/event | ✅ |
-| $/logTrace | - |
-| $/setTrace | - |
+| $/logTrace | ✅ |
+| $/setTrace | ✅ |
 | client/registerCapability | ✅ |
 | client/unregisterCapability | ✅ |
 | workspace/workspaceFolders | - |
