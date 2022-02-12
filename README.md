@@ -20,7 +20,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | window/showMessageRequest | ✅ |
 | window/showDocument | ✅ |
 | window/logMessage | ✅ |
-| window/workDoneProgress/create | - |
+| window/workDoneProgress/create | ✅ |
 | window/workDoneProgress/cancel | - |
 | $/cancelRequest | - |
 | $/progress | - |

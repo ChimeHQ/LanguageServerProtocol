@@ -194,6 +194,7 @@ public enum ServerRequest {
         case workspaceSemanticTokenRefresh = "workspace/semanticTokens/refresh"
         case windowShowMessageRequest = "window/showMessageRequest"
         case windowShowDocument = "window/showDocument"
+        case windowWorkDoneProgressCreate = "window/workDoneProgress/create"
     }
 
     case workspaceConfiguration(ConfigurationParams)
@@ -202,6 +203,7 @@ public enum ServerRequest {
     case workspaceSemanticTokenRefresh
     case windowShowMessageRequest(ShowMessageRequestParams)
     case windowShowDocument(ShowDocumentParams)
+    case windowWorkDoneProgressCreate(WorkDoneProgressCreateParams)
 
     public var method: Method {
         switch self {
@@ -217,6 +219,8 @@ public enum ServerRequest {
             return .windowShowMessageRequest
         case .windowShowDocument:
             return .windowShowDocument
+        case .windowWorkDoneProgressCreate:
+            return .windowWorkDoneProgressCreate
         }
     }
 }

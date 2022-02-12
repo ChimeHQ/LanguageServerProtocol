@@ -14,3 +14,11 @@ public struct ShowDocumentParams: Hashable, Codable {
         self.selection = selection
     }
 }
+
+public struct WorkDoneProgressCreateParams: Hashable, Codable {
+    public var token: ProgressToken
+
+    public init(token: ProgressToken) {
+        self.token = token
+    }
+}
