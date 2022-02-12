@@ -97,6 +97,10 @@ extension JSONRPCLanguageServer {
                 try relayNotification(data: data) { (params: PublishDiagnosticsParams) in
                     handler(.textDocumentPublishDiagnostics(params), block)
                 }
+            case .telemetryEvent:
+                try relayNotification(data: data) { (params: LSPAny) in
+                    handler(.telemetryEvent(params), block)
+                }
             }
         } catch {
             block(error)

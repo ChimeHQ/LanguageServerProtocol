@@ -27,7 +27,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | initialize | ✅ |
 | shutdown | ✅ |
 | exit | ✅ |
-| telemetry/event | - |
+| telemetry/event | ✅ |
 | $/logTrace | - |
 | $/setTrace | - |
 | client/registerCapability | ✅ |

@@ -164,11 +164,13 @@ public enum ServerNotification {
         case windowLogMessage = "window/logMessage"
         case windowShowMessage = "window/showMessage"
         case textDocumentPublishDiagnostics = "textDocument/publishDiagnostics"
+        case telemetryEvent = "telemetry/event"
     }
 
     case windowLogMessage(LogMessageParams)
     case windowShowMessage(ShowMessageParams)
     case textDocumentPublishDiagnostics(PublishDiagnosticsParams)
+    case telemetryEvent(LSPAny)
 
     public var method: Method {
         switch self {
@@ -178,6 +180,8 @@ public enum ServerNotification {
             return .windowShowMessage
         case .textDocumentPublishDiagnostics:
             return .textDocumentPublishDiagnostics
+        case .telemetryEvent:
+            return .telemetryEvent
         }
     }
 }
