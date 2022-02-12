@@ -18,7 +18,6 @@ public enum ClientNotification {
         case textDocumentDidSave = "textDocument/didSave"
         case protocolCancelRequest = "$/cancelRequest"
         case protocolSetTrace = "$/setTrace"
-
     }
 
     case initialized(InitializedParams)
@@ -32,6 +31,7 @@ public enum ClientNotification {
     case didChangeWatchedFiles(DidChangeWatchedFilesParams)
     case protocolCancelRequest(CancelParams)
     case protocolSetTrace(SetTraceParams)
+    case workspaceDidChangeWorkspaceFolders(DidChangeWorkspaceFoldersParams)
 
     public var method: Method {
         switch self {
@@ -57,6 +57,8 @@ public enum ClientNotification {
             return .protocolCancelRequest
         case .protocolSetTrace:
             return .protocolSetTrace
+        case .workspaceDidChangeWorkspaceFolders:
+            return .workspaceDidChangeWorkspaceFolders
         }
     }
 }
@@ -210,6 +212,7 @@ public enum ServerNotification {
 public enum ServerRequest {
     public enum Method: String {
         case workspaceConfiguration = "workspace/configuration"
+        case workspaceFolders = "workspace/workspaceFolders"
         case clientRegisterCapability = "client/registerCapability"
         case clientUnregisterCapability = "client/unregisterCapability"
         case workspaceSemanticTokenRefresh = "workspace/semanticTokens/refresh"
@@ -220,6 +223,7 @@ public enum ServerRequest {
     }
 
     case workspaceConfiguration(ConfigurationParams)
+    case workspaceFolders
     case clientRegisterCapability(RegistrationParams)
     case clientUnregisterCapability(UnregistrationParams)
     case workspaceSemanticTokenRefresh
@@ -232,6 +236,8 @@ public enum ServerRequest {
         switch self {
         case .workspaceConfiguration:
             return .workspaceConfiguration
+        case .workspaceFolders:
+            return .workspaceFolders
         case .clientRegisterCapability:
             return .clientRegisterCapability
         case .clientUnregisterCapability:

@@ -169,6 +169,10 @@ extension JSONRPCLanguageServer {
             protocolTransport.sendNotification(params, method: method) { error in
                 completionHandler(error.map({ .unableToSendNotification($0) }))
             }
+        case .workspaceDidChangeWorkspaceFolders(let params):
+            protocolTransport.sendNotification(params, method: method) { error in
+                completionHandler(error.map({ .unableToSendNotification($0) }))
+            }
         }
     }
 }
@@ -223,6 +227,11 @@ extension JSONRPCLanguageServer {
         case .workspaceConfiguration:
             let requestResult: ServerResult<ConfigurationParams> = self.decodeRequestWithParams(data: data)
             let request = requestResult.map { ServerRequest.workspaceConfiguration($0) }
+
+            relayRequest(request: request, id: id, block: block)
+        case .workspaceFolders:
+            let requestResult: ServerResult<UnusedParam> = self.decodeRequestWithParams(data: data)
+            let request = requestResult.map { _ in ServerRequest.workspaceFolders }
 
             relayRequest(request: request, id: id, block: block)
         case .clientRegisterCapability:

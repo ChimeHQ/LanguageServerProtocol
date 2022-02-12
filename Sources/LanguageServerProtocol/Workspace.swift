@@ -45,3 +45,31 @@ public struct DidChangeWatchedFilesParams: Codable, Hashable {
         self.changes = changes
     }
 }
+
+public struct WorkspaceFolder: Codable, Hashable {
+    public let uri: String
+    public let name: String
+
+    public init(uri: String, name: String) {
+        self.uri = uri
+        self.name = name
+    }
+}
+
+public struct WorkspaceFoldersChangeEvent: Codable, Hashable {
+    public var added: [WorkspaceFolder]
+    public var removed: [WorkspaceFolder]
+
+    public init(added: [WorkspaceFolder], removed: [WorkspaceFolder]) {
+        self.added = added
+        self.removed = removed
+    }
+}
+
+public struct DidChangeWorkspaceFoldersParams: Codable, Hashable {
+    public var event: WorkspaceFoldersChangeEvent
+
+    public init(event: WorkspaceFoldersChangeEvent) {
+        self.event = event
+    }
+}

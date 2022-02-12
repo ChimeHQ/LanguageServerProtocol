@@ -32,8 +32,8 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | $/setTrace | ✅ |
 | client/registerCapability | ✅ |
 | client/unregisterCapability | ✅ |
-| workspace/workspaceFolders | - |
-| workspace/didChangeWorkspaceFolders | - |
+| workspace/workspaceFolders | ✅ |
+| workspace/didChangeWorkspaceFolders | ✅ |
 | workspace/didChangeConfiguration | - |
 | workspace/configuration | ✅ |
 | workspace/didChangeWatchedFiles | ✅ |
