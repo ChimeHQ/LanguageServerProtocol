@@ -37,7 +37,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | workspace/didChangeConfiguration | ✅ |
 | workspace/configuration | ✅ |
 | workspace/didChangeWatchedFiles | ✅ |
-| workspace/symbol | - |
+| workspace/symbol | ✅ |
 | workspace/executeCommand | - |
 | workspace/applyEdit | - |
 | workspace/willCreateFiles | - |

@@ -30,7 +30,7 @@ public extension ServerCapabilities {
         switch registration.requestMethod {
         case .textDocumentSemanticTokens:
             let data = try JSONEncoder().encode(registration.registerOptions)
-            let options = try JSONDecoder().decode(SemanticTokensProvider.self, from: data)
+            let options = try JSONDecoder().decode(TwoTypeOption<SemanticTokensOptions, SemanticTokensRegistrationOptions>.self, from: data)
 
             self.semanticTokensProvider = options
             return
