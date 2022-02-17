@@ -6,6 +6,8 @@ public typealias LSPAny = AnyCodable?
 
 public typealias URI = String
 
+public typealias DocumentUri = String
+
 public struct CancelParams: Hashable, Codable {
     public var id: TwoTypeOption<Int, String>
 
