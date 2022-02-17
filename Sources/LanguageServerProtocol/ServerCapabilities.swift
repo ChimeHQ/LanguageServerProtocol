@@ -44,6 +44,17 @@ public struct TextDocumentSyncOptions: Codable, Hashable {
     }
 }
 
+public extension TwoTypeOption where T == TextDocumentSyncOptions, U == TextDocumentSyncKind {
+     var effectiveOptions: TextDocumentSyncOptions {
+        switch self {
+        case .optionA(let value):
+            return value
+        case .optionB(let changeKind):
+            return TextDocumentSyncOptions(openClose: false, change: changeKind, willSave: false, willSaveWaitUntil: false, save: nil)
+        }
+    }
+}
+
 public struct CompletionOptions: Codable, Hashable {
     public var resolveProvider: Bool?
     public var triggerCharacters: [String]
