@@ -20,10 +20,6 @@ public struct CodeActionClientCapabilities: Codable, Hashable {
         public init(codeActionKind: ValueSet<CodeActionKind>) {
             self.codeActionKind = codeActionKind
         }
-
-        public init(kinds: [CodeActionKind]) {
-            self.codeActionKind = ValueSet(valueSet: kinds)
-        }
     }
 
     public struct ResolveSupport: Codable, Hashable {
