@@ -20,6 +20,10 @@ public struct CodeActionClientCapabilities: Codable, Hashable {
         public init(codeActionKind: ValueSet<CodeActionKind>) {
             self.codeActionKind = codeActionKind
         }
+
+        public init(kinds: [CodeActionKind]) {
+            self.codeActionKind = ValueSet(valueSet: kinds)
+        }
     }
 
     public struct ResolveSupport: Codable, Hashable {
@@ -35,10 +39,16 @@ public struct CodeActionClientCapabilities: Codable, Hashable {
     public var isPreferredSupport: Bool?
     public var disabledSupport: Bool?
     public var dataSupport: Bool?
-    public var resolveSupport: Bool?
+    public var resolveSupport: ResolveSupport?
     public var honorsChangeAnnotations: Bool?
 
-    public init(dynamicRegistration: Bool, codeActionLiteralSupport: CodeActionClientCapabilities.CodeActionLiteralSupport? = nil, isPreferredSupport: Bool? = nil, disabledSupport: Bool? = nil, dataSupport: Bool? = nil, resolveSupport: Bool? = nil, honorsChangeAnnotations: Bool? = nil) {
+    public init(dynamicRegistration: Bool?,
+                codeActionLiteralSupport: CodeActionClientCapabilities.CodeActionLiteralSupport? = nil,
+                isPreferredSupport: Bool? = nil,
+                disabledSupport: Bool? = nil,
+                dataSupport: Bool? = nil,
+                resolveSupport: ResolveSupport? = nil,
+                honorsChangeAnnotations: Bool? = nil) {
         self.dynamicRegistration = dynamicRegistration
         self.codeActionLiteralSupport = codeActionLiteralSupport
         self.isPreferredSupport = isPreferredSupport
