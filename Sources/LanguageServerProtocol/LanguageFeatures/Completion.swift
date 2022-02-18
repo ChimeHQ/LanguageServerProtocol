@@ -3,6 +3,14 @@ import AnyCodable
 
 public struct CompletionClientCapabilities: Codable, Hashable {
     public struct CompletionItem: Codable, Hashable {
+        public struct ResolveSupport: Codable, Hashable {
+            public var properties: [String]
+
+            public init(properties: [String]) {
+                self.properties = properties
+            }
+        }
+
         public let snippetSupport: Bool?
         public let commitCharactersSupport: Bool?
         public let documentationFormat: [MarkupKind]?
@@ -10,25 +18,61 @@ public struct CompletionClientCapabilities: Codable, Hashable {
         public let preselectSupport: Bool?
         public var tagSupport: ValueSet<CompletionItemTag>?
         public var insertReplaceSupport: Bool?
-
+        public var resolveSupport: ResolveSupport?
         public var insertTextModeSupport: ValueSet<InsertTextMode>?
         public var labelDetailsSupport: Bool?
 
-        public init(snippetSupport: Bool, commitCharactersSupport: Bool, documentationFormat: [MarkupKind], deprecatedSupport: Bool, preselectSupport: Bool) {
+        public init(snippetSupport: Bool? = nil,
+                    commitCharactersSupport: Bool? = nil,
+                    documentationFormat: [MarkupKind]? = nil,
+                    deprecatedSupport: Bool? = nil,
+                    preselectSupport: Bool? = nil,
+                    tagSupport: ValueSet<CompletionItemTag>? = nil,
+                    insertReplaceSupport: Bool? = nil,
+                    resolveSupport: CompletionItem.ResolveSupport? = nil,
+                    insertTextModeSupport: ValueSet<InsertTextMode>? = nil,
+                    labelDetailsSupport: Bool? = nil) {
             self.snippetSupport = snippetSupport
             self.commitCharactersSupport = commitCharactersSupport
             self.documentationFormat = documentationFormat
             self.deprecatedSupport = deprecatedSupport
             self.preselectSupport = preselectSupport
+            self.tagSupport = tagSupport
+            self.insertReplaceSupport = insertReplaceSupport
+            self.resolveSupport = resolveSupport
+            self.insertTextModeSupport = insertTextModeSupport
+            self.labelDetailsSupport = labelDetailsSupport
+        }
+    }
+
+    public struct CompletionList: Codable, Hashable {
+        public var itemDefaults: [String]?
+
+        public init(itemDefaults: [String]? = nil) {
+            self.itemDefaults = itemDefaults
         }
     }
 
     public var dynamicRegistration: Bool?
-    public var completionItem: Bool?
+    public var completionItem: CompletionItem?
     public var completionItemKind: Bool?
     public var contextSupport: Bool?
-    public var insertTextMode: Bool?
-    public var completionList: Bool?
+    public var insertTextMode: InsertTextMode?
+    public var completionList: CompletionList?
+
+    public init(dynamicRegistration: Bool? = nil,
+                completionItem: CompletionItem? = nil,
+                completionItemKind: Bool? = nil,
+                contextSupport: Bool? = nil,
+                insertTextMode: InsertTextMode? = nil,
+                completionList: CompletionClientCapabilities.CompletionList? = nil) {
+        self.dynamicRegistration = dynamicRegistration
+        self.completionItem = completionItem
+        self.completionItemKind = completionItemKind
+        self.contextSupport = contextSupport
+        self.insertTextMode = insertTextMode
+        self.completionList = completionList
+    }
 }
 
 public enum CompletionTriggerKind: Int, Codable, Hashable {
