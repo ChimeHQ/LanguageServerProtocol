@@ -173,6 +173,17 @@ public struct LanguageStringPair: Codable, Hashable {
 
 public typealias MarkedString = TwoTypeOption<String, LanguageStringPair>
 
+public extension MarkedString {
+    var value: String {
+        switch self {
+        case .optionA(let string):
+            return string
+        case .optionB(let pair):
+            return pair.value
+        }
+    }
+}
+
 public struct MarkupContent: Codable, Hashable {
     public let kind: MarkupKind
     public let value: String
