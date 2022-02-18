@@ -1,6 +1,5 @@
 import Foundation
 import JSONRPC
-import SwiftLSPClient
 
 public class JSONRPCLanguageServer: Server {
     typealias ProtocolResponse<T: Codable> = ProtocolTransport.ResponseResult<T>

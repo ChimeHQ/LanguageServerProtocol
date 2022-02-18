@@ -1,5 +1,4 @@
 import Foundation
-import SwiftLSPClient
 
 public extension Registration {
     var requestMethod: ClientRequest.Method? {
@@ -64,6 +63,17 @@ public extension ServerCapabilities {
             break
         default:
             break
+        }
+    }
+}
+
+public extension TwoTypeOption where T == TextDocumentSyncOptions, U == TextDocumentSyncKind {
+     var effectiveOptions: TextDocumentSyncOptions {
+        switch self {
+        case .optionA(let value):
+            return value
+        case .optionB(let changeKind):
+            return TextDocumentSyncOptions(openClose: false, change: changeKind, willSave: false, willSaveWaitUntil: false, save: nil)
         }
     }
 }

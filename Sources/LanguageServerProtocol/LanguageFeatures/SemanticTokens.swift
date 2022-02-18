@@ -1,6 +1,5 @@
 import Foundation
 import AnyCodable
-import SwiftLSPClient
 
 public struct SemanticTokensWorkspaceClientCapabilities: Codable, Hashable {
     public var refreshSupport: Bool?

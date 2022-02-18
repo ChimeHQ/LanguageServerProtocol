@@ -1,5 +1,4 @@
 import JSONRPC
-import SwiftLSPClient
 
 typealias UnusedResult = String?
 typealias UnusedParam = String?

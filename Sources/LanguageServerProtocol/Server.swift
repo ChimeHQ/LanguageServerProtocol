@@ -1,5 +1,4 @@
 import Foundation
-import SwiftLSPClient
 import JSONRPC
 import AnyCodable
 
@@ -139,7 +138,7 @@ public extension Server {
         sendRequest(.codeAction(params), completionHandler: block)
     }
 
-    func prepareRename(params: PrepareRenameParams, block: @escaping (ServerResult<PrepareRenameResponse?>) -> Void) {
+    func prepareRename(params: PrepareRenameParams, block: @escaping (ServerResult<PrepareRenameResponse>) -> Void) {
         sendRequest(.prepareRename(params), completionHandler: block)
     }
 
@@ -159,7 +158,7 @@ public extension Server {
         sendRequest(.onTypeFormatting(params), completionHandler: block)
     }
 
-    func references(params: ReferenceParams, block: @escaping (ServerResult<ReferenceResponse?>) -> Void) {
+    func references(params: ReferenceParams, block: @escaping (ServerResult<ReferenceResponse>) -> Void) {
         sendRequest(.references(params), completionHandler: block)
     }
 

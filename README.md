@@ -4,11 +4,17 @@
 
 This is a Swift library for interacting with [Language Server Protocol](https://microsoft.github.io/language-server-protocol/). It contains type definitions and utilities useful for both server- and client-side projects.
 
-This project was derived from, and still depends on [SwiftLSPClient](https://github.com/ChimeHQ/SwiftLSPClient). That library mixes both the underlying protocol handling with a client-level abstraction. The ultimate goal of this project is to provide a complete set of types for working with LSP.
-
-However, there's a lot in SwiftLSPClient, so a full migration is going to take a while. In the mean time, you should assume that SwiftLSPClient is soft-deprecated. New projects shouldn't use it. A soon-to-be released Swift library that focuses on a higher-level client implementations is forthcoming.
+This project was derived from [SwiftLSPClient](https://github.com/ChimeHQ/SwiftLSPClient). That library mixes both the underlying protocol handling with a client-level abstraction. It deprecated, and not officially supported.
 
 If you are looking for a way to interact with servers, you probably want to use the higher-level [LanguageClient](https://github.com/ChimeHQ/LanguageClient).
+
+## Integration
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/ChimeHQ/LanguageServerProtocol")
+]
+```
 
 ## Supported Features
 
@@ -89,16 +95,6 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | workspace/semanticTokens/refresh | ✅ |
 | textDocument/linkedEditingRange | - |
 | textDocument/moniker | - |
-
-## Integration
-
-### Swift Package Manager
-
-```swift
-dependencies: [
-    .package(url: "https://github.com/ChimeHQ/LanguageServerProtocol")
-]
-```
 
 ## Suggestions or Feedback
 

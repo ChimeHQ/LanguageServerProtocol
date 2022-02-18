@@ -1,12 +1,13 @@
 import Foundation
 import AnyCodable
-import SwiftLSPClient
 
 public typealias LSPAny = AnyCodable?
 
 public typealias URI = String
 
 public typealias DocumentUri = String
+
+public typealias ProgressToken = TwoTypeOption<Int, String>
 
 public struct CancelParams: Hashable, Codable {
     public var id: TwoTypeOption<Int, String>
@@ -53,6 +54,14 @@ public struct ValueSet<T: Hashable & Codable>: Hashable, Codable {
 
     public init(value: T) {
         self.valueSet = [value]
+    }
+}
+
+extension ValueSet: ExpressibleByArrayLiteral {
+    public typealias ArrayLiteralElement = T
+
+    public init(arrayLiteral elements: T...) {
+        self.valueSet = elements
     }
 }
 

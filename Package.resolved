@@ -27,15 +27,6 @@
           "revision": "dcdda8a5b079827f65e283ab7c29d5caae4caf89",
           "version": "1.1.0"
         }
-      },
-      {
-        "package": "SwiftLSPClient",
-        "repositoryURL": "https://github.com/ChimeHQ/SwiftLSPClient",
-        "state": {
-          "branch": null,
-          "revision": "c5ea0613ee55bf642aca78b2de376d9f798930cb",
-          "version": "0.9.1"
-        }
       }
     ]
   },

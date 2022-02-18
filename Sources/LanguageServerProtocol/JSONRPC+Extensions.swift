@@ -1,6 +1,5 @@
 import Foundation
 import JSONRPC
-import SwiftLSPClient
 
 public extension JSONRPCResponse {
     func getServerResult() -> Result<T, ServerError> {
@@ -26,5 +25,13 @@ public extension JSONRPCRequest {
         } else {
             return .failure(.missingExpectedParameter)
         }
+    }
+}
+
+public extension AnyJSONRPCResponse {
+    init(error: Error, for request: AnyJSONRPCRequest) {
+        self.init(id: request.id,
+                  errorCode: JSONRPCErrors.internalError,
+                  message: error.localizedDescription)
     }
 }

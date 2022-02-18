@@ -1,5 +1,4 @@
 import Foundation
-import SwiftLSPClient
 
 public struct StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions: Codable, Hashable {
     public var workDoneProgress: Bool?
@@ -25,6 +24,12 @@ public struct SaveOptions: Codable, Hashable {
     public let includeText: Bool?
 }
 
+public enum TextDocumentSyncKind: Int, Codable, Hashable {
+    case none = 0
+    case full = 1
+    case incremental = 2
+}
+
 public struct TextDocumentSyncOptions: Codable, Hashable {
     public var openClose: Bool?
     public var change: TextDocumentSyncKind?
@@ -40,17 +45,6 @@ public struct TextDocumentSyncOptions: Codable, Hashable {
             return value ? SaveOptions(includeText: false) : nil
         case .optionB(let options):
             return options
-        }
-    }
-}
-
-public extension TwoTypeOption where T == TextDocumentSyncOptions, U == TextDocumentSyncKind {
-     var effectiveOptions: TextDocumentSyncOptions {
-        switch self {
-        case .optionA(let value):
-            return value
-        case .optionB(let changeKind):
-            return TextDocumentSyncOptions(openClose: false, change: changeKind, willSave: false, willSaveWaitUntil: false, save: nil)
         }
     }
 }
@@ -118,11 +112,6 @@ public typealias DocumentRangeFormattingOptions = WorkDoneProgressOptions
 public struct DocumentOnTypeFormattingOptions: Codable, Hashable {
     public var firstTriggerCharacter: String
     public var moreTriggerCharacter: [String]?
-}
-
-public struct RenameOptions: Codable, Hashable {
-    public var workDoneProgress: Bool?
-    public let prepareProvider: Bool?
 }
 
 public typealias FoldingRangeOptions = WorkDoneProgressOptions
@@ -195,7 +184,7 @@ public struct WorkspaceFoldersServerCapabilities: Codable, Hashable {
     public var changeNotifications: TwoTypeOption<String, Bool>?
 }
 
-public struct ServerCapabilities: Codable, Hashable {
+public struct ServerCapabilities: Codable, Equatable {
     public struct Workspace: Codable, Hashable {
         public struct FileOperations: Codable, Hashable {
             public var didCreate: FileOperationRegistrationOptions?
