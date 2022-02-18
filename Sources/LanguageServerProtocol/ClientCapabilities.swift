@@ -204,6 +204,60 @@ public struct TextDocumentClientCapabilities: Codable, Hashable {
     public var callHierarchy: CallHierarchyClientCapabilities?
     public var semanticTokens: SemanticTokensClientCapabilities?
     public var moniker: MonikerClientCapabilities?
+
+    public init(synchronization: TextDocumentSyncClientCapabilities? = nil,
+                completion: CompletionClientCapabilities? = nil,
+                hover: HoverClientCapabilities? = nil,
+                signatureHelp: SignatureHelpClientCapabilities? = nil,
+                declaration: DeclarationClientCapabilities? = nil,
+                definition: DefinitionClientCapabilities? = nil,
+                typeDefinition: TypeDefinitionClientCapabilities? = nil,
+                implementation: ImplementationClientCapabilities? = nil,
+                references: ReferenceClientCapabilities? = nil,
+                documentHighlight: DocumentHighlightClientCapabilities? = nil,
+                documentSymbol: DocumentSymbolClientCapabilities? = nil,
+                codeAction: CodeActionClientCapabilities? = nil,
+                codeLens: CodeLensClientCapabilities? = nil,
+                documentLink: DocumentLinkClientCapabilities? = nil,
+                colorProvider: DocumentColorClientCapabilities? = nil,
+                formatting: DocumentFormattingClientCapabilities? = nil,
+                rangeFormatting: DocumentRangeFormattingClientCapabilities? = nil,
+                onTypeFormatting: DocumentOnTypeFormattingClientCapabilities? = nil,
+                rename: RenameClientCapabilities? = nil,
+                publishDiagnostics: PublishDiagnosticsClientCapabilities? = nil,
+                foldingRange: FoldingRangeClientCapabilities? = nil,
+                selectionRange: SelectionRangeClientCapabilities? = nil,
+                linkedEditingRange: LinkedEditingRangeClientCapabilities? = nil,
+                callHierarchy: CallHierarchyClientCapabilities? = nil,
+                semanticTokens: SemanticTokensClientCapabilities? = nil,
+                moniker: MonikerClientCapabilities? = nil) {
+        self.synchronization = synchronization
+        self.completion = completion
+        self.hover = hover
+        self.signatureHelp = signatureHelp
+        self.declaration = declaration
+        self.definition = definition
+        self.typeDefinition = typeDefinition
+        self.implementation = implementation
+        self.references = references
+        self.documentHighlight = documentHighlight
+        self.documentSymbol = documentSymbol
+        self.codeAction = codeAction
+        self.codeLens = codeLens
+        self.documentLink = documentLink
+        self.colorProvider = colorProvider
+        self.formatting = formatting
+        self.rangeFormatting = rangeFormatting
+        self.onTypeFormatting = onTypeFormatting
+        self.rename = rename
+        self.publishDiagnostics = publishDiagnostics
+        self.foldingRange = foldingRange
+        self.selectionRange = selectionRange
+        self.linkedEditingRange = linkedEditingRange
+        self.callHierarchy = callHierarchy
+        self.semanticTokens = semanticTokens
+        self.moniker = moniker
+    }
 }
 
 public struct ClientCapabilities: Codable {
