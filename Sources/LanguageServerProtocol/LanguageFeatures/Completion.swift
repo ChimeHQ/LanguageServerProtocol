@@ -55,14 +55,14 @@ public struct CompletionClientCapabilities: Codable, Hashable {
 
     public var dynamicRegistration: Bool?
     public var completionItem: CompletionItem?
-    public var completionItemKind: Bool?
+    public var completionItemKind: ValueSet<CompletionItemKind>?
     public var contextSupport: Bool?
     public var insertTextMode: InsertTextMode?
     public var completionList: CompletionList?
 
     public init(dynamicRegistration: Bool? = nil,
                 completionItem: CompletionItem? = nil,
-                completionItemKind: Bool? = nil,
+                completionItemKind: ValueSet<CompletionItemKind>? = nil,
                 contextSupport: Bool? = nil,
                 insertTextMode: InsertTextMode? = nil,
                 completionList: CompletionClientCapabilities.CompletionList? = nil) {
