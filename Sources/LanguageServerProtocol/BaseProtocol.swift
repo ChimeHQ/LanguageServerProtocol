@@ -65,6 +65,12 @@ extension ValueSet: ExpressibleByArrayLiteral {
     }
 }
 
+public extension ValueSet where T: CaseIterable {
+    static var all: ValueSet<T> {
+        return ValueSet(valueSet: Array(T.allCases))
+    }
+}
+
 public enum LanguageIdentifier: String, Codable, CaseIterable {
     case go = "go"
     case json = "json"
