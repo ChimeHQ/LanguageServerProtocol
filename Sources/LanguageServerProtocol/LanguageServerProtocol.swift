@@ -69,6 +69,7 @@ public enum ClientRequest {
     public enum Method: String {
         case initialize
         case shutdown
+        case workspaceExecuteCommand = "workspace/executeCommand"
         case textDocumentWillSaveWaitUntil = "textDocument/willSaveWaitUntil"
         case textDocumentCompletion = "textDocument/completion"
         case textDocumentHover = "textDocument/hover"
@@ -101,6 +102,7 @@ public enum ClientRequest {
 
     case initialize(InitializeParams)
     case shutdown
+    case workspaceExecuteCommand(ExecuteCommandParams)
     case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
     case completion(CompletionParams)
     case hover(TextDocumentPositionParams)
@@ -128,6 +130,8 @@ public enum ClientRequest {
             return .initialize
         case .shutdown:
             return .shutdown
+        case .workspaceExecuteCommand:
+            return .workspaceExecuteCommand
         case .willSaveWaitUntilTextDocument:
             return .textDocumentWillSaveWaitUntil
         case .completion:
@@ -215,6 +219,7 @@ public enum ServerRequest {
     public enum Method: String {
         case workspaceConfiguration = "workspace/configuration"
         case workspaceFolders = "workspace/workspaceFolders"
+        case workspaceApplyEdit = "workspace/applyEdit"
         case clientRegisterCapability = "client/registerCapability"
         case clientUnregisterCapability = "client/unregisterCapability"
         case workspaceSemanticTokenRefresh = "workspace/semanticTokens/refresh"
@@ -226,6 +231,7 @@ public enum ServerRequest {
 
     case workspaceConfiguration(ConfigurationParams)
     case workspaceFolders
+    case workspaceApplyEdit(ApplyWorkspaceEditParams)
     case clientRegisterCapability(RegistrationParams)
     case clientUnregisterCapability(UnregistrationParams)
     case workspaceSemanticTokenRefresh
@@ -240,6 +246,8 @@ public enum ServerRequest {
             return .workspaceConfiguration
         case .workspaceFolders:
             return .workspaceFolders
+        case .workspaceApplyEdit:
+            return .workspaceApplyEdit
         case .clientRegisterCapability:
             return .clientRegisterCapability
         case .clientUnregisterCapability:

@@ -237,6 +237,11 @@ extension JSONRPCLanguageServer {
             let request = requestResult.map { _ in ServerRequest.workspaceFolders }
 
             relayRequest(request: request, id: id, block: block)
+        case .workspaceApplyEdit:
+            let requestResult: ServerResult<ApplyWorkspaceEditParams> = self.decodeRequestWithParams(data: data)
+            let request = requestResult.map { ServerRequest.workspaceApplyEdit($0) }
+
+            relayRequest(request: request, id: id, block: block)
         case .clientRegisterCapability:
             let requestResult: ServerResult<RegistrationParams> = self.decodeRequestWithParams(data: data)
             let request = requestResult.map { ServerRequest.clientRegisterCapability($0) }
@@ -347,6 +352,8 @@ extension JSONRPCLanguageServer {
         case .semanticTokensFullDelta(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .semanticTokensRange(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .workspaceExecuteCommand(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         }
     }

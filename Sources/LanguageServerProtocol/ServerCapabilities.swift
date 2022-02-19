@@ -118,11 +118,6 @@ public typealias FoldingRangeOptions = WorkDoneProgressOptions
 
 public typealias FoldingRangeRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
 
-public struct ExecuteCommandOptions: Codable, Hashable {
-    public var workDoneProgress: Bool?
-    public var commands: [String]
-}
-
 public typealias SelectionRangeOptions = WorkDoneProgressOptions
 
 public typealias SelectionRangeRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
