@@ -71,38 +71,6 @@ public struct WorkspaceClientCapabilitySymbol: Codable, Hashable {
     }
 }
 
-public struct WorkspaceClientCapabilities: Codable {
-    public let applyEdit: Bool?
-    public let workspaceEdit: WorkspaceClientCapabilityEdit?
-    public let didChangeConfiguration: DidChangeConfigurationClientCapabilities?
-    public let didChangeWatchedFiles: GenericDynamicRegistration?
-    public let symbol: WorkspaceClientCapabilitySymbol?
-    public let executeCommand: GenericDynamicRegistration?
-    public let workspaceFolders: Bool?
-    public let configuration: Bool?
-    public let semanticTokens: SemanticTokensWorkspaceClientCapabilities?
-
-    public init(applyEdit: Bool,
-                workspaceEdit: WorkspaceClientCapabilityEdit?,
-                didChangeConfiguration: DidChangeConfigurationClientCapabilities?,
-                didChangeWatchedFiles: GenericDynamicRegistration?,
-                symbol: WorkspaceClientCapabilitySymbol?,
-                executeCommand: GenericDynamicRegistration?,
-                workspaceFolders: Bool?,
-                configuration: Bool?,
-                semanticTokens: SemanticTokensWorkspaceClientCapabilities?) {
-        self.applyEdit = applyEdit
-        self.workspaceEdit = workspaceEdit
-        self.didChangeConfiguration = didChangeConfiguration
-        self.didChangeWatchedFiles = didChangeWatchedFiles
-        self.symbol = symbol
-        self.executeCommand = executeCommand
-        self.workspaceFolders = workspaceFolders
-        self.configuration = configuration
-        self.semanticTokens = semanticTokens
-    }
-}
-
 public struct ShowDocumentClientCapabilities: Hashable, Codable {
     public var support: Bool
 }
@@ -260,14 +228,79 @@ public struct TextDocumentClientCapabilities: Codable, Hashable {
     }
 }
 
-public struct ClientCapabilities: Codable {
-    public let workspace: WorkspaceClientCapabilities?
+public struct ClientCapabilities: Codable, Hashable {
+    public struct Workspace: Codable, Hashable {
+        public struct FileOperations: Codable, Hashable {
+            public var dynamicRegistration: Bool?
+            public var didCreate: Bool?
+            public var willCreate: Bool?
+            public var didRename: Bool?
+            public var willRename: Bool?
+            public var didDelete: Bool?
+            public var willDelete: Bool?
+
+            public init(dynamicRegistration: Bool? = nil,
+                        didCreate: Bool? = nil,
+                        willCreate: Bool? = nil,
+                        didRename: Bool? = nil,
+                        willRename: Bool? = nil,
+                        didDelete: Bool? = nil,
+                        willDelete: Bool? = nil) {
+                self.dynamicRegistration = dynamicRegistration
+                self.didCreate = didCreate
+                self.willCreate = willCreate
+                self.didRename = didRename
+                self.willRename = willRename
+                self.didDelete = didDelete
+                self.willDelete = willDelete
+            }
+        }
+
+        public let applyEdit: Bool?
+        public let workspaceEdit: WorkspaceClientCapabilityEdit?
+        public let didChangeConfiguration: DidChangeConfigurationClientCapabilities?
+        public let didChangeWatchedFiles: GenericDynamicRegistration?
+        public let symbol: WorkspaceClientCapabilitySymbol?
+        public let executeCommand: GenericDynamicRegistration?
+        public let workspaceFolders: Bool?
+        public let configuration: Bool?
+        public let semanticTokens: SemanticTokensWorkspaceClientCapabilities?
+        public let codeLens: CodeLensWorkspaceClientCapabilities?
+        public let fileOperations: FileOperations?
+
+        public init(applyEdit: Bool,
+                    workspaceEdit: WorkspaceClientCapabilityEdit?,
+                    didChangeConfiguration: DidChangeConfigurationClientCapabilities?,
+                    didChangeWatchedFiles: GenericDynamicRegistration?,
+                    symbol: WorkspaceClientCapabilitySymbol?,
+                    executeCommand: GenericDynamicRegistration?,
+                    workspaceFolders: Bool?,
+                    configuration: Bool?,
+                    semanticTokens: SemanticTokensWorkspaceClientCapabilities?,
+                    codeLens: CodeLensWorkspaceClientCapabilities? = nil,
+                    fileOperations: FileOperations? = nil) {
+            self.applyEdit = applyEdit
+            self.workspaceEdit = workspaceEdit
+            self.didChangeConfiguration = didChangeConfiguration
+            self.didChangeWatchedFiles = didChangeWatchedFiles
+            self.symbol = symbol
+            self.executeCommand = executeCommand
+            self.workspaceFolders = workspaceFolders
+            self.configuration = configuration
+            self.semanticTokens = semanticTokens
+            self.codeLens = codeLens
+            self.fileOperations = fileOperations
+        }
+    }
+
+
+    public let workspace: Workspace?
     public let textDocument: TextDocumentClientCapabilities?
     public var window: WindowClientCapabilities?
     public var general: GeneralClientCapabilities?
     public let experimental: LSPAny
 
-    public init(workspace: WorkspaceClientCapabilities?, textDocument: TextDocumentClientCapabilities?, window: WindowClientCapabilities?, general: GeneralClientCapabilities?, experimental: LSPAny) {
+    public init(workspace: Workspace?, textDocument: TextDocumentClientCapabilities?, window: WindowClientCapabilities?, general: GeneralClientCapabilities?, experimental: LSPAny) {
         self.workspace = workspace
         self.textDocument = textDocument
         self.window = window

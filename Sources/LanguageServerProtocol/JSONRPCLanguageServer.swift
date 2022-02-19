@@ -264,6 +264,11 @@ extension JSONRPCLanguageServer {
             let request = requestResult.map { ServerRequest.clientUnregisterCapability($0) }
 
             relayRequest(request: request, id: id, block: block)
+        case .workspaceCodeLensRefresh:
+            let requestResult: ServerResult<UnusedParam> = self.decodeRequestWithParams(data: data)
+            let request = requestResult.map { _ in ServerRequest.workspaceFolders }
+
+            relayRequest(request: request, id: id, block: block)
         case .workspaceSemanticTokenRefresh:
             let requestResult: ServerResult<UnusedParam> = self.decodeRequestWithParams(data: data)
             let request = requestResult.map { _ in ServerRequest.workspaceSemanticTokenRefresh }
@@ -350,6 +355,10 @@ extension JSONRPCLanguageServer {
         case .documentSymbol(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .codeAction(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .codeLens(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .codeLensResolve(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .prepareRename(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)

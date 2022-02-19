@@ -71,9 +71,9 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/documentHighlight | ✅ |
 | textDocument/documentSymbol | ✅ |
 | textDocument/codeAction | ✅ |
-| codeLens/resolve | - |
-| textDocument/codeLens | - |
-| workspace/codeLens/refresh | - |
+| codeLens/resolve | ✅ |
+| textDocument/codeLens | ✅ |
+| workspace/codeLens/refresh | ✅ |
 | textDocument/documentLink | - |
 | documentLink/resolve | - |
 | textDocument/documentColor | - |

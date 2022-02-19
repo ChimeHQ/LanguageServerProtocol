@@ -30,7 +30,7 @@ public enum DiagnosticSeverity: Int, CaseIterable, Codable, Hashable {
     case hint = 4
 }
 
-public enum DiagnosticTag: Int, CaseIterable, Codable, Equatable {
+public enum DiagnosticTag: Int, CaseIterable, Codable, Hashable {
     case unnecessary = 1
     case deprecated = 2
 }

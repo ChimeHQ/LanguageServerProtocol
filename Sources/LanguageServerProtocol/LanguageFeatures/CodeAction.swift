@@ -77,7 +77,7 @@ public struct CodeActionParams: Codable, Hashable {
     }
 }
 
-public struct CodeAction: Codable, Equatable {
+public struct CodeAction: Codable, Hashable {
     public struct Disabled: Codable, Hashable {
         public var disabled: Bool
     }

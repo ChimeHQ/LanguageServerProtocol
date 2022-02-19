@@ -147,7 +147,7 @@ public enum InsertTextFormat: Int, Codable, Hashable {
     case snippet = 2
 }
 
-public struct CompletionItem: Codable, Equatable {
+public struct CompletionItem: Codable, Hashable {
     public let label: String
     public let kind: CompletionItemKind?
     public let detail: String?
@@ -165,7 +165,7 @@ public struct CompletionItem: Codable, Equatable {
     public let data: AnyCodable?
 }
 
-public struct CompletionList: Codable, Equatable {
+public struct CompletionList: Codable, Hashable {
     public let isIncomplete: Bool
     public let items: [CompletionItem]
 

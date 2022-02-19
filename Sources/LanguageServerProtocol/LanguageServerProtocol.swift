@@ -98,6 +98,7 @@ public enum ClientRequest {
         case textDocumentDocumentHighlight = "textDocument/documentHighlight"
         case textDocumentDocumentSymbol = "textDocument/documentSymbol"
         case textDocumentCodeAction = "textDocument/codeAction"
+        case codeLensResolve = "codeLens/resolve"
         case textDocumentCodeLens = "textDocument/codeLens"
         case textDocumentDocumentLink = "textDocument/documentLink"
         case textDocumentDocumentColor = "textDocument/documentColor"
@@ -134,6 +135,8 @@ public enum ClientRequest {
     case documentHighlight(DocumentHighlightParams)
     case documentSymbol(DocumentSymbolParams)
     case codeAction(CodeActionParams)
+    case codeLens(CodeLensParams)
+    case codeLensResolve(CodeLens)
     case prepareRename(PrepareRenameParams)
     case rename(RenameParams)
     case formatting(DocumentFormattingParams)
@@ -183,6 +186,10 @@ public enum ClientRequest {
             return .textDocumentDocumentSymbol
         case .codeAction:
             return .textDocumentCodeAction
+        case .codeLens:
+            return .textDocumentCodeLens
+        case .codeLensResolve:
+            return .codeLensResolve
         case .prepareRename:
             return .textDocumentPrepareRename
         case .rename:
@@ -253,6 +260,7 @@ public enum ServerRequest {
         case workspaceApplyEdit = "workspace/applyEdit"
         case clientRegisterCapability = "client/registerCapability"
         case clientUnregisterCapability = "client/unregisterCapability"
+        case workspaceCodeLensRefresh = "workspace/codeLens/refresh"
         case workspaceSemanticTokenRefresh = "workspace/semanticTokens/refresh"
         case windowShowMessageRequest = "window/showMessageRequest"
         case windowShowDocument = "window/showDocument"
@@ -265,6 +273,7 @@ public enum ServerRequest {
     case workspaceApplyEdit(ApplyWorkspaceEditParams)
     case clientRegisterCapability(RegistrationParams)
     case clientUnregisterCapability(UnregistrationParams)
+    case workspaceCodeLensRefresh
     case workspaceSemanticTokenRefresh
     case windowShowMessageRequest(ShowMessageRequestParams)
     case windowShowDocument(ShowDocumentParams)
@@ -283,6 +292,8 @@ public enum ServerRequest {
             return .clientRegisterCapability
         case .clientUnregisterCapability:
             return .clientUnregisterCapability
+        case .workspaceCodeLensRefresh:
+            return .workspaceCodeLensRefresh
         case .workspaceSemanticTokenRefresh:
             return .workspaceSemanticTokenRefresh
         case .windowShowMessageRequest:

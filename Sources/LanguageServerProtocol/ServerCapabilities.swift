@@ -89,11 +89,6 @@ public struct CodeActionOptions: Codable, Hashable {
     public var resolveProvider: Bool?
 }
 
-public struct CodeLensOptions: Codable, Hashable {
-    public var workDoneProgress: Bool?
-    public var resolveProvider: Bool?
-}
-
 public struct DocumentLinkOptions: Codable, Hashable {
     public var workDoneProgress: Bool?
     public var resolveProvider: Bool?
@@ -153,7 +148,7 @@ public struct WorkspaceFoldersServerCapabilities: Codable, Hashable {
     public var changeNotifications: TwoTypeOption<String, Bool>?
 }
 
-public struct ServerCapabilities: Codable, Equatable {
+public struct ServerCapabilities: Codable, Hashable {
     public struct Workspace: Codable, Hashable {
         public struct FileOperations: Codable, Hashable {
             public var didCreate: FileOperationRegistrationOptions?

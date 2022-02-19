@@ -110,7 +110,7 @@ public struct Location: Codable, Hashable {
     public let range: LSPRange
 }
 
-public struct Command: Codable, Equatable {
+public struct Command: Codable, Hashable {
     public let title: String
     public let command: String
     public let arguments: [AnyCodable]?

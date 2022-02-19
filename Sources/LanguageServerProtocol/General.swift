@@ -27,7 +27,7 @@ public struct InitializeParams: Codable {
     }
 }
 
-public struct InitializationResponse: Codable, Equatable {
+public struct InitializationResponse: Codable, Hashable {
     public let capabilities: ServerCapabilities
 }
 
