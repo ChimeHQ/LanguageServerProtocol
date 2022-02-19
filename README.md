@@ -68,7 +68,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/typeDefinition | ✅ |
 | textDocument/implementation | ✅ |
 | textDocument/references | ✅  |
-| textDocument/documentHighlight | - |
+| textDocument/documentHighlight | ✅ |
 | textDocument/documentSymbol | ✅ |
 | textDocument/codeAction | ✅ |
 | codeLens/resolve | - |

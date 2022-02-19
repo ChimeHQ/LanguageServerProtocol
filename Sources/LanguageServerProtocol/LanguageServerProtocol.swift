@@ -131,6 +131,7 @@ public enum ClientRequest {
     case definition(TextDocumentPositionParams)
     case typeDefinition(TextDocumentPositionParams)
     case implementation(TextDocumentPositionParams)
+    case documentHighlight(DocumentHighlightParams)
     case documentSymbol(DocumentSymbolParams)
     case codeAction(CodeActionParams)
     case prepareRename(PrepareRenameParams)
@@ -176,6 +177,8 @@ public enum ClientRequest {
             return .textDocumentTypeDefinition
         case .implementation:
             return .textDocumentImplementation
+        case .documentHighlight:
+            return .textDocumentDocumentHighlight
         case .documentSymbol:
             return .textDocumentDocumentSymbol
         case .codeAction:

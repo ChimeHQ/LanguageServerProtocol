@@ -78,8 +78,6 @@ public typealias ImplementationRegistrationOptions = StaticRegistrationWorkDoneP
 
 public typealias ReferenceOptions = WorkDoneProgressOptions
 
-public typealias DocumentHighlightOptions = WorkDoneProgressOptions
-
 public struct DocumentSymbolOptions: Codable, Hashable {
     public var workDoneProgress: Bool?
     public var label: String?
