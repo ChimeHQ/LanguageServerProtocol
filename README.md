@@ -60,7 +60,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/didClose | ✅ |
 | textDocument/publishDiagnostics | ✅ |
 | textDocument/completion | ✅ |
-| completionItem/resolve | - |
+| completionItem/resolve | ✅ |
 | textDocument/hover | ✅ |
 | textDocument/signatureHelp | ✅ |
 | textDocument/declaration | ✅ |

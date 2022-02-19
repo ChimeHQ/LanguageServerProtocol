@@ -331,6 +331,8 @@ extension JSONRPCLanguageServer {
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .completion(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .completionItemResolve(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .hover(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .signatureHelp(let params):

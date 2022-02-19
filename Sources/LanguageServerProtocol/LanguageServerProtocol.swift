@@ -87,6 +87,7 @@ public enum ClientRequest {
         case workspaceWillDeleteFiles = "workspace/willDeleteFiles"
         case textDocumentWillSaveWaitUntil = "textDocument/willSaveWaitUntil"
         case textDocumentCompletion = "textDocument/completion"
+        case completionItemResolve = "completionItem/resolve"
         case textDocumentHover = "textDocument/hover"
         case textDocumentSignatureHelp = "textDocument/signatureHelp"
         case textDocumentDeclaration = "textDocument/declaration"
@@ -123,6 +124,7 @@ public enum ClientRequest {
     case workspaceWillDeleteFiles(DeleteFilesParams)
     case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
     case completion(CompletionParams)
+    case completionItemResolve(CompletionItem)
     case hover(TextDocumentPositionParams)
     case signatureHelp(TextDocumentPositionParams)
     case declaration(TextDocumentPositionParams)
@@ -160,6 +162,8 @@ public enum ClientRequest {
             return .textDocumentWillSaveWaitUntil
         case .completion:
             return .textDocumentCompletion
+        case .completionItemResolve:
+            return .completionItemResolve
         case .hover:
             return .textDocumentHover
         case .signatureHelp:

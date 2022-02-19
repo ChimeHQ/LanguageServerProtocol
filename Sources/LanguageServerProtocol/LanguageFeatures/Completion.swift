@@ -207,3 +207,4 @@ public enum InsertTextMode: Int, CaseIterable, Codable, Hashable {
     case asIs = 1
     case adjustIndentation = 2
 }
+
