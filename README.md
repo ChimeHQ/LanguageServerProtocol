@@ -8,6 +8,12 @@ This project was derived from [SwiftLSPClient](https://github.com/ChimeHQ/SwiftL
 
 If you are looking for a way to interact with servers, you probably want to use the higher-level [LanguageClient](https://github.com/ChimeHQ/LanguageClient).
 
+## Typing Approach
+
+Where possible, this library matches the LSP spec. However, there are some additional types present in this library that aren't in the spec. This is caused by the use of anonymous structures.
+
+This library models these cases using nested structures and/or the `TwoTypeOption` and `ThreeTypeOption` types.
+
 ## Integration
 
 ```swift
