@@ -180,6 +180,14 @@ extension JSONRPCLanguageServer {
             protocolTransport.sendNotification(params, method: method) { error in
                 completionHandler(error.map({ .unableToSendNotification($0) }))
             }
+        case .workspaceDidRenameFiles(let params):
+            protocolTransport.sendNotification(params, method: method) { error in
+                completionHandler(error.map({ .unableToSendNotification($0) }))
+            }
+        case .workspaceDidDeleteFiles(let params):
+            protocolTransport.sendNotification(params, method: method) { error in
+                completionHandler(error.map({ .unableToSendNotification($0) }))
+            }
         }
     }
 }
@@ -362,6 +370,8 @@ extension JSONRPCLanguageServer {
         case .workspaceExecuteCommand(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .workspaceWillCreateFiles(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .workspaceWillDeleteFiles(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         }
     }

@@ -49,9 +49,9 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | workspace/willCreateFiles | ✅ |
 | workspace/didCreateFiles | ✅ |
 | workspace/willRenameFiles | ✅ |
-| workspace/didRenameFiles | - |
-| workspace/willDeleteFiles | - |
-| workspace/didDeleteFiles | - |
+| workspace/didRenameFiles | ✅ |
+| workspace/willDeleteFiles | ✅ |
+| workspace/didDeleteFiles | ✅ |
 | textDocument/didOpen | ✅ |
 | textDocument/didChange | ✅ |
 | textDocument/willSave | ✅ |

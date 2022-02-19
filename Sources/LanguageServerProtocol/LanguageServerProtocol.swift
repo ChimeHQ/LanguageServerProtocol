@@ -11,6 +11,8 @@ public enum ClientNotification {
         case workspaceDidChangeConfiguration = "workspace/didChangeConfiguration"
         case workspaceDidChangeWorkspaceFolders = "workspace/didChangeWorkspaceFolders"
         case workspaceDidCreateFiles = "workspace/didCreateFiles"
+        case workspaceDidRenameFiles = "workspace/didRenameFiles"
+        case workspaceDidDeleteFiles = "workspace/didDeleteFiles"
         case textDocumentDidOpen = "textDocument/didOpen"
         case textDocumentDidChange = "textDocument/didChange"
         case textDocumentDidClose = "textDocument/didClose"
@@ -34,6 +36,8 @@ public enum ClientNotification {
     case workspaceDidChangeWorkspaceFolders(DidChangeWorkspaceFoldersParams)
     case workspaceDidChangeConfiguration(DidChangeConfigurationParams)
     case workspaceDidCreateFiles(CreateFilesParams)
+    case workspaceDidRenameFiles(RenameFilesParams)
+    case workspaceDidDeleteFiles(DeleteFilesParams)
 
     public var method: Method {
         switch self {
@@ -65,6 +69,10 @@ public enum ClientNotification {
             return .workspaceDidChangeConfiguration
         case .workspaceDidCreateFiles:
             return .workspaceDidCreateFiles
+        case .workspaceDidRenameFiles:
+            return .workspaceDidRenameFiles
+        case .workspaceDidDeleteFiles:
+            return .workspaceDidDeleteFiles
         }
     }
 }
@@ -76,6 +84,7 @@ public enum ClientRequest {
         case workspaceExecuteCommand = "workspace/executeCommand"
         case workspaceWillCreateFiles = "workspace/willCreateFiles"
         case workspaceWillRenameFiles = "workspace/willRenameFiles"
+        case workspaceWillDeleteFiles = "workspace/willDeleteFiles"
         case textDocumentWillSaveWaitUntil = "textDocument/willSaveWaitUntil"
         case textDocumentCompletion = "textDocument/completion"
         case textDocumentHover = "textDocument/hover"
@@ -111,6 +120,7 @@ public enum ClientRequest {
     case workspaceExecuteCommand(ExecuteCommandParams)
     case workspaceWillCreateFiles(CreateFilesParams)
     case workspaceWillRenameFiles(RenameFilesParams)
+    case workspaceWillDeleteFiles(DeleteFilesParams)
     case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
     case completion(CompletionParams)
     case hover(TextDocumentPositionParams)
@@ -144,6 +154,8 @@ public enum ClientRequest {
             return .workspaceWillCreateFiles
         case .workspaceWillRenameFiles:
             return .workspaceWillRenameFiles
+        case .workspaceWillDeleteFiles:
+            return .workspaceWillDeleteFiles
         case .willSaveWaitUntilTextDocument:
             return .textDocumentWillSaveWaitUntil
         case .completion:
