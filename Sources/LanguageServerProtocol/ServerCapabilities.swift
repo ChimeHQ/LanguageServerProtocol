@@ -89,11 +89,6 @@ public struct CodeActionOptions: Codable, Hashable {
     public var resolveProvider: Bool?
 }
 
-public struct DocumentLinkOptions: Codable, Hashable {
-    public var workDoneProgress: Bool?
-    public var resolveProvider: Bool?
-}
-
 public typealias DocumentColorOptions = WorkDoneProgressOptions
 
 public typealias DocumentColorRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions

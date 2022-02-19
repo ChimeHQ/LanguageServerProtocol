@@ -80,8 +80,8 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | codeLens/resolve | ✅ |
 | textDocument/codeLens | ✅ |
 | workspace/codeLens/refresh | ✅ |
-| textDocument/documentLink | - |
-| documentLink/resolve | - |
+| textDocument/documentLink | ✅ |
+| documentLink/resolve | ✅ |
 | textDocument/documentColor | - |
 | textDocument/colorPresentation | - |
 | textDocument/formatting | ✅ |

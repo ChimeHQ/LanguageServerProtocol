@@ -138,6 +138,14 @@ public extension Server {
         sendRequest(.codeAction(params), completionHandler: block)
     }
 
+    func documentLink(params: DocumentLinkParams, block: @escaping (ServerResult<DocumentLinkResponse>) -> Void) {
+        sendRequest(.documentLink(params), completionHandler: block)
+    }
+
+    func documentLinkResolve(params: DocumentLink, block: @escaping (ServerResult<DocumentLink>) -> Void) {
+        sendRequest(.documentLinkResolve(params), completionHandler: block)
+    }
+    
     func prepareRename(params: PrepareRenameParams, block: @escaping (ServerResult<PrepareRenameResponse>) -> Void) {
         sendRequest(.prepareRename(params), completionHandler: block)
     }

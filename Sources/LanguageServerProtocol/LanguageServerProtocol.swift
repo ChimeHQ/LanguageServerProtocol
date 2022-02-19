@@ -101,6 +101,7 @@ public enum ClientRequest {
         case codeLensResolve = "codeLens/resolve"
         case textDocumentCodeLens = "textDocument/codeLens"
         case textDocumentDocumentLink = "textDocument/documentLink"
+        case documentLinkResolve = "documentLink/resolve"
         case textDocumentDocumentColor = "textDocument/documentColor"
         case textDocumentFormatting = "textDocument/formatting"
         case textDocumentRangeFormatting = "textDocument/rangeFormatting"
@@ -139,6 +140,8 @@ public enum ClientRequest {
     case codeLensResolve(CodeLens)
     case prepareRename(PrepareRenameParams)
     case rename(RenameParams)
+    case documentLink(DocumentLinkParams)
+    case documentLinkResolve(DocumentLink)
     case formatting(DocumentFormattingParams)
     case rangeFormatting(DocumentRangeFormattingParams)
     case onTypeFormatting(DocumentOnTypeFormattingParams)
@@ -194,6 +197,10 @@ public enum ClientRequest {
             return .textDocumentPrepareRename
         case .rename:
             return .textDocumentRename
+        case .documentLink:
+            return .textDocumentDocumentLink
+        case .documentLinkResolve:
+            return .documentLinkResolve
         case .formatting:
             return .textDocumentFormatting
         case .rangeFormatting:

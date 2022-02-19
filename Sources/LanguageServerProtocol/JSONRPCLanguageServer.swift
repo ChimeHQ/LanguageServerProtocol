@@ -362,6 +362,10 @@ extension JSONRPCLanguageServer {
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .prepareRename(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .documentLink(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .documentLinkResolve(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .rename(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .formatting(let params):
