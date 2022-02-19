@@ -10,13 +10,9 @@ on:
 
 jobs:
   test:
-    name: Test on destination ${{ matrix.destination }}
+    name: Test
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        destination: ["platform=macOS"]
-    
     steps:
-    - uses: actions/checkout@v1
-    - name: test ${{ matrix.destination }}
-      run: swift test
+      - uses: actions/checkout@v2
+      - name: swift test
+        run: swift test
