@@ -355,6 +355,8 @@ extension JSONRPCLanguageServer {
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .workspaceExecuteCommand(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .workspaceWillCreateFiles(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
         }
     }
 }

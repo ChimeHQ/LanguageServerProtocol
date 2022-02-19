@@ -70,6 +70,7 @@ public enum ClientRequest {
         case initialize
         case shutdown
         case workspaceExecuteCommand = "workspace/executeCommand"
+        case workspaceWillCreateFiles = "workspace/willCreateFiles"
         case textDocumentWillSaveWaitUntil = "textDocument/willSaveWaitUntil"
         case textDocumentCompletion = "textDocument/completion"
         case textDocumentHover = "textDocument/hover"
@@ -103,6 +104,7 @@ public enum ClientRequest {
     case initialize(InitializeParams)
     case shutdown
     case workspaceExecuteCommand(ExecuteCommandParams)
+    case workspaceWillCreateFiles(CreateFilesParams)
     case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
     case completion(CompletionParams)
     case hover(TextDocumentPositionParams)
@@ -132,6 +134,8 @@ public enum ClientRequest {
             return .shutdown
         case .workspaceExecuteCommand:
             return .workspaceExecuteCommand
+        case .workspaceWillCreateFiles:
+            return .workspaceWillCreateFiles
         case .willSaveWaitUntilTextDocument:
             return .textDocumentWillSaveWaitUntil
         case .completion:

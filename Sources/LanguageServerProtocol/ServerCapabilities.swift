@@ -150,30 +150,6 @@ public typealias MonikerOptions = WorkDoneProgressOptions
 
 public typealias MonikerRegistrationOptions = PartialResultsWorkDoneProgressTextDocumentRegistrationOptions
 
-public enum FileOperationPatternKind: String, Codable, Hashable {
-    case file = "file"
-    case folder = "folder"
-}
-
-public struct FileOperationPatternOptions: Codable, Hashable {
-    public var ignoreCase: Bool?
-}
-
-public struct FileOperationPattern: Codable, Hashable {
-    public var glob: String
-    public var matches: FileOperationPatternKind
-    public var options: FileOperationPatternOptions
-}
-
-public struct FileOperationFilter: Codable, Hashable {
-    public var scheme: String?
-    public var pattern: FileOperationPattern
-}
-
-public struct FileOperationRegistrationOptions: Codable, Hashable {
-    public var filters: [FileOperationFilter]
-}
-
 public struct WorkspaceFoldersServerCapabilities: Codable, Hashable {
     public var supported: Bool?
     public var changeNotifications: TwoTypeOption<String, Bool>?
