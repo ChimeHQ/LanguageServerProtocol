@@ -176,6 +176,10 @@ extension JSONRPCLanguageServer {
             protocolTransport.sendNotification(params, method: method) { error in
                 completionHandler(error.map({ .unableToSendNotification($0) }))
             }
+        case .workspaceDidCreateFiles(let params):
+            protocolTransport.sendNotification(params, method: method) { error in
+                completionHandler(error.map({ .unableToSendNotification($0) }))
+            }
         }
     }
 }
@@ -314,6 +318,8 @@ extension JSONRPCLanguageServer {
         case .shutdown:
             sendRequestWithHandler(UnusedParam(nil), method: method, handler: completionHandler)
         case .willSaveWaitUntilTextDocument(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .workspaceWillRenameFiles(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .completion(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)

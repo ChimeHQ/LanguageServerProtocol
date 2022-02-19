@@ -47,8 +47,8 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | workspace/executeCommand | ✅ |
 | workspace/applyEdit | ✅ |
 | workspace/willCreateFiles | ✅ |
-| workspace/didCreateFiles | - |
-| workspace/willRenameFiles | - |
+| workspace/didCreateFiles | ✅ |
+| workspace/willRenameFiles | ✅ |
 | workspace/didRenameFiles | - |
 | workspace/willDeleteFiles | - |
 | workspace/didDeleteFiles | - |

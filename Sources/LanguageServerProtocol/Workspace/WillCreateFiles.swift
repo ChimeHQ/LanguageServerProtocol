@@ -59,4 +59,4 @@ public struct FileCreate: Codable, Hashable {
     }
 }
 
-public typealias WillCreateFilesResult = WorkspaceEdit?
+public typealias WorkspaceWillCreateFilesResult = WorkspaceEdit?

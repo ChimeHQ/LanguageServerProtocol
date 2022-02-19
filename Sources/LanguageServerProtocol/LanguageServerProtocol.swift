@@ -10,6 +10,7 @@ public enum ClientNotification {
         case workspaceDidChangeWatchedFiles = "workspace/didChangeWatchedFiles"
         case workspaceDidChangeConfiguration = "workspace/didChangeConfiguration"
         case workspaceDidChangeWorkspaceFolders = "workspace/didChangeWorkspaceFolders"
+        case workspaceDidCreateFiles = "workspace/didCreateFiles"
         case textDocumentDidOpen = "textDocument/didOpen"
         case textDocumentDidChange = "textDocument/didChange"
         case textDocumentDidClose = "textDocument/didClose"
@@ -32,6 +33,7 @@ public enum ClientNotification {
     case protocolSetTrace(SetTraceParams)
     case workspaceDidChangeWorkspaceFolders(DidChangeWorkspaceFoldersParams)
     case workspaceDidChangeConfiguration(DidChangeConfigurationParams)
+    case workspaceDidCreateFiles(CreateFilesParams)
 
     public var method: Method {
         switch self {
@@ -61,6 +63,8 @@ public enum ClientNotification {
             return .workspaceDidChangeWorkspaceFolders
         case .workspaceDidChangeConfiguration:
             return .workspaceDidChangeConfiguration
+        case .workspaceDidCreateFiles:
+            return .workspaceDidCreateFiles
         }
     }
 }
@@ -71,6 +75,7 @@ public enum ClientRequest {
         case shutdown
         case workspaceExecuteCommand = "workspace/executeCommand"
         case workspaceWillCreateFiles = "workspace/willCreateFiles"
+        case workspaceWillRenameFiles = "workspace/willRenameFiles"
         case textDocumentWillSaveWaitUntil = "textDocument/willSaveWaitUntil"
         case textDocumentCompletion = "textDocument/completion"
         case textDocumentHover = "textDocument/hover"
@@ -105,6 +110,7 @@ public enum ClientRequest {
     case shutdown
     case workspaceExecuteCommand(ExecuteCommandParams)
     case workspaceWillCreateFiles(CreateFilesParams)
+    case workspaceWillRenameFiles(RenameFilesParams)
     case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
     case completion(CompletionParams)
     case hover(TextDocumentPositionParams)
@@ -136,6 +142,8 @@ public enum ClientRequest {
             return .workspaceExecuteCommand
         case .workspaceWillCreateFiles:
             return .workspaceWillCreateFiles
+        case .workspaceWillRenameFiles:
+            return .workspaceWillRenameFiles
         case .willSaveWaitUntilTextDocument:
             return .textDocumentWillSaveWaitUntil
         case .completion:
