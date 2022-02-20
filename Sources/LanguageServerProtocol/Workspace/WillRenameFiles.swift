@@ -18,4 +18,4 @@ public struct FileRename: Codable, Hashable {
     }
 }
 
-public typealias WorkspaceWillRenameFilesResult = WorkspaceEdit?
+public typealias WorkspaceWillRenameFilesResponse = WorkspaceEdit?

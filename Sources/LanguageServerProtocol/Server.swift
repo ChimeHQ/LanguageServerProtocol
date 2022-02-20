@@ -141,14 +141,6 @@ public extension Server {
     func codeAction(params: CodeActionParams, block: @escaping (ServerResult<CodeActionResponse>) -> Void) {
         sendRequest(.codeAction(params), completionHandler: block)
     }
-
-    func documentLink(params: DocumentLinkParams, block: @escaping (ServerResult<DocumentLinkResponse>) -> Void) {
-        sendRequest(.documentLink(params), completionHandler: block)
-    }
-
-    func documentLinkResolve(params: DocumentLink, block: @escaping (ServerResult<DocumentLink>) -> Void) {
-        sendRequest(.documentLinkResolve(params), completionHandler: block)
-    }
     
     func prepareRename(params: PrepareRenameParams, block: @escaping (ServerResult<PrepareRenameResponse>) -> Void) {
         sendRequest(.prepareRename(params), completionHandler: block)
@@ -212,5 +204,46 @@ public extension Server {
     func didDeleteFiles(params: DeleteFilesParams, block: @escaping (ServerError?) -> Void) {
         sendNotification(.workspaceDidDeleteFiles(params), completionHandler: block)
     }
+}
 
+// Workspace Requests
+public extension Server {
+    func willCreateFiles(params: CreateFilesParams, block: @escaping (ServerResult<WorkspaceWillCreateFilesResponse>) -> Void) {
+        sendRequest(.workspaceWillCreateFiles(params), completionHandler: block)
+    }
+
+    func willRenameFiles(params: RenameFilesParams, block: @escaping (ServerResult<WorkspaceWillRenameFilesResponse>) -> Void) {
+        sendRequest(.workspaceWillRenameFiles(params), completionHandler: block)
+    }
+
+    func willDeleteFiles(params: DeleteFilesParams, block: @escaping (ServerResult<WorkspaceWillDeleteFilesResponse>) -> Void) {
+        sendRequest(.workspaceWillDeleteFiles(params), completionHandler: block)
+    }
+
+    func executeCommand(params: ExecuteCommandParams, block: @escaping (ServerResult<ExecuteCommandResponse>) -> Void) {
+        sendRequest(.workspaceExecuteCommand(params), completionHandler: block)
+    }
+}
+
+// Language Features
+public extension Server {
+    func documentHighlight(params: DocumentHighlightParams, block: @escaping (ServerResult<DocumentHighlightResponse>) -> Void) {
+        sendRequest(.documentHighlight(params), completionHandler: block)
+    }
+
+    func codeLens(params: CodeLensParams, block: @escaping (ServerResult<CodeLensResponse>) -> Void) {
+        sendRequest(.codeLens(params), completionHandler: block)
+    }
+
+    func codeLensResolve(params: CodeLens, block: @escaping (ServerResult<CodeLensResolveResponse>) -> Void) {
+        sendRequest(.codeLensResolve(params), completionHandler: block)
+    }
+
+    func documentLink(params: DocumentLinkParams, block: @escaping (ServerResult<DocumentLinkResponse>) -> Void) {
+        sendRequest(.documentLink(params), completionHandler: block)
+    }
+
+    func documentLinkResolve(params: DocumentLink, block: @escaping (ServerResult<DocumentLink>) -> Void) {
+        sendRequest(.documentLinkResolve(params), completionHandler: block)
+    }
 }
