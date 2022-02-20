@@ -74,6 +74,10 @@ public extension Server {
         sendNotification(.protocolCancelRequest(params), completionHandler: block)
     }
 
+    func setTrace(params: SetTraceParams, block: @escaping (ServerError?) -> Void) {
+        sendNotification(.protocolSetTrace(params), completionHandler: block)
+    }
+
     func didOpenTextDocument(params: DidOpenTextDocumentParams, block: @escaping (ServerError?) -> Void) {
         sendNotification(.didOpenTextDocument(params), completionHandler: block)
     }
@@ -185,4 +189,28 @@ public extension Server {
     func semanticTokensRange(params: SemanticTokensRangeParams, block: @escaping (ServerResult<SemanticTokens>) -> Void) {
         sendRequest(.semanticTokensRange(params), completionHandler: block)
     }
+}
+
+// Workspace notifications
+public extension Server {
+    func didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams, block: @escaping (ServerError?) -> Void) {
+        sendNotification(.workspaceDidChangeWorkspaceFolders(params), completionHandler: block)
+    }
+
+    func didChangeConfiguration(params: DidChangeConfigurationParams, block: @escaping (ServerError?) -> Void) {
+        sendNotification(.workspaceDidChangeConfiguration(params), completionHandler: block)
+    }
+
+    func didCreateFiles(params: CreateFilesParams, block: @escaping (ServerError?) -> Void) {
+        sendNotification(.workspaceDidCreateFiles(params), completionHandler: block)
+    }
+
+    func didRenameFiles(params: RenameFilesParams, block: @escaping (ServerError?) -> Void) {
+        sendNotification(.workspaceDidRenameFiles(params), completionHandler: block)
+    }
+
+    func didDeleteFiles(params: DeleteFilesParams, block: @escaping (ServerError?) -> Void) {
+        sendNotification(.workspaceDidDeleteFiles(params), completionHandler: block)
+    }
+
 }
