@@ -12,7 +12,7 @@ extension TwoTypeOption: Codable where T: Codable, U: Codable {
         do {
             let value = try container.decode(T.self)
             self = .optionA(value)
-        } catch DecodingError.typeMismatch {
+        } catch is DecodingError {
             let value = try container.decode(U.self)
             self = .optionB(value)
         }

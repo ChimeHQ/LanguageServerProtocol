@@ -13,11 +13,11 @@ extension ThreeTypeOption: Codable where T: Codable, U: Codable, V: Codable {
         do {
             let value = try container.decode(T.self)
             self = .optionA(value)
-        } catch DecodingError.typeMismatch {
+        } catch is DecodingError {
             do {
                 let value = try container.decode(U.self)
                 self = .optionB(value)
-            } catch DecodingError.typeMismatch {
+            } catch is DecodingError {
                 let value = try container.decode(V.self)
                 self = .optionC(value)
             }

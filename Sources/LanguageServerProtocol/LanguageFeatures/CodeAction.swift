@@ -90,6 +90,17 @@ public struct CodeAction: Codable, Hashable {
     public var edit: WorkspaceEdit?
     public var command: Command?
     public var data: LSPAny
+
+    public init(title: String, kind: CodeActionKind? = nil, diagnostics: [Diagnostic]? = nil, isPreferred: Bool? = nil, disabled: CodeAction.Disabled? = nil, edit: WorkspaceEdit? = nil, command: Command? = nil, data: LSPAny) {
+        self.title = title
+        self.kind = kind
+        self.diagnostics = diagnostics
+        self.isPreferred = isPreferred
+        self.disabled = disabled
+        self.edit = edit
+        self.command = command
+        self.data = data
+    }
 }
 
 public typealias CodeActionResponse = [TwoTypeOption<Command, CodeAction>]?
