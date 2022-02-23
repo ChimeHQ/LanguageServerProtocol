@@ -11,7 +11,7 @@ let package = Package(
             targets: ["LanguageServerProtocol"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ChimeHQ/JSONRPC", from: "0.3.1"),
+        .package(url: "https://github.com/ChimeHQ/JSONRPC", from: "0.3.3"),
     ],
     targets: [
         .target(
