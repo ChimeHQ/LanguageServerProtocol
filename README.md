@@ -82,7 +82,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | workspace/codeLens/refresh | ✅ |
 | textDocument/documentLink | ✅ |
 | documentLink/resolve | ✅ |
-| textDocument/documentColor | - |
+| textDocument/documentColor | ✅ |
 | textDocument/colorPresentation | - |
 | textDocument/formatting | ✅ |
 | textDocument/rangeFormatting | ✅ |

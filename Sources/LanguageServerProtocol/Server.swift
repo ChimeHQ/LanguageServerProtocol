@@ -246,4 +246,8 @@ public extension Server {
     func documentLinkResolve(params: DocumentLink, block: @escaping (ServerResult<DocumentLink>) -> Void) {
         sendRequest(.documentLinkResolve(params), completionHandler: block)
     }
+
+    func documentColor(params: DocumentColorParams, block: @escaping (ServerResult<DocumentColorResponse>) -> Void) {
+        sendRequest(.documentColor(params), completionHandler: block)
+    }
 }

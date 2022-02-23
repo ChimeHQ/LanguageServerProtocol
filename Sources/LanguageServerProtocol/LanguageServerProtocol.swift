@@ -142,6 +142,7 @@ public enum ClientRequest {
     case rename(RenameParams)
     case documentLink(DocumentLinkParams)
     case documentLinkResolve(DocumentLink)
+    case documentColor(DocumentColorParams)
     case formatting(DocumentFormattingParams)
     case rangeFormatting(DocumentRangeFormattingParams)
     case onTypeFormatting(DocumentOnTypeFormattingParams)
@@ -201,6 +202,8 @@ public enum ClientRequest {
             return .textDocumentDocumentLink
         case .documentLinkResolve:
             return .documentLinkResolve
+        case .documentColor:
+            return .textDocumentDocumentColor
         case .formatting:
             return .textDocumentFormatting
         case .rangeFormatting:
