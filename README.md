@@ -1,4 +1,5 @@
 [![Github CI](https://github.com/ChimeHQ/LanguageServerProtocol/workflows/CI/badge.svg)](https://github.com/ChimeHQ/LanguageServerProtocol/actions)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FChimeHQ%2FLanguageServerProtocol%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/ChimeHQ/LanguageServerProtocol)
 
 # LanguageServerProtocol
 
