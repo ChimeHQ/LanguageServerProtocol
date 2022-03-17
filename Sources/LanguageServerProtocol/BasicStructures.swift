@@ -57,6 +57,10 @@ public struct LSPRange: Codable, Hashable {
     public func intersects(_ other: LSPRange) -> Bool {
         return contains(other.start) || contains(other.end)
     }
+
+    public var isEmpty: Bool {
+        return start == end
+    }
 }
 
 extension LSPRange: CustomStringConvertible {

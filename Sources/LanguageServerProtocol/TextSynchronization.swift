@@ -107,6 +107,52 @@ public struct TextEdit: Codable, Hashable {
         self.range = range
         self.newText = newText
     }
+
+    public var isNoOp: Bool {
+        return range.isEmpty && newText.isEmpty
+    }
+
+    public var isInsert: Bool {
+        return range.isEmpty && (newText.isEmpty == false)
+    }
+
+    /// Adjusts the input array so that it can be applied, in order
+    /// to produce the desired final state
+    ///
+    /// This function *requires* the input edits to meet the LSP spec. In
+    /// particular:
+    /// - overlaps are not allowed
+    /// - inserts with the same starting location must be applied in the order
+    ///   they appear in the array.
+    public static func makeApplicable(_ edits: [TextEdit]) -> [TextEdit] {
+        var finalEdits = [TextEdit]()
+
+        for edit in edits {
+            if edit.isNoOp {
+                continue
+            }
+
+            guard let last = finalEdits.last else {
+                finalEdits.append(edit)
+                continue
+            }
+
+            guard edit.isInsert && last.isInsert && edit.range == last.range else {
+                finalEdits.append(edit)
+                continue
+            }
+
+            let combinedEdit = TextEdit(range: edit.range,
+                                        newText: last.newText + edit.newText)
+
+            finalEdits.removeLast()
+            finalEdits.append(combinedEdit)
+        }
+
+        return finalEdits.sorted(by: {
+            return $1.range.start < $0.range.start
+        })
+    }
 }
 
 extension TextEdit: CustomStringConvertible {
