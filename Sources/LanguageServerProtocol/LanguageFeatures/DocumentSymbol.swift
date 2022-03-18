@@ -35,4 +35,4 @@ public struct DocumentSymbol: Codable, Hashable {
 }
 
 
-public typealias DocumentSymbolResponse = TwoTypeOption<[DocumentSymbol], [SymbolInformation]>
+public typealias DocumentSymbolResponse = TwoTypeOption<[DocumentSymbol], [SymbolInformation]>?

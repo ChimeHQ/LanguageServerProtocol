@@ -208,7 +208,7 @@ extension JSONRPCLanguageServer {
     private func decodeRequestWithParams<Params: Codable>(data: Data) -> Result<Params, ServerError> {
         let requestResult: Result<JSONRPCRequest<Params>, ServerError> = self.decodeRequest(data: data)
 
-        return requestResult.flatMap({ $0.getParams() })
+        return requestResult.flatMap({ $0.getParamsResult() })
     }
 
     private func relayRequest(request: Result<ServerRequest, ServerError>, id: JSONId, block: @escaping (Result<AnyJSONRPCResponse, ServerError>) -> Void) {
@@ -301,7 +301,7 @@ extension JSONRPCLanguageServer {
         handleRequestResult(request, data: data) { result in
             switch result {
             case .failure(let error):
-                callback(AnyJSONRPCResponse(error: error, for: request))
+                callback(request.response(with: error))
             case .success(let response):
                 callback(response)
             }
@@ -314,9 +314,7 @@ extension JSONRPCLanguageServer {
         protocolTransport.sendRequest(params, method: method) { (result: ProtocolResponse<Response>) in
             let newResult = result
                 .mapError { ServerError.unableToSendRequest($0) }
-                .flatMap { response -> ServerResult<Response> in
-                    response.getServerResult()
-                }
+                .flatMap {  $0.getServerResult() }
 
             handler(newResult)
         }

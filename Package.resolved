@@ -14,18 +14,9 @@
         "package": "JSONRPC",
         "repositoryURL": "https://github.com/ChimeHQ/JSONRPC",
         "state": {
-          "branch": null,
-          "revision": "1c1bc2f876f778f0689040eebc9321833508c6dc",
-          "version": "0.3.3"
-        }
-      },
-      {
-        "package": "NullCodable",
-        "repositoryURL": "https://github.com/g-mark/NullCodable",
-        "state": {
-          "branch": null,
-          "revision": "dcdda8a5b079827f65e283ab7c29d5caae4caf89",
-          "version": "1.1.0"
+          "branch": "main",
+          "revision": "d6b33c3242e71fde51bbcf1b920f85a387577a2f",
+          "version": null
         }
       }
     ]

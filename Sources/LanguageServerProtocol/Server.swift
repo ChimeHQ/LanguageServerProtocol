@@ -17,6 +17,12 @@ public enum ServerError: LocalizedError {
     case serverError(code: Int, message: String, data: Codable?)
     case invalidRequest(Error?)
     case timeout
+
+    static func responseError(_ error: AnyJSONRPCResponseError) -> ServerError {
+        return ServerError.serverError(code: error.code,
+                                       message: error.message,
+                                       data: error.data)
+    }
 }
 
 public typealias ServerResult<T: Codable> = Result<T, ServerError>
@@ -33,22 +39,17 @@ public protocol Server {
     func sendRequest<Response: Codable>(_ request: ClientRequest, completionHandler: @escaping (ServerResult<Response>) -> Void)
 }
 
-public extension Server {
-    /// Send a request that expects either null or an omitted result
+extension Server {
     func sendRequestWithErrorOnlyResult(_ request: ClientRequest, completionHandler: @escaping (ServerError?) -> Void) {
         sendRequest(request) { (result: ServerResult<UnusedResult>) in
             switch result {
             case .failure(let error):
-                // we have to special-case this, because we know we'll get back null
-                if case ServerError.missingExpectedResult = error {
-                    completionHandler(nil)
-                    return
-                }
-
                 completionHandler(error)
-            case .success(_):
-                completionHandler(nil)
+            case .success:
+                break
             }
+
+            completionHandler(nil)
         }
     }
 }
@@ -126,7 +127,7 @@ public extension Server {
         sendRequest(.definition(params), completionHandler: block)
     }
 
-    func typeDefinition(params: TextDocumentPositionParams, block: @escaping (ServerResult<TypeDefinitionResponse?>) -> Void) {
+    func typeDefinition(params: TextDocumentPositionParams, block: @escaping (ServerResult<TypeDefinitionResponse>) -> Void) {
         sendRequest(.typeDefinition(params), completionHandler: block)
     }
 
@@ -170,11 +171,11 @@ public extension Server {
         sendRequest(.foldingRange(params), completionHandler: block)
     }
 
-    func semanticTokensFull(params: SemanticTokensParams, block: @escaping (ServerResult<SemanticTokens>) -> Void) {
+    func semanticTokensFull(params: SemanticTokensParams, block: @escaping (ServerResult<SemanticTokens?>) -> Void) {
         sendRequest(.semanticTokensFull(params), completionHandler: block)
     }
 
-    func semanticTokensFullDelta(params: SemanticTokensDeltaParams, block: @escaping (ServerResult<SemanticTokensDeltaResponse>) -> Void) {
+    func semanticTokensFullDelta(params: SemanticTokensDeltaParams, block: @escaping (ServerResult<SemanticTokensDeltaResponse?>) -> Void) {
         sendRequest(.semanticTokensFullDelta(params), completionHandler: block)
     }
 
