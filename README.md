@@ -85,7 +85,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/documentLink | ✅ |
 | documentLink/resolve | ✅ |
 | textDocument/documentColor | ✅ |
-| textDocument/colorPresentation | - |
+| textDocument/colorPresentation | ✅ |
 | textDocument/formatting | ✅ |
 | textDocument/rangeFormatting | ✅ |
 | textDocument/onTypeFormatting | ✅ |

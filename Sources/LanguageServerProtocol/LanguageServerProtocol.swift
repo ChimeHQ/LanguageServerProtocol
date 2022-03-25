@@ -103,6 +103,7 @@ public enum ClientRequest {
         case textDocumentDocumentLink = "textDocument/documentLink"
         case documentLinkResolve = "documentLink/resolve"
         case textDocumentDocumentColor = "textDocument/documentColor"
+        case textDocumentColorPresentation = "textDocument/colorPresentation"
         case textDocumentFormatting = "textDocument/formatting"
         case textDocumentRangeFormatting = "textDocument/rangeFormatting"
         case textDocumentOnTypeFormatting = "textDocument/onTypeFormatting"
@@ -143,6 +144,7 @@ public enum ClientRequest {
     case documentLink(DocumentLinkParams)
     case documentLinkResolve(DocumentLink)
     case documentColor(DocumentColorParams)
+    case colorPresentation(ColorPresentationParams)
     case formatting(DocumentFormattingParams)
     case rangeFormatting(DocumentRangeFormattingParams)
     case onTypeFormatting(DocumentOnTypeFormattingParams)
@@ -204,6 +206,8 @@ public enum ClientRequest {
             return .documentLinkResolve
         case .documentColor:
             return .textDocumentDocumentColor
+        case .colorPresentation:
+            return .textDocumentColorPresentation
         case .formatting:
             return .textDocumentFormatting
         case .rangeFormatting:

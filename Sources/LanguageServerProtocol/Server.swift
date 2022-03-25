@@ -251,4 +251,8 @@ public extension Server {
     func documentColor(params: DocumentColorParams, block: @escaping (ServerResult<DocumentColorResponse>) -> Void) {
         sendRequest(.documentColor(params), completionHandler: block)
     }
+
+    func colorPresentation(params: ColorPresentationParams, block: @escaping (ServerResult<ColorPresentationResponse>) -> Void) {
+        sendRequest(.colorPresentation(params), completionHandler: block)
+    }
 }
