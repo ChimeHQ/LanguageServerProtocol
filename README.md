@@ -92,7 +92,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/rename | ✅ |
 | textDocument/prepareRename | ✅ |
 | textDocument/foldingRange | ✅ |
-| textDocument/selectionRange | - |
+| textDocument/selectionRange | ✅ |
 | textDocument/prepareCallHierarchy | - |
 | textDocument/prepareCallHierarchy | - |
 | callHierarchy/incomingCalls | - |

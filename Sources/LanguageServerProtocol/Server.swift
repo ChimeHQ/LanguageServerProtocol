@@ -240,6 +240,10 @@ public extension Server {
         sendRequest(.codeLensResolve(params), completionHandler: block)
     }
 
+    func selectionRange(params: SelectionRangeParams, block: @escaping (ServerResult<SelectionRangeResponse>) -> Void) {
+        sendRequest(.selectionRange(params), completionHandler: block)
+    }
+
     func documentLink(params: DocumentLinkParams, block: @escaping (ServerResult<DocumentLinkResponse>) -> Void) {
         sendRequest(.documentLink(params), completionHandler: block)
     }

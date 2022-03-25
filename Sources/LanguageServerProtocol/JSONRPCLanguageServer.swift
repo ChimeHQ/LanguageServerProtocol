@@ -380,6 +380,8 @@ extension JSONRPCLanguageServer {
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .foldingRange(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .selectionRange(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .semanticTokensFull(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .semanticTokensFullDelta(let params):

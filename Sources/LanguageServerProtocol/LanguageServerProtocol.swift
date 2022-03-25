@@ -139,6 +139,7 @@ public enum ClientRequest {
     case codeAction(CodeActionParams)
     case codeLens(CodeLensParams)
     case codeLensResolve(CodeLens)
+    case selectionRange(SelectionRangeParams)
     case prepareRename(PrepareRenameParams)
     case rename(RenameParams)
     case documentLink(DocumentLinkParams)
@@ -196,6 +197,8 @@ public enum ClientRequest {
             return .textDocumentCodeLens
         case .codeLensResolve:
             return .codeLensResolve
+        case .selectionRange:
+            return .textDocumentSelectionRange
         case .prepareRename:
             return .textDocumentPrepareRename
         case .rename:

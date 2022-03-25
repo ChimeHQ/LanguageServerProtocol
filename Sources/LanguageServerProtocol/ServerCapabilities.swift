@@ -106,10 +106,6 @@ public typealias FoldingRangeOptions = WorkDoneProgressOptions
 
 public typealias FoldingRangeRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
 
-public typealias SelectionRangeOptions = WorkDoneProgressOptions
-
-public typealias SelectionRangeRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
-
 public typealias LinkedEditingRangeOptions = WorkDoneProgressOptions
 
 public typealias LinkedEditingRangeRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
