@@ -28,75 +28,49 @@ dependencies: [
 
 The LSP [specification](https://microsoft.github.io/language-server-protocol/specification) is large, and this library currently does not implement it all. The intention is to support the 3.x specification, but be as backwards-compatible as possible with pre-3.0 servers. 
 
-| Feature            | Supported |
-| -------------------|:---------:|
-| window/showMessage | ✅ |
-| window/showMessageRequest | ✅ |
-| window/showDocument | ✅ |
-| window/logMessage | ✅ |
-| window/workDoneProgress/create | ✅ |
-| window/workDoneProgress/cancel | ✅ |
-| $/cancelRequest | ✅ |
-| $/progress | ✅ |
+| Lifecycle | Supported |
+| ----------|:---------:|
 | initialize | ✅ |
-| shutdown | ✅ |
-| exit | ✅ |
-| telemetry/event | ✅ |
-| $/logTrace | ✅ |
-| $/setTrace | ✅ |
+| initialized | ✅ |
 | client/registerCapability | ✅ |
 | client/unregisterCapability | ✅ |
-| workspace/workspaceFolders | ✅ |
-| workspace/didChangeWorkspaceFolders | ✅ |
-| workspace/didChangeConfiguration | ✅ |
-| workspace/configuration | ✅ |
-| workspace/didChangeWatchedFiles | ✅ |
-| workspace/symbol | ✅ |
-| workspace/executeCommand | ✅ |
-| workspace/applyEdit | ✅ |
-| workspace/willCreateFiles | ✅ |
-| workspace/didCreateFiles | ✅ |
-| workspace/willRenameFiles | ✅ |
-| workspace/didRenameFiles | ✅ |
-| workspace/willDeleteFiles | ✅ |
-| workspace/didDeleteFiles | ✅ |
+| $/setTrace | ✅ |
+| $/logTrace | ✅ |
+| shutdown | ✅ |
+| exit | ✅ |
+
+| Document Synchronization | Supported |
+| -------------------------|:---------:|
 | textDocument/didOpen | ✅ |
 | textDocument/didChange | ✅ |
 | textDocument/willSave | ✅ |
 | textDocument/willSaveWaitUntil | ✅ |
 | textDocument/didSave | ✅ |
 | textDocument/didClose | ✅ |
-| textDocument/publishDiagnostics | ✅ |
-| textDocument/completion | ✅ |
-| completionItem/resolve | ✅ |
-| textDocument/hover | ✅ |
-| textDocument/signatureHelp | ✅ |
+
+| Language Features  | Supported |
+| -------------------|:---------:|
 | textDocument/declaration | ✅ |
 | textDocument/definition | ✅ |
 | textDocument/typeDefinition | ✅ |
 | textDocument/implementation | ✅ |
 | textDocument/references | ✅  |
-| textDocument/documentHighlight | ✅ |
-| textDocument/documentSymbol | ✅ |
-| textDocument/codeAction | ✅ |
-| codeLens/resolve | ✅ |
-| textDocument/codeLens | ✅ |
-| workspace/codeLens/refresh | ✅ |
-| textDocument/documentLink | ✅ |
-| documentLink/resolve | ✅ |
-| textDocument/documentColor | ✅ |
-| textDocument/colorPresentation | ✅ |
-| textDocument/formatting | ✅ |
-| textDocument/rangeFormatting | ✅ |
-| textDocument/onTypeFormatting | ✅ |
-| textDocument/rename | ✅ |
-| textDocument/prepareRename | ✅ |
-| textDocument/foldingRange | ✅ |
-| textDocument/selectionRange | ✅ |
-| textDocument/prepareCallHierarchy | - |
 | textDocument/prepareCallHierarchy | - |
 | callHierarchy/incomingCalls | - |
 | callHierarchy/outgoingCalls | - |
+| textDocument/prepareTypeHierarchy | - |
+| typeHierarchy/supertypes | - |
+| typeHierarchy/subtypes | - |
+| textDocument/documentHighlight | ✅ |
+| textDocument/documentLink | ✅ |
+| documentLink/resolve | ✅ |
+| textDocument/hover | ✅ |
+| textDocument/codeLens | ✅ |
+| codeLens/resolve | ✅ |
+| workspace/codeLens/refresh | ✅ |
+| textDocument/foldingRange | ✅ |
+| textDocument/selectionRange | ✅ |
+| textDocument/documentSymbol | ✅ |
 | textDocument/semanticTokens/full | ✅ |
 | textDocument/semanticTokens/full/delta | ✅ |
 | textDocument/semanticTokens/range | ✅ |
@@ -106,8 +80,54 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/inlayHint | - |
 | inlayHint/resolve | - |
 | workspace/inlayHint/refresh | - |
-| textDocument/linkedEditingRange | - |
 | textDocument/moniker | - |
+| textDocument/completion | ✅ |
+| completionItem/resolve | ✅ |
+| textDocument/publishDiagnostics | ✅ |
+| textDocument/signatureHelp | ✅ |
+| textDocument/codeAction | ✅ |
+| codeAction/resolve | - |
+| textDocument/documentColor | ✅ |
+| textDocument/colorPresentation | ✅ |
+| textDocument/formatting | ✅ |
+| textDocument/rangeFormatting | ✅ |
+| textDocument/onTypeFormatting | ✅ |
+| textDocument/rename | ✅ |
+| textDocument/prepareRename | ✅ |
+| textDocument/linkedEditingRange | - |
+
+| Workspace Features | Supported |
+| -------------------|:---------:|
+| workspace/symbol | ✅ |
+| workspaceSymbol/resolve | - |
+| workspace/configuration | ✅ |
+| workspace/didChangeConfiguration | ✅ |
+| workspace/workspaceFolders | ✅ |
+| workspace/didChangeWorkspaceFolders | ✅ |
+| workspace/willCreateFiles | ✅ |
+| workspace/didCreateFiles | ✅ |
+| workspace/willRenameFiles | ✅ |
+| workspace/didRenameFiles | ✅ |
+| workspace/willDeleteFiles | ✅ |
+| workspace/didDeleteFiles | ✅ |
+| workspace/didChangeWatchedFiles | ✅ |
+| workspace/executeCommand | ✅ |
+| workspace/applyEdit | ✅ |
+
+| Window Features | Supported |
+| ----------------|:---------:|
+| window/showMessage | ✅ |
+| window/showMessageRequest | ✅ |
+| window/logMessage | ✅ |
+| window/showDocument | ✅ |
+| window/workDoneProgress/create | ✅ |
+| window/workDoneProgress/cancel | ✅ |
+| telemetry/event | ✅ |
+
+| Other | Supported |
+| ------|:---------:|
+| $/cancelRequest | ✅ |
+| $/progress | ✅ |
 
 ## Suggestions or Feedback
 
