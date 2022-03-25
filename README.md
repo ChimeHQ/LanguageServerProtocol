@@ -101,6 +101,11 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/semanticTokens/full/delta | ✅ |
 | textDocument/semanticTokens/range | ✅ |
 | workspace/semanticTokens/refresh | ✅ |
+| textDocument/inlineValue | - |
+| workspace/inlineValue/refresh | - |
+| textDocument/inlayHint | - |
+| inlayHint/resolve | - |
+| workspace/inlayHint/refresh | - |
 | textDocument/linkedEditingRange | - |
 | textDocument/moniker | - |
 
