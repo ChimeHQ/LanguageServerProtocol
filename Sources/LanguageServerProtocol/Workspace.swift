@@ -7,9 +7,11 @@ public struct WatchKind: OptionSet, Codable, Hashable {
         self.rawValue = rawValue
     }
 
-    static let create = WatchKind(rawValue: 1)
-    static let change = WatchKind(rawValue: 2)
-    static let delete = WatchKind(rawValue: 4)
+    public static let create = WatchKind(rawValue: 1)
+    public static let change = WatchKind(rawValue: 2)
+    public static let delete = WatchKind(rawValue: 4)
+
+    public static let all: WatchKind = [.create, .change, .delete]
 }
 
 public struct FileSystemWatcher: Codable, Hashable {
