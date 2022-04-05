@@ -15,6 +15,11 @@ public struct WatchKind: OptionSet, Codable, Hashable {
 public struct FileSystemWatcher: Codable, Hashable {
     public var globPattern: String
     public var kind: WatchKind?
+
+    public init(globPattern: String, kind: WatchKind? = nil) {
+        self.globPattern = globPattern
+        self.kind = kind
+    }
 }
 
 public struct DidChangeWatchedFilesRegistrationOptions: Codable, Hashable {
