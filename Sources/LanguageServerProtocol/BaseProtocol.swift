@@ -81,6 +81,7 @@ public enum LanguageIdentifier: String, Codable, CaseIterable {
     case objcpp = "objective-cpp"
     case rust = "rust"
     case ruby = "ruby"
+    case php = "php"
 
     static let fileExtensions = [
         "go": .go,
@@ -95,7 +96,8 @@ public enum LanguageIdentifier: String, Codable, CaseIterable {
         "h": .objcpp,
         "hpp": .objcpp,
         "rs": .rust,
-        "rb": .ruby
+        "rb": .ruby,
+        "php": .php
     ]
 
     public enum LanguageServerParameterError: Error {
