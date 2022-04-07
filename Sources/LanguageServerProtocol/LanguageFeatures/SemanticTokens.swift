@@ -47,6 +47,8 @@ public struct SemanticTokensClientCapabilities: Codable, Hashable {
     public var formats: [TokenFormat]
     public var overlappingTokenSupport: Bool?
     public var multilineTokenSupport: Bool?
+    public var serverCancelSupport: Bool?
+    public var augmentsSyntaxTokens: Bool?
 
     public init(dynamicRegistration: Bool = false,
                 requests: SemanticTokensClientCapabilities.Requests = .init(range: true, delta: true),
@@ -54,7 +56,9 @@ public struct SemanticTokensClientCapabilities: Codable, Hashable {
                 tokenModifiers: [String] = SemanticTokenModifiers.allStrings,
                 formats: [TokenFormat] = [TokenFormat.relative],
                 overlappingTokenSupport: Bool = true,
-                multilineTokenSupport: Bool = true) {
+                multilineTokenSupport: Bool = true,
+                serverCancelSupport: Bool = false,
+                augmentsSyntaxTokens: Bool = true) {
         self.dynamicRegistration = dynamicRegistration
         self.requests = requests
         self.tokenTypes = tokenTypes
@@ -62,6 +66,8 @@ public struct SemanticTokensClientCapabilities: Codable, Hashable {
         self.formats = formats
         self.overlappingTokenSupport = overlappingTokenSupport
         self.multilineTokenSupport = multilineTokenSupport
+        self.serverCancelSupport = serverCancelSupport
+        self.augmentsSyntaxTokens = augmentsSyntaxTokens
     }
 }
 
