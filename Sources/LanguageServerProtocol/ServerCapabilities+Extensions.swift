@@ -77,3 +77,48 @@ public extension TwoTypeOption where T == TextDocumentSyncOptions, U == TextDocu
         }
     }
 }
+
+public extension TwoTypeOption where T == SemanticTokensOptions, U == SemanticTokensRegistrationOptions {
+    var effectiveOptions: SemanticTokensOptions {
+        switch self {
+        case .optionA(let options):
+            return options
+        case .optionB(let registrationOptions):
+            return SemanticTokensOptions(workDoneProgress: registrationOptions.workDoneProgress,
+                                         legend: registrationOptions.legend,
+                                         range: registrationOptions.range,
+                                         full: registrationOptions.full)
+        }
+    }
+}
+
+public extension SemanticTokensClientCapabilities.Requests.RangeOption {
+    var supported: Bool {
+        switch self {
+        case .optionA(let value):
+            return value
+        case .optionB(_):
+            return true
+        }
+    }
+}
+
+public extension SemanticTokensClientCapabilities.Requests.FullOption {
+    var supported: Bool {
+        switch self {
+        case .optionA(let value):
+            return value
+        case .optionB(_):
+            return true
+        }
+    }
+
+    var deltaSupported: Bool {
+        switch self {
+        case .optionA(_):
+            return false
+        case .optionB(let full):
+            return full.delta ?? false
+        }
+    }
+}
