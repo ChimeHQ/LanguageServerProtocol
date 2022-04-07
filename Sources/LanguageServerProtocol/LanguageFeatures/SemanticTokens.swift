@@ -134,13 +134,13 @@ public struct SemanticTokensParams: Codable, Hashable {
 
 public struct SemanticTokens: Codable {
     public var resultId: String?
-    public var data: [UInt]
+    public var data: [UInt32]
 }
 
 public typealias SemanticTokensResponse = SemanticTokens?
 
 public struct SemanticTokensPartialResult: Codable {
-    public var data: [UInt]
+    public var data: [UInt32]
 }
 
 public struct SemanticTokensDeltaParams: Codable {
@@ -158,7 +158,7 @@ public struct SemanticTokensDeltaParams: Codable {
 public struct SemanticTokensEdit: Codable {
     public var start: UInt
     public var deleteCount: UInt
-    public var data: [UInt]?
+    public var data: [UInt32]?
 }
 
 public struct SemanticTokensDelta: Codable {
