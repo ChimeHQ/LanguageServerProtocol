@@ -137,6 +137,8 @@ public struct SemanticTokens: Codable {
     public var data: [UInt]
 }
 
+public typealias SemanticTokensResponse = SemanticTokens?
+
 public struct SemanticTokensPartialResult: Codable {
     public var data: [UInt]
 }
@@ -164,7 +166,7 @@ public struct SemanticTokensDelta: Codable {
     public var edits: [SemanticTokensEdit]
 }
 
-public typealias SemanticTokensDeltaResponse = TwoTypeOption<SemanticTokens, SemanticTokensDelta>
+public typealias SemanticTokensDeltaResponse = TwoTypeOption<SemanticTokens, SemanticTokensDelta>?
 
 public struct SemanticTokensRangeParams: Codable {
     public var workDoneToken: ProgressToken?

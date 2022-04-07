@@ -171,15 +171,15 @@ public extension Server {
         sendRequest(.foldingRange(params), completionHandler: block)
     }
 
-    func semanticTokensFull(params: SemanticTokensParams, block: @escaping (ServerResult<SemanticTokens?>) -> Void) {
+    func semanticTokensFull(params: SemanticTokensParams, block: @escaping (ServerResult<SemanticTokensResponse>) -> Void) {
         sendRequest(.semanticTokensFull(params), completionHandler: block)
     }
 
-    func semanticTokensFullDelta(params: SemanticTokensDeltaParams, block: @escaping (ServerResult<SemanticTokensDeltaResponse?>) -> Void) {
+    func semanticTokensFullDelta(params: SemanticTokensDeltaParams, block: @escaping (ServerResult<SemanticTokensDeltaResponse>) -> Void) {
         sendRequest(.semanticTokensFullDelta(params), completionHandler: block)
     }
 
-    func semanticTokensRange(params: SemanticTokensRangeParams, block: @escaping (ServerResult<SemanticTokens>) -> Void) {
+    func semanticTokensRange(params: SemanticTokensRangeParams, block: @escaping (ServerResult<SemanticTokensResponse>) -> Void) {
         sendRequest(.semanticTokensRange(params), completionHandler: block)
     }
 }
