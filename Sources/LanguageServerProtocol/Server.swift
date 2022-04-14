@@ -180,6 +180,10 @@ public extension Server {
     func semanticTokensRange(params: SemanticTokensRangeParams, block: @escaping (ServerResult<SemanticTokensResponse>) -> Void) {
         sendRequest(.semanticTokensRange(params), completionHandler: block)
     }
+
+    func customRequest<Response: Codable>(method: String, params: AnyCodable, block: @escaping (ServerResult<Response>) -> Void) {
+        sendRequest(.custom(method, params), completionHandler: block)
+    }
 }
 
 // Workspace notifications

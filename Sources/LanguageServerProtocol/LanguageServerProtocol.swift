@@ -1,4 +1,5 @@
 import JSONRPC
+import AnyCodable
 
 typealias UnusedResult = String?
 typealias UnusedParam = String?
@@ -117,6 +118,7 @@ public enum ClientRequest {
         case textDocumentSemanticTokensFull = "textDocument/semanticTokens/full"
         case textDocumentSemanticTokensFullDelta = "textDocument/semanticTokens/full/delta"
         case textDocumentMoniker = "textDocument/moniker"
+        case custom
     }
 
     case initialize(InitializeParams)
@@ -154,6 +156,7 @@ public enum ClientRequest {
     case semanticTokensFull(SemanticTokensParams)
     case semanticTokensFullDelta(SemanticTokensDeltaParams)
     case semanticTokensRange(SemanticTokensRangeParams)
+    case custom(String, AnyCodable)
 
     public var method: Method {
         switch self {
@@ -227,6 +230,8 @@ public enum ClientRequest {
             return .textDocumentSemanticTokensFullDelta
         case .semanticTokensRange:
             return .textDocumentSemanticTokensRange
+        case .custom:
+            return .custom
         }
     }
 }

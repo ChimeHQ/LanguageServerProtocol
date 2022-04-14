@@ -128,6 +128,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | ------|:---------:|
 | $/cancelRequest | ✅ |
 | $/progress | ✅ |
+| server-defined | ✅ |
 
 ## Suggestions or Feedback
 
