@@ -30,9 +30,10 @@ public class JSONRPCLanguageServer: Server {
     }
 
     public convenience init(dataTransport: DataTransport)  {
-        let messageTransport = MessageTransport(dataTransport: dataTransport)
+        let framing = SeperatedHTTPHeaderMessageFraming()
+        let messageTransport = MessageTransport(dataTransport: dataTransport, messageProtocol: framing)
 
-        self.init(protocolTransport: ProtocolTransport(messageTransport: messageTransport))
+        self.init(protocolTransport: ProtocolTransport(dataTransport: messageTransport))
     }
 
     deinit {
