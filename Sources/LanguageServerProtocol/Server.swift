@@ -46,10 +46,8 @@ extension Server {
             case .failure(let error):
                 completionHandler(error)
             case .success:
-                break
+                completionHandler(nil)
             }
-
-            completionHandler(nil)
         }
     }
 }
