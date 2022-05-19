@@ -86,6 +86,8 @@ public enum ClientRequest {
         case workspaceWillCreateFiles = "workspace/willCreateFiles"
         case workspaceWillRenameFiles = "workspace/willRenameFiles"
         case workspaceWillDeleteFiles = "workspace/willDeleteFiles"
+        case workspaceSymbol = "workspace/symbol"
+        case workspaceSymbolResolve = "workspaceSymbol/resolve"
         case textDocumentWillSaveWaitUntil = "textDocument/willSaveWaitUntil"
         case textDocumentCompletion = "textDocument/completion"
         case completionItemResolve = "completionItem/resolve"
@@ -127,6 +129,8 @@ public enum ClientRequest {
     case workspaceWillCreateFiles(CreateFilesParams)
     case workspaceWillRenameFiles(RenameFilesParams)
     case workspaceWillDeleteFiles(DeleteFilesParams)
+    case workspaceSymbol(WorkspaceSymbolParams)
+    case workspaceSymbolResolve(WorkspaceSymbol)
     case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
     case completion(CompletionParams)
     case completionItemResolve(CompletionItem)
@@ -172,6 +176,10 @@ public enum ClientRequest {
             return .workspaceWillRenameFiles
         case .workspaceWillDeleteFiles:
             return .workspaceWillDeleteFiles
+        case .workspaceSymbol:
+            return .workspaceSymbol
+        case .workspaceSymbolResolve:
+            return .workspaceSymbolResolve
         case .willSaveWaitUntilTextDocument:
             return .textDocumentWillSaveWaitUntil
         case .completion:

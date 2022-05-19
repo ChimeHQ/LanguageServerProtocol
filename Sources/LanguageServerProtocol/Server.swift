@@ -226,6 +226,14 @@ public extension Server {
     func executeCommand(params: ExecuteCommandParams, block: @escaping (ServerResult<ExecuteCommandResponse>) -> Void) {
         sendRequest(.workspaceExecuteCommand(params), completionHandler: block)
     }
+
+    func workspaceSymbol(params: WorkspaceSymbolParams, block: @escaping (ServerResult<WorkspaceSymbolResponse>) -> Void) {
+        sendRequest(.workspaceSymbol(params), completionHandler: block)
+    }
+
+    func workspaceSymbolResolve(params: WorkspaceSymbol, block: @escaping (ServerResult<WorkspaceSymbolResponse>) -> Void) {
+        sendRequest(.workspaceSymbolResolve(params), completionHandler: block)
+    }
 }
 
 // Language Features

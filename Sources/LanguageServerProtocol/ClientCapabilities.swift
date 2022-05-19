@@ -48,29 +48,6 @@ public typealias DidChangeConfigurationClientCapabilities = GenericDynamicRegist
 
 public typealias DidChangeWatchedFilesClientCapabilities = GenericDynamicRegistration
 
-public struct WorkspaceClientCapabilitySymbolValueSet: Codable, Hashable {
-    let valueSet: [SymbolKind]?
-
-    public init(valueSet: [SymbolKind]?) {
-        self.valueSet = valueSet
-    }
-}
-
-public struct WorkspaceClientCapabilitySymbol: Codable, Hashable {
-    public let dynamicRegistration: Bool?
-    public let symbolKind: WorkspaceClientCapabilitySymbolValueSet?
-
-    public init(dynamicRegistration: Bool?, symbolKind: WorkspaceClientCapabilitySymbolValueSet?) {
-        self.dynamicRegistration = dynamicRegistration
-        self.symbolKind = symbolKind
-    }
-
-    public init(dynamicRegistration: Bool?, symbolKind: [SymbolKind]?) {
-        self.dynamicRegistration = dynamicRegistration
-        self.symbolKind = WorkspaceClientCapabilitySymbolValueSet(valueSet: symbolKind)
-    }
-}
-
 public struct ShowDocumentClientCapabilities: Hashable, Codable {
     public var support: Bool
 }
@@ -260,7 +237,7 @@ public struct ClientCapabilities: Codable, Hashable {
         public let workspaceEdit: WorkspaceClientCapabilityEdit?
         public let didChangeConfiguration: DidChangeConfigurationClientCapabilities?
         public let didChangeWatchedFiles: GenericDynamicRegistration?
-        public let symbol: WorkspaceClientCapabilitySymbol?
+        public let symbol: WorkspaceSymbolClientCapabilities?
         public let executeCommand: GenericDynamicRegistration?
         public let workspaceFolders: Bool?
         public let configuration: Bool?
@@ -272,7 +249,7 @@ public struct ClientCapabilities: Codable, Hashable {
                     workspaceEdit: WorkspaceClientCapabilityEdit?,
                     didChangeConfiguration: DidChangeConfigurationClientCapabilities?,
                     didChangeWatchedFiles: GenericDynamicRegistration?,
-                    symbol: WorkspaceClientCapabilitySymbol?,
+                    symbol: WorkspaceSymbolClientCapabilities?,
                     executeCommand: GenericDynamicRegistration?,
                     workspaceFolders: Bool?,
                     configuration: Bool?,

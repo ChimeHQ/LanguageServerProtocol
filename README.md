@@ -99,7 +99,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | Workspace Features | Supported |
 | -------------------|:---------:|
 | workspace/symbol | ✅ |
-| workspaceSymbol/resolve | - |
+| workspaceSymbol/resolve | ✅ |
 | workspace/configuration | ✅ |
 | workspace/didChangeConfiguration | ✅ |
 | workspace/workspaceFolders | ✅ |

@@ -397,6 +397,10 @@ extension JSONRPCLanguageServer {
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .custom(let method, let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .workspaceSymbol(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
+        case .workspaceSymbolResolve(let params):
+            sendRequestWithHandler(params, method: method, handler: completionHandler)
         }
     }
 }
