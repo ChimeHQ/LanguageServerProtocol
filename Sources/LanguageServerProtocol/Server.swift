@@ -81,12 +81,51 @@ public extension Server {
         sendNotification(.didOpenTextDocument(params), completionHandler: block)
     }
 
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func didOpenTextDocument(params: DidOpenTextDocumentParams) async throws {
+        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+            self.didOpenTextDocument(params: params) { error in
+                if let error = error {
+                    continutation.resume(throwing: error)
+                } else {
+                    continutation.resume()
+                }
+            }
+        }
+    }
+
     func didChangeTextDocument(params: DidChangeTextDocumentParams, block: @escaping (ServerError?) -> Void) {
         sendNotification(.didChangeTextDocument(params), completionHandler: block)
     }
 
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func didChangeTextDocument(params: DidChangeTextDocumentParams) async throws {
+        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+            self.didChangeTextDocument(params: params) { error in
+                if let error = error {
+                    continutation.resume(throwing: error)
+                } else {
+                    continutation.resume()
+                }
+            }
+        }
+    }
+
     func didCloseTextDocument(params: DidCloseTextDocumentParams, block: @escaping (ServerError?) -> Void) {
         sendNotification(.didCloseTextDocument(params), completionHandler: block)
+    }
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func didCloseTextDocument(params: DidCloseTextDocumentParams) async throws {
+        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+            self.didCloseTextDocument(params: params) { error in
+                if let error = error {
+                    continutation.resume(throwing: error)
+                } else {
+                    continutation.resume()
+                }
+            }
+        }
     }
 
     func willSaveTextDocument(params: WillSaveTextDocumentParams, block: @escaping (ServerError?) -> Void) {
@@ -109,6 +148,15 @@ public extension Server {
         sendRequest(.completion(params), completionHandler: block)
     }
 
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func completion(params: CompletionParams) async throws -> CompletionResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            self.completion(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
+    }
+
     func hover(params: TextDocumentPositionParams, block: @escaping (ServerResult<HoverResponse>) -> Void) {
         sendRequest(.hover(params), completionHandler: block)
     }
@@ -123,6 +171,15 @@ public extension Server {
 
     func definition(params: TextDocumentPositionParams, block: @escaping (ServerResult<DefinitionResponse>) -> Void) {
         sendRequest(.definition(params), completionHandler: block)
+    }
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func definition(params: TextDocumentPositionParams) async throws -> DefinitionResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            self.definition(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
     }
 
     func typeDefinition(params: TextDocumentPositionParams, block: @escaping (ServerResult<TypeDefinitionResponse>) -> Void) {
@@ -173,12 +230,39 @@ public extension Server {
         sendRequest(.semanticTokensFull(params), completionHandler: block)
     }
 
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func semanticTokensFull(params: SemanticTokensParams) async throws -> SemanticTokensResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            self.semanticTokensFull(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
+    }
+
     func semanticTokensFullDelta(params: SemanticTokensDeltaParams, block: @escaping (ServerResult<SemanticTokensDeltaResponse>) -> Void) {
         sendRequest(.semanticTokensFullDelta(params), completionHandler: block)
     }
 
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func semanticTokensFullDelta(params: SemanticTokensDeltaParams) async throws -> SemanticTokensDeltaResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            self.semanticTokensFullDelta(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
+    }
+
     func semanticTokensRange(params: SemanticTokensRangeParams, block: @escaping (ServerResult<SemanticTokensResponse>) -> Void) {
         sendRequest(.semanticTokensRange(params), completionHandler: block)
+    }
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func semanticTokensRange(params: SemanticTokensRangeParams) async throws -> SemanticTokensResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            self.semanticTokensRange(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
     }
 
     func customRequest<Response: Codable>(method: String, params: AnyCodable, block: @escaping (ServerResult<Response>) -> Void) {
@@ -230,6 +314,16 @@ public extension Server {
     func workspaceSymbol(params: WorkspaceSymbolParams, block: @escaping (ServerResult<WorkspaceSymbolResponse>) -> Void) {
         sendRequest(.workspaceSymbol(params), completionHandler: block)
     }
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func workspaceSymbol(params: WorkspaceSymbolParams) async throws -> WorkspaceSymbolResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            self.workspaceSymbol(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
+    }
+
 
     func workspaceSymbolResolve(params: WorkspaceSymbol, block: @escaping (ServerResult<WorkspaceSymbolResponse>) -> Void) {
         sendRequest(.workspaceSymbolResolve(params), completionHandler: block)

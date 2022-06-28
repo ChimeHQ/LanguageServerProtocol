@@ -1,7 +1,7 @@
 import Foundation
 import AnyCodable
 
-public struct Position: Codable, Hashable {
+public struct Position: Codable, Hashable, Sendable {
     static let zero = Position(line: 0, character: 0)
 
     public let line: Int
@@ -34,7 +34,7 @@ extension Position: Comparable {
     }
 }
 
-public struct LSPRange: Codable, Hashable {
+public struct LSPRange: Codable, Hashable, Sendable {
     static let zero = LSPRange(start: .zero, end: .zero)
 
     public let start: Position
