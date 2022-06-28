@@ -24,6 +24,18 @@ dependencies: [
 ]
 ```
 
+## Extra Features
+
+For the most part, this library strives to be a straightfoward version of the spec in Swift. There are a few places, however, where it just makes sense to pull in some extra functionality.
+
+### Snippet
+
+This type makes it easier to interpret the contents of completion results.
+
+### SemanticTokenRepresentation
+
+This is an actor that handles requestig and decoding semantic token information.
+
 ## Supported Features
 
 The LSP [specification](https://microsoft.github.io/language-server-protocol/specification) is large, and this library currently does not implement it all. The intention is to support the 3.x specification, but be as backwards-compatible as possible with pre-3.0 servers. 
