@@ -132,12 +132,38 @@ public extension Server {
         sendNotification(.willSaveTextDocument(params), completionHandler: block)
     }
 
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func willSaveTextDocument(params: WillSaveTextDocumentParams) async throws {
+        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+            self.willSaveTextDocument(params: params) { error in
+                if let error = error {
+                    continutation.resume(throwing: error)
+                } else {
+                    continutation.resume()
+                }
+            }
+        }
+    }
+
     func willSaveWaitUntilTextDocument(params: WillSaveTextDocumentParams, block: @escaping (ServerResult<WillSaveWaitUntilResponse>) -> Void) {
         sendRequest(.willSaveWaitUntilTextDocument(params), completionHandler: block)
     }
 
     func didSaveTextDocument(params: DidSaveTextDocumentParams, block: @escaping (ServerError?) -> Void) {
         sendNotification(.didSaveTextDocument(params), completionHandler: block)
+    }
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func didSaveTextDocument(params: DidSaveTextDocumentParams) async throws {
+        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+            self.didSaveTextDocument(params: params) { error in
+                if let error = error {
+                    continutation.resume(throwing: error)
+                } else {
+                    continutation.resume()
+                }
+            }
+        }
     }
 
     func didChangeWatchedFiles(params: DidChangeWatchedFilesParams, block: @escaping (ServerError?) -> Void) {
@@ -159,6 +185,15 @@ public extension Server {
 
     func hover(params: TextDocumentPositionParams, block: @escaping (ServerResult<HoverResponse>) -> Void) {
         sendRequest(.hover(params), completionHandler: block)
+    }
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func hover(params: TextDocumentPositionParams) async throws -> HoverResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            self.hover(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
     }
 
     func signatureHelp(params: TextDocumentPositionParams, block: @escaping (ServerResult<SignatureHelpResponse>) -> Void) {
@@ -197,7 +232,16 @@ public extension Server {
     func codeAction(params: CodeActionParams, block: @escaping (ServerResult<CodeActionResponse>) -> Void) {
         sendRequest(.codeAction(params), completionHandler: block)
     }
-    
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func codeAction(params: CodeActionParams) async throws -> CodeActionResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            codeAction(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
+    }
+
     func prepareRename(params: PrepareRenameParams, block: @escaping (ServerResult<PrepareRenameResponse>) -> Void) {
         sendRequest(.prepareRename(params), completionHandler: block)
     }
@@ -208,6 +252,15 @@ public extension Server {
 
     func formatting(params: DocumentFormattingParams, block: @escaping (ServerResult<FormattingResult>) -> Void) {
         sendRequest(.formatting(params), completionHandler: block)
+    }
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func formatting(params: DocumentFormattingParams) async throws -> FormattingResult {
+        try await withCheckedThrowingContinuation { continutation in
+            self.formatting(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
     }
 
     func rangeFormatting(params: DocumentRangeFormattingParams, block: @escaping (ServerResult<FormattingResult>) -> Void) {
