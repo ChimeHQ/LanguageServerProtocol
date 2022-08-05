@@ -52,6 +52,29 @@ extension Server {
     }
 }
 
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public extension Server {
+    func sendNotification(_ notif: ClientNotification) async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            self.sendNotification(notif) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
+            }
+        }
+    }
+
+    func sendRequest<Response: Codable>(_ request: ClientRequest) async throws -> Response {
+        return try await withCheckedThrowingContinuation { continutation in
+            self.sendRequest(request) { result in
+                continutation.resume(with: result)
+            }
+        }
+    }
+}
+
 public extension Server {
     func initialize(params: InitializeParams, block: @escaping (ServerResult<InitializationResponse>) -> Void) {
         sendRequest(.initialize(params), completionHandler: block)
