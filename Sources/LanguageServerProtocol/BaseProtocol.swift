@@ -72,32 +72,34 @@ public extension ValueSet where T: CaseIterable {
 }
 
 public enum LanguageIdentifier: String, Codable, CaseIterable {
-    case go = "go"
-    case json = "json"
-    case swift = "swift"
     case c = "c"
     case cpp = "cpp"
+    case go = "go"
+    case json = "json"
+    case lua = "lua"
     case objc = "objective-c"
     case objcpp = "objective-cpp"
-    case rust = "rust"
-    case ruby = "ruby"
     case php = "php"
+    case ruby = "ruby"
+    case rust = "rust"
+    case swift = "swift"
 
     static let fileExtensions = [
-        "go": .go,
-        "json": .json,
-        "swift": .swift,
         "c": c,
         "C": .cpp,
         "cc": .cpp,
         "cpp": .cpp,
-        "m": .objc,
-        "mm": .objcpp,
+        "go": .go,
         "h": .objcpp,
         "hpp": .objcpp,
-        "rs": .rust,
+        "json": .json,
+        "lua": .lua,
+        "m": .objc,
+        "mm": .objcpp,
+        "php": .php,
         "rb": .ruby,
-        "php": .php
+        "rs": .rust,
+        "swift": .swift,
     ]
 
     public enum LanguageServerParameterError: Error {
