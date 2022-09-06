@@ -81,14 +81,6 @@ public struct TextDocumentItem: Codable, Hashable {
         self.version = version
         self.text = text
     }
-
-    public init(contentsOfFile path: String, version: Int = 1) throws {
-        let url = URL(fileURLWithPath: path)
-        self.uri = url.absoluteString
-        self.languageId = try LanguageIdentifier(for: url)
-        self.version = version
-        self.text = try String(contentsOf: url)
-    }
 }
 
 public struct VersionedTextDocumentIdentifier: Codable, Hashable {

@@ -72,49 +72,63 @@ public extension ValueSet where T: CaseIterable {
 }
 
 public enum LanguageIdentifier: String, Codable, CaseIterable {
-    case c = "c"
-    case cpp = "cpp"
-    case go = "go"
-    case json = "json"
-    case lua = "lua"
+	case abap
+	case windowsbat = "bat"
+	case bibtex
+	case clojure = "clojure"
+	case coffeescript
+    case c
+    case cpp
+	case csharp
+	case css
+	case diff
+	case dart
+	case dockerfile
+	case elixir
+	case erlang
+	case fsharp
+	case gitcommit
+	case gitrebase
+    case go
+	case groovy
+	case handlebars
+	case html
+	case ini
+	case java
+	case javascript
+	case javascriptreact
+    case json
+	case latex
+	case less
+	case lua
+	case makefile
+	case markdown
     case objc = "objective-c"
     case objcpp = "objective-cpp"
-    case php = "php"
-    case ruby = "ruby"
-    case rust = "rust"
-    case swift = "swift"
-
-    static let fileExtensions = [
-        "c": c,
-        "C": .cpp,
-        "cc": .cpp,
-        "cpp": .cpp,
-        "go": .go,
-        "h": .objcpp,
-        "hpp": .objcpp,
-        "json": .json,
-        "lua": .lua,
-        "m": .objc,
-        "mm": .objcpp,
-        "php": .php,
-        "rb": .ruby,
-        "rs": .rust,
-        "swift": .swift,
-    ]
-
-    public enum LanguageServerParameterError: Error {
-        case unsupportedFileExtension(String)
-    }
-
-    public init(for url: URL) throws {
-        let ext = url.pathExtension
-        guard let languageID =
-            LanguageIdentifier.fileExtensions[ext] else {
-            throw LanguageServerParameterError
-                .unsupportedFileExtension("Unsupported file extension \(ext)")
-        }
-        self = languageID
-    }
+	case perl
+	case perl6
+    case php
+	case powershell
+	case pug = "jade"
+	case python
+	case r
+	case razor
+    case ruby
+    case rust
+	case scss
+	case sass
+	case scala
+	case shaderlab
+	case shellscript
+	case sql
+    case swift
+	case typescript
+	case typescriptreact
+	case tex
+	case vb
+	case xml
+	case xsl
+	case yaml
 }
 
 public struct DocumentFilter: Codable, Hashable {
