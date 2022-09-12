@@ -76,6 +76,15 @@ public extension Server {
 }
 
 public extension Server {
+	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+	func initialize(params: InitializeParams) async throws -> InitializationResponse {
+		return try await withCheckedThrowingContinuation { continutation in
+			self.initialize(params: params) { result in
+				continutation.resume(with: result)
+			}
+		}
+	}
+
     func initialize(params: InitializeParams, block: @escaping (ServerResult<InitializationResponse>) -> Void) {
         sendRequest(.initialize(params), completionHandler: block)
     }
@@ -83,6 +92,19 @@ public extension Server {
     func initialized(params: InitializedParams, block: @escaping (ServerError?) -> Void) {
         sendNotification(.initialized(params), completionHandler: block)
     }
+
+	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+	func initialized(params: InitializedParams) async throws {
+		try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+			self.initialized(params: params) { error in
+				if let error = error {
+					continutation.resume(throwing: error)
+				} else {
+					continutation.resume()
+				}
+			}
+		}
+	}
 
     func shutdown(block: @escaping (ServerError?) -> Void) {
         sendRequestWithErrorOnlyResult(.shutdown, completionHandler: block)
