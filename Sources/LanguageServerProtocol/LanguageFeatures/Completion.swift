@@ -163,6 +163,38 @@ public struct CompletionItem: Codable, Hashable {
     public let commitCharacters: [String]?
     public let command: Command?
     public let data: AnyCodable?
+
+    public init(label: String,
+                kind: CompletionItemKind? = nil,
+                detail: String? = nil,
+                documentation: AnyCodable? = nil,
+                deprecated: Bool? = nil,
+                preselect: Bool? = nil,
+                sortText: String? = nil,
+                filterText: String? = nil,
+                insertText: String? = nil,
+                insertTextFormat: InsertTextFormat? = nil,
+                textEdit: TextEdit? = nil,
+                additionalTextEdits: [TextEdit]? = nil,
+                commitCharacters: [String]? = nil,
+                command: Command? = nil,
+                data: AnyCodable? = nil) {
+        self.label = label
+        self.kind = kind
+        self.detail = detail
+        self.documentation = documentation
+        self.deprecated = deprecated
+        self.preselect = preselect
+        self.sortText = sortText
+        self.filterText = filterText
+        self.insertText = insertText
+        self.insertTextFormat = insertTextFormat
+        self.textEdit = textEdit
+        self.additionalTextEdits = additionalTextEdits
+        self.commitCharacters = commitCharacters
+        self.command = command
+        self.data = data
+    }
 }
 
 public struct CompletionList: Codable, Hashable {
