@@ -215,6 +215,19 @@ public extension Server {
         sendNotification(.didChangeWatchedFiles(params), completionHandler: block)
     }
 
+	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+	func didChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
+		try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+			self.didChangeWatchedFiles(params: params) { error in
+				if let error = error {
+					continutation.resume(throwing: error)
+				} else {
+					continutation.resume()
+				}
+			}
+		}
+	}
+
     func completion(params: CompletionParams, block: @escaping (ServerResult<CompletionResponse>) -> Void) {
         sendRequest(.completion(params), completionHandler: block)
     }
