@@ -179,3 +179,14 @@ public struct SemanticTokensRangeParams: Codable {
         self.range = range
     }
 }
+
+public extension TwoTypeOption where T == SemanticTokens, U == SemanticTokensDelta {
+	var resultId: String? {
+		switch self {
+		case .optionA(let token):
+			return token.resultId
+		case .optionB(let delta):
+			return delta.resultId
+		}
+	}
+}

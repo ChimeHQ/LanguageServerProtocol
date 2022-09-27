@@ -28,13 +28,8 @@ dependencies: [
 
 For the most part, this library strives to be a straightfoward version of the spec in Swift. There are a few places, however, where it just makes sense to pull in some extra functionality.
 
-### Snippet
-
-This type makes it easier to interpret the contents of completion results.
-
-### SemanticTokenRepresentation
-
-This is an actor that handles requestig and decoding semantic token information.
+- `Snippet`: makes it easier to interpret the contents of completion results
+- `SemanticTokenClient`: helps to consume Semantic Token information
 
 ## Supported Features
 
