@@ -35,107 +35,99 @@ For the most part, this library strives to be a straightfoward version of the sp
 
 The LSP [specification](https://microsoft.github.io/language-server-protocol/specification) is large, and this library currently does not implement it all. The intention is to support the 3.x specification, but be as backwards-compatible as possible with pre-3.0 servers. 
 
-| Lifecycle | Supported |
+| Message | Supported |
 | ----------|:---------:|
-| initialize | ✅ |
-| initialized | ✅ |
-| client/registerCapability | ✅ |
-| client/unregisterCapability | ✅ |
-| $/setTrace | ✅ |
+| $/cancelRequest | ✅ |
 | $/logTrace | ✅ |
-| shutdown | ✅ |
-| exit | ✅ |
-
-| Document Synchronization | Supported |
-| -------------------------|:---------:|
-| textDocument/didOpen | ✅ |
-| textDocument/didChange | ✅ |
-| textDocument/willSave | ✅ |
-| textDocument/willSaveWaitUntil | ✅ |
-| textDocument/didSave | ✅ |
-| textDocument/didClose | ✅ |
-
-| Language Features  | Supported |
-| -------------------|:---------:|
-| textDocument/declaration | ✅ |
-| textDocument/definition | ✅ |
-| textDocument/typeDefinition | ✅ |
-| textDocument/implementation | ✅ |
-| textDocument/references | ✅  |
-| textDocument/prepareCallHierarchy | - |
+| $/progress | ✅ |
+| $/setTrace | ✅ |
 | callHierarchy/incomingCalls | - |
 | callHierarchy/outgoingCalls | - |
-| textDocument/prepareTypeHierarchy | - |
-| typeHierarchy/supertypes | - |
-| typeHierarchy/subtypes | - |
+| client/registerCapability | ✅ |
+| client/unregisterCapability | ✅ |
+| codeAction/resolve | - |
+| codeLens/resolve | ✅ |
+| completionItem/resolve | ✅ |
+| documentLink/resolve | ✅ |
+| exit | ✅ |
+| initialize | ✅ |
+| initialized | ✅ |
+| inlayHint/resolve | - |
+| notebookDocument/didChange | |
+| notebookDocument/didClose | |
+| notebookDocument/didOpen | |
+| notebookDocument/didSave | |
+| server-defined | ✅ |
+| shutdown | ✅ |
+| telemetry/event | ✅ |
+| textDocument/codeAction | ✅ |
+| textDocument/codeLens | ✅ |
+| textDocument/colorPresentation | ✅ |
+| textDocument/completion | ✅ |
+| textDocument/declaration | ✅ |
+| textDocument/definition | ✅ |
+| textDocument/diagnostic | |
+| textDocument/didChange | ✅ |
+| textDocument/didClose | ✅ |
+| textDocument/didOpen | ✅ |
+| textDocument/didSave | ✅ |
+| textDocument/documentColor | ✅ |
 | textDocument/documentHighlight | ✅ |
 | textDocument/documentLink | ✅ |
-| documentLink/resolve | ✅ |
-| textDocument/hover | ✅ |
-| textDocument/codeLens | ✅ |
-| codeLens/resolve | ✅ |
-| workspace/codeLens/refresh | ✅ |
-| textDocument/foldingRange | ✅ |
-| textDocument/selectionRange | ✅ |
 | textDocument/documentSymbol | ✅ |
+| textDocument/foldingRange | ✅ |
+| textDocument/formatting | ✅ |
+| textDocument/hover | ✅ |
+| textDocument/implementation | ✅ |
+| textDocument/inlayHint | - |
+| textDocument/inlineValue | - |
+| textDocument/linkedEditingRange | - |
+| textDocument/moniker | - |
+| textDocument/onTypeFormatting | ✅ |
+| textDocument/prepareCallHierarchy | - |
+| textDocument/prepareRename | ✅ |
+| textDocument/prepareTypeHierarchy | - |
+| textDocument/publishDiagnostics | ✅ |
+| textDocument/rangeFormatting | ✅ |
+| textDocument/references | ✅  |
+| textDocument/rename | ✅ |
+| textDocument/selectionRange | ✅ |
 | textDocument/semanticTokens/full | ✅ |
 | textDocument/semanticTokens/full/delta | ✅ |
 | textDocument/semanticTokens/range | ✅ |
-| workspace/semanticTokens/refresh | ✅ |
-| textDocument/inlineValue | - |
-| workspace/inlineValue/refresh | - |
-| textDocument/inlayHint | - |
-| inlayHint/resolve | - |
-| workspace/inlayHint/refresh | - |
-| textDocument/moniker | - |
-| textDocument/completion | ✅ |
-| completionItem/resolve | ✅ |
-| textDocument/publishDiagnostics | ✅ |
 | textDocument/signatureHelp | ✅ |
-| textDocument/codeAction | ✅ |
-| codeAction/resolve | - |
-| textDocument/documentColor | ✅ |
-| textDocument/colorPresentation | ✅ |
-| textDocument/formatting | ✅ |
-| textDocument/rangeFormatting | ✅ |
-| textDocument/onTypeFormatting | ✅ |
-| textDocument/rename | ✅ |
-| textDocument/prepareRename | ✅ |
-| textDocument/linkedEditingRange | - |
-
-| Workspace Features | Supported |
-| -------------------|:---------:|
-| workspace/symbol | ✅ |
-| workspaceSymbol/resolve | ✅ |
-| workspace/configuration | ✅ |
-| workspace/didChangeConfiguration | ✅ |
-| workspace/workspaceFolders | ✅ |
-| workspace/didChangeWorkspaceFolders | ✅ |
-| workspace/willCreateFiles | ✅ |
-| workspace/didCreateFiles | ✅ |
-| workspace/willRenameFiles | ✅ |
-| workspace/didRenameFiles | ✅ |
-| workspace/willDeleteFiles | ✅ |
-| workspace/didDeleteFiles | ✅ |
-| workspace/didChangeWatchedFiles | ✅ |
-| workspace/executeCommand | ✅ |
-| workspace/applyEdit | ✅ |
-
-| Window Features | Supported |
-| ----------------|:---------:|
-| window/showMessage | ✅ |
-| window/showMessageRequest | ✅ |
+| textDocument/typeDefinition | ✅ |
+| textDocument/willSave | ✅ |
+| textDocument/willSaveWaitUntil | ✅ |
+| typeHierarchy/subtypes | - |
+| typeHierarchy/supertypes | - |
 | window/logMessage | ✅ |
 | window/showDocument | ✅ |
-| window/workDoneProgress/create | ✅ |
+| window/showMessage | ✅ |
+| window/showMessageRequest | ✅ |
 | window/workDoneProgress/cancel | ✅ |
-| telemetry/event | ✅ |
-
-| Other | Supported |
-| ------|:---------:|
-| $/cancelRequest | ✅ |
-| $/progress | ✅ |
-| server-defined | ✅ |
+| window/workDoneProgress/create | ✅ |
+| workspace/applyEdit | ✅ |
+| workspace/codeLens/refresh | ✅ |
+| workspace/configuration | ✅ |
+| workspace/diagnostic | |
+| workspace/diagnostic/refresh | |
+| workspace/didChangeConfiguration | ✅ |
+| workspace/didChangeWatchedFiles | ✅ |
+| workspace/didChangeWorkspaceFolders | ✅ |
+| workspace/didCreateFiles | ✅ |
+| workspace/didDeleteFiles | ✅ |
+| workspace/didRenameFiles | ✅ |
+| workspace/executeCommand | ✅ |
+| workspace/inlayHint/refresh | - |
+| workspace/inlineValue/refresh | - |
+| workspace/semanticTokens/refresh | ✅ |
+| workspace/symbol | ✅ |
+| workspace/willCreateFiles | ✅ |
+| workspace/willDeleteFiles | ✅ |
+| workspace/willRenameFiles | ✅ |
+| workspace/workspaceFolders | ✅ |
+| workspaceSymbol/resolve | ✅ |
 
 ## Suggestions or Feedback
 
