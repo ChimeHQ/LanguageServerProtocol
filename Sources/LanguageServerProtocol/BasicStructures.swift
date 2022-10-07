@@ -71,16 +71,23 @@ extension LSPRange: CustomStringConvertible {
 
 public struct TextDocumentItem: Codable, Hashable {
     public let uri: DocumentUri
-    public let languageId: LanguageIdentifier
+    public let languageId: String
     public let version: Int
     public let text: String
 
     public init(uri: DocumentUri, languageId: LanguageIdentifier, version: Int, text: String) {
         self.uri = uri
-        self.languageId = languageId
+		self.languageId = languageId.rawValue
         self.version = version
         self.text = text
     }
+
+	public init(uri: DocumentUri, languageId: String, version: Int, text: String) {
+		self.uri = uri
+		self.languageId = languageId
+		self.version = version
+		self.text = text
+	}
 }
 
 public struct VersionedTextDocumentIdentifier: Codable, Hashable {
