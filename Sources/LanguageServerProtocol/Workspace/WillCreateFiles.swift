@@ -14,11 +14,11 @@ public struct FileOperationPatternOptions: Codable, Hashable {
 }
 
 public struct FileOperationPattern: Codable, Hashable {
-    public var glob: String
-    public var matches: FileOperationPatternKind
-    public var options: FileOperationPatternOptions
+    public let glob: String
+    public let matches: FileOperationPatternKind?
+    public let options: FileOperationPatternOptions?
 
-    public init(glob: String, matches: FileOperationPatternKind, options: FileOperationPatternOptions) {
+    public init(glob: String, matches: FileOperationPatternKind?, options: FileOperationPatternOptions?) {
         self.glob = glob
         self.matches = matches
         self.options = options
