@@ -139,7 +139,7 @@ public struct DocumentFilter: Codable, Hashable {
 
 public typealias DocumentSelector = [DocumentFilter]
 
-public struct TextDocumentIdentifier {
+public struct TextDocumentIdentifier: Codable, Hashable, Sendable {
     public var uri: DocumentUri
 
     public init(uri: DocumentUri) {
@@ -149,12 +149,6 @@ public struct TextDocumentIdentifier {
     public init(path: String) {
         self.uri = URL(fileURLWithPath: path).absoluteString
     }
-}
-
-extension TextDocumentIdentifier: Codable {
-}
-
-extension TextDocumentIdentifier: Hashable {
 }
 
 extension TextDocumentIdentifier: CustomStringConvertible {

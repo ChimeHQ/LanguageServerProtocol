@@ -88,7 +88,7 @@ public struct DidChangeConfigurationParams: Codable, Hashable {
     }
 }
 
-public enum SymbolTag: Int, Codable, Hashable, CaseIterable {
+public enum SymbolTag: Int, Codable, Hashable, CaseIterable, Sendable {
     case Deprecated = 1
 }
 

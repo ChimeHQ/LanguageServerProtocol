@@ -110,10 +110,6 @@ public typealias LinkedEditingRangeOptions = WorkDoneProgressOptions
 
 public typealias LinkedEditingRangeRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
 
-public typealias CallHierarchyOptions = WorkDoneProgressOptions
-
-public typealias CallHierarchyRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
-
 public struct SemanticTokensOptions: Codable, Hashable {
     public var workDoneProgress: Bool?
     public var legend: SemanticTokensLegend

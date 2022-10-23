@@ -112,6 +112,7 @@ public enum ClientRequest {
         case textDocumentOnTypeFormatting = "textDocument/onTypeFormatting"
         case textDocumentRename = "textDocument/rename"
         case textDocumentPrepareRename = "textDocument/prepareRename"
+		case textDocumentPrepareCallHeirarchy = "textDocument/prepareCallHierarchy"
         case textDocumentFoldingRange = "textDocument/foldingRange"
         case textDocumentSelectionRange = "textDocument/selectionRange"
         case textDocumentLinkedEditingRange = "textDocument/linkedEditingRange"
@@ -146,6 +147,7 @@ public enum ClientRequest {
     case codeLens(CodeLensParams)
     case codeLensResolve(CodeLens)
     case selectionRange(SelectionRangeParams)
+	case prepareCallHeirarchy(CallHierarchyPrepareParams)
     case prepareRename(PrepareRenameParams)
     case rename(RenameParams)
     case documentLink(DocumentLinkParams)
@@ -210,6 +212,8 @@ public enum ClientRequest {
             return .codeLensResolve
         case .selectionRange:
             return .textDocumentSelectionRange
+		case .prepareCallHeirarchy:
+			return .textDocumentPrepareCallHeirarchy
         case .prepareRename:
             return .textDocumentPrepareRename
         case .rename:

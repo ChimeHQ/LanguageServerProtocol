@@ -119,7 +119,7 @@ public struct Command: Codable, Hashable {
     public let arguments: [AnyCodable]?
 }
 
-public enum SymbolKind: Int, CaseIterable, Hashable, Codable {
+public enum SymbolKind: Int, CaseIterable, Hashable, Codable, Sendable {
     case file = 1
     case module = 2
     case namespace = 3

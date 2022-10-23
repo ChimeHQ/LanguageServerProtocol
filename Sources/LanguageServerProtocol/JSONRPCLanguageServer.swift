@@ -359,6 +359,8 @@ extension JSONRPCLanguageServer {
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .codeLensResolve(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
+		case .prepareCallHeirarchy(let params):
+			sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .prepareRename(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .documentLink(let params):

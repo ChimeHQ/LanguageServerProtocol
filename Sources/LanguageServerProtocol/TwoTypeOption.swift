@@ -35,3 +35,6 @@ extension TwoTypeOption: Equatable where T: Equatable, U: Equatable {
 
 extension TwoTypeOption: Hashable where T: Hashable, U: Hashable {
 }
+
+extension TwoTypeOption: Sendable where T: Sendable, U: Sendable {
+}
