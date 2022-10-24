@@ -228,6 +228,32 @@ public extension Server {
 		}
 	}
 
+	func callHeirarchyIncomingCalls(params: CallHierarchyIncomingCallsParams, block: @escaping (ServerResult<CallHierarchyIncomingCallsResponse>) -> Void) {
+		sendRequest(.callHeirarchyIncomingCalls(params), completionHandler: block)
+	}
+
+	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+	func completion(params: CallHierarchyIncomingCallsParams) async throws -> CallHierarchyIncomingCallsResponse {
+		try await withCheckedThrowingContinuation { continutation in
+			self.callHeirarchyIncomingCalls(params: params) { result in
+				continutation.resume(with: result)
+			}
+		}
+	}
+
+	func callHeirarchyOutgoingCalls(params: CallHierarchyOutgoingCallsParams, block: @escaping (ServerResult<CallHierarchyOutgoingCallsResponse>) -> Void) {
+		sendRequest(.callHeirarchyOutgoingCalls(params), completionHandler: block)
+	}
+
+	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+	func callHeirarchyOutgoingCalls(params: CallHierarchyOutgoingCallsParams) async throws -> CallHierarchyOutgoingCallsResponse {
+		try await withCheckedThrowingContinuation { continutation in
+			self.callHeirarchyOutgoingCalls(params: params) { result in
+				continutation.resume(with: result)
+			}
+		}
+	}
+
     func completion(params: CompletionParams, block: @escaping (ServerResult<CompletionResponse>) -> Void) {
         sendRequest(.completion(params), completionHandler: block)
     }

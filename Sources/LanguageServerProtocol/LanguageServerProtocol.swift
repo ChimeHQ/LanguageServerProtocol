@@ -121,6 +121,8 @@ public enum ClientRequest {
         case textDocumentSemanticTokensFull = "textDocument/semanticTokens/full"
         case textDocumentSemanticTokensFullDelta = "textDocument/semanticTokens/full/delta"
         case textDocumentMoniker = "textDocument/moniker"
+		case callHeirarchyIncomingCalls = "callHierarchy/incomingCalls"
+		case callHeirarchyOutgoingCalls = "callHierarchy/outgoingCalls"
         case custom
     }
 
@@ -162,6 +164,8 @@ public enum ClientRequest {
     case semanticTokensFull(SemanticTokensParams)
     case semanticTokensFullDelta(SemanticTokensDeltaParams)
     case semanticTokensRange(SemanticTokensRangeParams)
+	case callHeirarchyIncomingCalls(CallHierarchyIncomingCallsParams)
+	case callHeirarchyOutgoingCalls(CallHierarchyOutgoingCallsParams)
     case custom(String, AnyCodable)
 
     public var method: Method {
@@ -242,6 +246,10 @@ public enum ClientRequest {
             return .textDocumentSemanticTokensFullDelta
         case .semanticTokensRange:
             return .textDocumentSemanticTokensRange
+		case .callHeirarchyIncomingCalls:
+			return .callHeirarchyIncomingCalls
+		case .callHeirarchyOutgoingCalls:
+			return .callHeirarchyOutgoingCalls
         case .custom:
             return .custom
         }

@@ -41,8 +41,8 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | $/logTrace | ✅ |
 | $/progress | ✅ |
 | $/setTrace | ✅ |
-| callHierarchy/incomingCalls | - |
-| callHierarchy/outgoingCalls | - |
+| callHierarchy/incomingCalls | ✅ |
+| callHierarchy/outgoingCalls | ✅ |
 | client/registerCapability | ✅ |
 | client/unregisterCapability | ✅ |
 | codeAction/resolve | - |
