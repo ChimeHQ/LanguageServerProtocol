@@ -1,5 +1,5 @@
 import Foundation
-import AnyCodable
+import JSONRPC
 
 public struct Position: Codable, Hashable, Sendable {
     static let zero = Position(line: 0, character: 0)
@@ -116,7 +116,7 @@ public struct Location: Codable, Hashable {
 public struct Command: Codable, Hashable {
     public let title: String
     public let command: String
-    public let arguments: [AnyCodable]?
+    public let arguments: [LSPAny]?
 }
 
 public enum SymbolKind: Int, CaseIterable, Hashable, Codable, Sendable {

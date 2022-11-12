@@ -89,9 +89,9 @@ public struct CodeAction: Codable, Hashable {
     public var disabled: Disabled?
     public var edit: WorkspaceEdit?
     public var command: Command?
-    public var data: LSPAny
+    public var data: LSPAny?
 
-    public init(title: String, kind: CodeActionKind? = nil, diagnostics: [Diagnostic]? = nil, isPreferred: Bool? = nil, disabled: CodeAction.Disabled? = nil, edit: WorkspaceEdit? = nil, command: Command? = nil, data: LSPAny) {
+    public init(title: String, kind: CodeActionKind? = nil, diagnostics: [Diagnostic]? = nil, isPreferred: Bool? = nil, disabled: CodeAction.Disabled? = nil, edit: WorkspaceEdit? = nil, command: Command? = nil, data: LSPAny? = nil) {
         self.title = title
         self.kind = kind
         self.diagnostics = diagnostics

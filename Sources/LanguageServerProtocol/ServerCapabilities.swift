@@ -178,5 +178,5 @@ public struct ServerCapabilities: Codable, Hashable {
     public var monikerProvider: ThreeTypeOption<Bool, MonikerOptions, MonikerRegistrationOptions>?
     public var workspaceSymbolProvider: TwoTypeOption<Bool, WorkspaceSymbolOptions>?
     public var workspace: Workspace?
-    public var experimental: LSPAny
+    public var experimental: LSPAny?
 }

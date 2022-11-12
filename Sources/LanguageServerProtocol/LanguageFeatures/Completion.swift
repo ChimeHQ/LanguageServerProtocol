@@ -1,5 +1,5 @@
 import Foundation
-import AnyCodable
+import JSONRPC
 
 public struct CompletionClientCapabilities: Codable, Hashable {
     public struct CompletionItem: Codable, Hashable {
@@ -151,7 +151,7 @@ public struct CompletionItem: Codable, Hashable {
     public let label: String
     public let kind: CompletionItemKind?
     public let detail: String?
-    public let documentation: AnyCodable?
+    public let documentation: TwoTypeOption<String, MarkupContent>?
     public let deprecated: Bool?
     public let preselect: Bool?
     public let sortText: String?
@@ -162,12 +162,12 @@ public struct CompletionItem: Codable, Hashable {
     public let additionalTextEdits: [TextEdit]?
     public let commitCharacters: [String]?
     public let command: Command?
-    public let data: AnyCodable?
+    public let data: LSPAny?
 
     public init(label: String,
                 kind: CompletionItemKind? = nil,
                 detail: String? = nil,
-                documentation: AnyCodable? = nil,
+                documentation: TwoTypeOption<String, MarkupContent>? = nil,
                 deprecated: Bool? = nil,
                 preselect: Bool? = nil,
                 sortText: String? = nil,
@@ -178,7 +178,7 @@ public struct CompletionItem: Codable, Hashable {
                 additionalTextEdits: [TextEdit]? = nil,
                 commitCharacters: [String]? = nil,
                 command: Command? = nil,
-                data: AnyCodable? = nil) {
+                data: LSPAny? = nil) {
         self.label = label
         self.kind = kind
         self.detail = detail

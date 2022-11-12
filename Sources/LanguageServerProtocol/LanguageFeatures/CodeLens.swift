@@ -36,7 +36,7 @@ public struct CodeLensParams: Codable, Hashable {
 public struct CodeLens: Codable {
     public var range: LSPRange
     public var command: Command?
-    public var data: LSPAny
+    public var data: LSPAny?
 }
 
 public typealias CodeLensResponse = [CodeLens]?

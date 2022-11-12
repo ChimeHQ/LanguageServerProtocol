@@ -1,6 +1,5 @@
 import Foundation
 import JSONRPC
-import AnyCodable
 
 public enum ServerError: LocalizedError {
     case handlerUnavailable(String)
@@ -28,7 +27,7 @@ public enum ServerError: LocalizedError {
 public typealias ServerResult<T: Codable> = Result<T, ServerError>
 
 public protocol Server {
-    typealias RequestHandler = (ServerRequest, @escaping (ServerResult<AnyCodable>) -> Void) -> Void
+    typealias RequestHandler = (ServerRequest, @escaping (ServerResult<LSPAny>) -> Void) -> Void
     typealias NotificationHandler = (ServerNotification, @escaping (ServerError?) -> Void) -> Void
     typealias ResponseHandler<T: Codable> = (ServerResult<JSONRPCResponse<T>>) -> Void
 
@@ -415,7 +414,7 @@ public extension Server {
         }
     }
 
-    func customRequest<Response: Codable>(method: String, params: AnyCodable, block: @escaping (ServerResult<Response>) -> Void) {
+    func customRequest<Response: Codable>(method: String, params: LSPAny, block: @escaping (ServerResult<Response>) -> Void) {
         sendRequest(.custom(method, params), completionHandler: block)
     }
 }

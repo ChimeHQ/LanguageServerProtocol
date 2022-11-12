@@ -1,5 +1,4 @@
 import Foundation
-import AnyCodable
 
 public struct DynamicRegistrationClientCapabilities: Codable, Hashable {
     public var dynamicRegistration: Bool?
@@ -275,9 +274,9 @@ public struct ClientCapabilities: Codable, Hashable {
     public let textDocument: TextDocumentClientCapabilities?
     public var window: WindowClientCapabilities?
     public var general: GeneralClientCapabilities?
-    public let experimental: LSPAny
+    public let experimental: LSPAny?
 
-    public init(workspace: Workspace?, textDocument: TextDocumentClientCapabilities?, window: WindowClientCapabilities?, general: GeneralClientCapabilities?, experimental: LSPAny) {
+    public init(workspace: Workspace?, textDocument: TextDocumentClientCapabilities?, window: WindowClientCapabilities?, general: GeneralClientCapabilities?, experimental: LSPAny?) {
         self.workspace = workspace
         self.textDocument = textDocument
         self.window = window

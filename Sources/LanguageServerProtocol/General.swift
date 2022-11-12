@@ -1,5 +1,4 @@
 import Foundation
-import AnyCodable
 
 public enum Tracing: String, Codable, Hashable {
     case off
@@ -23,7 +22,7 @@ public struct InitializeParams: Codable {
 	public let locale: String?
     public let rootPath: String?
     public let rootUri: DocumentUri?
-    public let initializationOptions: AnyCodable?
+    public let initializationOptions: LSPAny?
     public let capabilities: ClientCapabilities
     public let trace: Tracing?
     public let workspaceFolders: [WorkspaceFolder]?
@@ -33,7 +32,7 @@ public struct InitializeParams: Codable {
 				locale: String?,
 				rootPath: String?,
 				rootUri: DocumentUri?,
-				initializationOptions: AnyCodable?,
+				initializationOptions: LSPAny?,
 				capabilities: ClientCapabilities,
 				trace: Tracing?,
 				workspaceFolders: [WorkspaceFolder]?) {

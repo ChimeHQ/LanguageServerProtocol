@@ -1,10 +1,9 @@
 import Foundation
-import AnyCodable
 
 public struct Registration: Codable {
     public var id: String
     public var method: String
-    public var registerOptions: LSPAny
+    public var registerOptions: LSPAny?
 }
 
 extension Registration {

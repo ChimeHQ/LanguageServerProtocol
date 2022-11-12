@@ -1,7 +1,5 @@
 import Foundation
 
-import AnyCodable
-
 public typealias CallHierarchyClientCapabilities = DynamicRegistrationClientCapabilities
 
 public typealias CallHierarchyOptions = WorkDoneProgressOptions
@@ -28,7 +26,7 @@ public struct CallHierarchyItem: Codable, Hashable {
 	public let uri: DocumentUri
 	public let range: LSPRange
 	public let selectionRange: LSPRange
-	public let data: AnyCodable?
+	public let data: LSPAny?
 
 	public init(name: String,
 				kind: SymbolKind,
@@ -37,7 +35,7 @@ public struct CallHierarchyItem: Codable, Hashable {
 				uri: DocumentUri,
 				range: LSPRange,
 				selectionRange: LSPRange,
-				data: AnyCodable? = nil) {
+				data: LSPAny? = nil) {
 		self.name = name
 		self.kind = kind
 		self.tag = tag

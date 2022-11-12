@@ -1,5 +1,4 @@
 import Foundation
-import AnyCodable
 
 public struct SemanticTokensWorkspaceClientCapabilities: Codable, Hashable {
     public var refreshSupport: Bool?

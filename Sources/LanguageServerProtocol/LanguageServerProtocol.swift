@@ -1,5 +1,4 @@
 import JSONRPC
-import AnyCodable
 
 typealias UnusedResult = String?
 typealias UnusedParam = String?
@@ -166,7 +165,7 @@ public enum ClientRequest {
     case semanticTokensRange(SemanticTokensRangeParams)
 	case callHeirarchyIncomingCalls(CallHierarchyIncomingCallsParams)
 	case callHeirarchyOutgoingCalls(CallHierarchyOutgoingCallsParams)
-    case custom(String, AnyCodable)
+    case custom(String, LSPAny)
 
     public var method: Method {
         switch self {

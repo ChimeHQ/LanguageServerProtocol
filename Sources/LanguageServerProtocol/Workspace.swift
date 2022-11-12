@@ -81,7 +81,7 @@ public struct DidChangeWorkspaceFoldersParams: Codable, Hashable {
 }
 
 public struct DidChangeConfigurationParams: Codable, Hashable {
-    public var settings: LSPAny
+    public var settings: LSPAny?
 
     public init(settings: LSPAny) {
         self.settings = settings

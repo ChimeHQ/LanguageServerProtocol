@@ -1,7 +1,7 @@
 import Foundation
-import AnyCodable
+import JSONRPC
 
-public typealias LSPAny = AnyCodable?
+public typealias LSPAny = JSONValue
 
 public typealias URI = String
 
@@ -23,7 +23,7 @@ public struct CancelParams: Hashable, Codable {
 
 public struct ProgressParams: Hashable, Codable {
     public var token: ProgressToken
-    public var value: LSPAny
+    public var value: LSPAny?
 }
 
 public struct LogTraceParams: Hashable, Codable {

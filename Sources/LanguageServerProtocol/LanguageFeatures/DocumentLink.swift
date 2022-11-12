@@ -43,7 +43,7 @@ public struct DocumentLink: Codable, Hashable {
     public var range: LSPRange
     public var target: DocumentUri?
     public var tooltip: String?
-    public var data: LSPAny
+    public var data: LSPAny?
 }
 
 public typealias DocumentLinkResponse = [DocumentLink]?
