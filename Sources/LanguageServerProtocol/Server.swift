@@ -109,9 +109,35 @@ public extension Server {
         sendRequestWithErrorOnlyResult(.shutdown, completionHandler: block)
     }
 
+	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+	func shutdown() async throws {
+		try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+			self.shutdown { error in
+				if let error = error {
+					continutation.resume(throwing: error)
+				} else {
+					continutation.resume()
+				}
+			}
+		}
+	}
+
     func exit(block: @escaping (ServerError?) -> Void) {
         sendNotification(.exit, completionHandler: block)
     }
+
+	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+	func exit() async throws {
+		try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+			self.exit { error in
+				if let error = error {
+					continutation.resume(throwing: error)
+				} else {
+					continutation.resume()
+				}
+			}
+		}
+	}
 
     func cancelRequest(params: CancelParams, block: @escaping (ServerError?) -> Void) {
         sendNotification(.protocolCancelRequest(params), completionHandler: block)
