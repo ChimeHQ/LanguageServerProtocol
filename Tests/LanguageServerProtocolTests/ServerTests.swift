@@ -68,4 +68,30 @@ final class ServerTests: XCTestCase {
             }
         }
     }
+
+	func testAsyncSendWithNoResponse() async throws {
+		let server = MockServer()
+
+		let response: String? = nil
+
+		server.responseData = try JSONEncoder().encode(response)
+
+		try await server.shutdown()
+
+		// check to make sure this throws correctly
+		server.responseData = nil
+
+		do {
+			try await server.shutdown()
+
+			XCTFail()
+		} catch {
+			switch error {
+			case ServerError.missingExpectedResult:
+				break
+			default:
+				throw error
+			}
+		}
+	}
 }

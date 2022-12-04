@@ -45,10 +45,15 @@ extension Server {
             case .failure(let error):
                 completionHandler(error)
             case .success:
-                completionHandler(nil)
+				completionHandler(nil)
             }
         }
     }
+
+	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+	func sendRequestWithErrorOnlyResult(_ request: ClientRequest) async throws {
+		let _: UnusedResult = try await sendRequest(request)
+	}
 }
 
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
@@ -94,15 +99,7 @@ public extension Server {
 
 	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 	func initialized(params: InitializedParams) async throws {
-		try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
-			self.initialized(params: params) { error in
-				if let error = error {
-					continutation.resume(throwing: error)
-				} else {
-					continutation.resume()
-				}
-			}
-		}
+		try await sendNotification(.initialized(params))
 	}
 
     func shutdown(block: @escaping (ServerError?) -> Void) {
@@ -111,15 +108,7 @@ public extension Server {
 
 	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 	func shutdown() async throws {
-		try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
-			self.shutdown { error in
-				if let error = error {
-					continutation.resume(throwing: error)
-				} else {
-					continutation.resume()
-				}
-			}
-		}
+		try await sendRequestWithErrorOnlyResult(.shutdown)
 	}
 
     func exit(block: @escaping (ServerError?) -> Void) {
@@ -128,15 +117,7 @@ public extension Server {
 
 	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 	func exit() async throws {
-		try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
-			self.exit { error in
-				if let error = error {
-					continutation.resume(throwing: error)
-				} else {
-					continutation.resume()
-				}
-			}
-		}
+		try await sendNotification(.exit)
 	}
 
     func cancelRequest(params: CancelParams, block: @escaping (ServerError?) -> Void) {
