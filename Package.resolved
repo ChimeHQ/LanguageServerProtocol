@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/ChimeHQ/JSONRPC",
         "state": {
           "branch": null,
-          "revision": "5da978702aece6ba5c7879b0d253c180d61e4ef3",
-          "version": "0.6.0"
+          "revision": "e0a30db87e70d31c821f99b9699c0bef61748aac",
+          "version": "0.6.1"
         }
       }
     ]

@@ -6,19 +6,23 @@ public class JSONRPCLanguageServer: Server {
 
     private let protocolTransport: ProtocolTransport
 
-    public var requestHandler: RequestHandler?
-    public var notificationHandler: NotificationHandler?
-
-    private var outOfBandError: Error?
+	public var requestHandler: RequestHandler?
+	public var notificationHandler: NotificationHandler?
 
     public init(protocolTransport: ProtocolTransport) {
         self.protocolTransport = protocolTransport
 
         // These can be racy, where some data comes in just after deallocation. Happens during shutdown most
         // commonly. Making these weak, along with unsetting then in deinit should be safe.
-        protocolTransport.requestHandler = { [weak self] in self?.handleRequest($0, data: $1, callback: $2) }
-        protocolTransport.notificationHandler = { [weak self] in self?.handleNotification($0, data: $1, block: $2) }
-        protocolTransport.errorHandler = { error in
+		let requestHandler: ProtocolTransport.Handlers.RequestHandler = { [weak self] in
+			self?.handleRequest($0, data: $1, callback: $2)
+		}
+
+		let notificationHandler: ProtocolTransport.Handlers.NotificationHandler = { [weak self] in
+			self?.handleNotification($0, data: $1, block: $2)
+		}
+
+		let errorHandler: ProtocolTransport.Handlers.ErrorHandler = { error in
             // We're intentionally doing nothing here but logging because
             // there's a reasonable expectation that future interactions might
             // succeed.
@@ -27,6 +31,10 @@ public class JSONRPCLanguageServer: Server {
             // with failures
             print("protocol level error: \(error.localizedDescription)")
         }
+
+		protocolTransport.setHandlers(.init(request: requestHandler,
+											notification: notificationHandler,
+											error: errorHandler))
     }
 
     public convenience init(dataTransport: DataTransport)  {
@@ -37,8 +45,7 @@ public class JSONRPCLanguageServer: Server {
     }
 
     deinit {
-        protocolTransport.requestHandler = nil
-        protocolTransport.notificationHandler = nil
+		protocolTransport.setHandlers(.init(request: nil, notification: nil, error: nil))
     }
     
     public var logMessages: Bool {
@@ -78,7 +85,7 @@ extension JSONRPCLanguageServer {
             return
         }
 
-        guard let handler = notificationHandler else {
+		guard let handler = notificationHandler else {
             block(ServerError.handlerUnavailable(methodName))
             return
         }
@@ -87,7 +94,7 @@ extension JSONRPCLanguageServer {
             switch method {
             case .windowLogMessage:
                 try relayNotification(data: data) { (params: LogMessageParams) in
-                    handler(.windowLogMessage(params), block)
+					handler(.windowLogMessage(params), block)
                 }
             case .windowShowMessage:
                 try relayNotification(data: data) { (params: ShowMessageParams) in
@@ -213,7 +220,7 @@ extension JSONRPCLanguageServer {
     }
 
     private func relayRequest(request: Result<ServerRequest, ServerError>, id: JSONId, block: @escaping (Result<AnyJSONRPCResponse, ServerError>) -> Void) {
-        switch (request, requestHandler) {
+		switch (request, requestHandler) {
         case (.failure, nil):
             block(.failure(.handlerUnavailable("unknown")))
         case (.success(let request), nil):
