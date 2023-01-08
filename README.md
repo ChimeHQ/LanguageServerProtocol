@@ -26,7 +26,7 @@ dependencies: [
 
 ## Extra Features
 
-For the most part, this library strives to be a straightfoward version of the spec in Swift. There are a few places, however, where it just makes sense to pull in some extra functionality.
+For the most part, this library strives to be a straightforward version of the spec in Swift. There are a few places, however, where it just makes sense to pull in some extra functionality.
 
 - `Snippet`: makes it easier to interpret the contents of completion results
 - `SemanticTokensClient`: helps to consume Semantic Token information
