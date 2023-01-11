@@ -26,16 +26,43 @@ public enum ServerError: LocalizedError {
 
 public typealias ServerResult<T: Codable> = Result<T, ServerError>
 
+public struct ServerHandlers {
+	public var requestHandler: Server.RequestHandler?
+	public var notificationHandler: Server.NotificationHandler?
+
+	public init(requestHandler: Server.RequestHandler? = nil, notificationHandler: Server.NotificationHandler? = nil) {
+		self.requestHandler = requestHandler
+		self.notificationHandler = notificationHandler
+	}
+}
+
 public protocol Server {
     typealias RequestHandler = (ServerRequest, @escaping (ServerResult<LSPAny>) -> Void) -> Void
     typealias NotificationHandler = (ServerNotification, @escaping (ServerError?) -> Void) -> Void
     typealias ResponseHandler<T: Codable> = (ServerResult<JSONRPCResponse<T>>) -> Void
 
-    var requestHandler: RequestHandler? { get set }
-    var notificationHandler: NotificationHandler? { get set }
-
+	func setHandlers(_ handlers: ServerHandlers, completionHandler: @escaping (ServerError?) -> Void)
     func sendNotification(_ notif: ClientNotification, completionHandler: @escaping (ServerError?) -> Void)
     func sendRequest<Response: Codable>(_ request: ClientRequest, completionHandler: @escaping (ServerResult<Response>) -> Void)
+}
+
+public extension Server {
+	func setHandlers(_ handlers: ServerHandlers) {
+		setHandlers(handlers, completionHandler: { _ in })
+	}
+
+	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+	func setHandlers(_ handlers: ServerHandlers) async throws {
+		try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+			setHandlers(handlers) { error in
+				if let error = error {
+					continuation.resume(throwing: error)
+				} else {
+					continuation.resume()
+				}
+			}
+		}
+	}
 }
 
 extension Server {

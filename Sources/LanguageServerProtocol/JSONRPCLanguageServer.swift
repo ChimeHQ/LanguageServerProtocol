@@ -52,6 +52,13 @@ public class JSONRPCLanguageServer: Server {
         get { return protocolTransport.logMessages }
         set { protocolTransport.logMessages = newValue }
     }
+
+	public func setHandlers(_ handlers: ServerHandlers, completionHandler: @escaping (ServerError?) -> Void) {
+		self.notificationHandler = handlers.notificationHandler
+		self.requestHandler = handlers.requestHandler
+
+		completionHandler(nil)
+	}
 }
 
 extension JSONRPCLanguageServer {
@@ -417,4 +424,3 @@ extension JSONRPCLanguageServer {
         }
     }
 }
-
