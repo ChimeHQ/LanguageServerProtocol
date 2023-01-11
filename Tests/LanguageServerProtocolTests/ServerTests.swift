@@ -3,10 +3,11 @@ import JSONRPC
 @testable import LanguageServerProtocol
 
 class MockServer: Server {
-    var requestHandler: RequestHandler?
-    var notificationHandler: NotificationHandler?
-
     var responseData: Data?
+
+	func setHandlers(_ handlers: LanguageServerProtocol.ServerHandlers, completionHandler: @escaping (ServerError?) -> Void) {
+		completionHandler(nil)
+	}
 
     func sendNotification(_ notif: ClientNotification, completionHandler: @escaping (ServerError?) -> Void) {
         completionHandler(.missingExpectedParameter)
