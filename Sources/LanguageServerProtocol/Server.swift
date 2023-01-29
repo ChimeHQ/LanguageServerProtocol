@@ -359,18 +359,18 @@ public extension Server {
         }
     }
 
-	func prepareCallHeirarchy(params: CallHierarchyPrepareParams, block: @escaping (ServerResult<PrepareRenameResponse>) -> Void) {
-		sendRequest(.prepareCallHeirarchy(params), completionHandler: block)
-	}
+    func prepareCallHeirarchy(params: CallHierarchyPrepareParams, block: @escaping (ServerResult<CallHierarchyPrepareResponse>) -> Void) {
+        sendRequest(.prepareCallHeirarchy(params), completionHandler: block)
+    }
 
-	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-	func prepareCallHeirarchy(params: CallHierarchyPrepareParams) async throws -> PrepareRenameResponse {
-		try await withCheckedThrowingContinuation { continutation in
-			prepareCallHeirarchy(params: params) { result in
-				continutation.resume(with: result)
-			}
-		}
-	}
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func prepareCallHeirarchy(params: CallHierarchyPrepareParams) async throws -> CallHierarchyPrepareResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            prepareCallHeirarchy(params: params) { result in
+                continutation.resume(with: result)
+            }
+        }
+    }
 
     func prepareRename(params: PrepareRenameParams, block: @escaping (ServerResult<PrepareRenameResponse>) -> Void) {
         sendRequest(.prepareRename(params), completionHandler: block)
