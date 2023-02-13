@@ -129,11 +129,17 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | workspace/workspaceFolders | ✅ |
 | workspaceSymbol/resolve | ✅ |
 
+## Contributing and Collaboration
+
+I prefer collaboration, and would love to find ways to work together if you have a similar project.
+
+I prefer indentation with tabs for improved accessibility. But, I'd rather you use the system you want and make a PR than hesitate because of whitespace.
+
 ## Suggestions or Feedback
 
-We'd love to hear from you! Get in touch via [twitter](https://twitter.com/chimehq), an issue, or a pull request.
+I'd love to hear from you! Get in touch via [mastodon](https://mastodon.social/@mattiem), an issue, or a pull request.
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+By participating in this project you agree to abide by the [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 
 [build status]: https://github.com/ChimeHQ/LanguageServerProtocol/actions
 [build status badge]: https://github.com/ChimeHQ/LanguageServerProtocol/workflows/CI/badge.svg
