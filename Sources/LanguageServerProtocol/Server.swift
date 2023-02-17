@@ -98,9 +98,9 @@ public extension Server {
     }
 
     func sendRequest<Response: Codable>(_ request: ClientRequest) async throws -> Response {
-        return try await withCheckedThrowingContinuation { continutation in
+        return try await withCheckedThrowingContinuation { continuation in
             self.sendRequest(request) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }
@@ -109,9 +109,9 @@ public extension Server {
 public extension Server {
 	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 	func initialize(params: InitializeParams) async throws -> InitializationResponse {
-		return try await withCheckedThrowingContinuation { continutation in
+		return try await withCheckedThrowingContinuation { continuation in
 			self.initialize(params: params) { result in
-				continutation.resume(with: result)
+				continuation.resume(with: result)
 			}
 		}
 	}
@@ -161,12 +161,12 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func didOpenTextDocument(params: DidOpenTextDocumentParams) async throws {
-        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.didOpenTextDocument(params: params) { error in
                 if let error = error {
-                    continutation.resume(throwing: error)
+                    continuation.resume(throwing: error)
                 } else {
-                    continutation.resume()
+                    continuation.resume()
                 }
             }
         }
@@ -178,12 +178,12 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func didChangeTextDocument(params: DidChangeTextDocumentParams) async throws {
-        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.didChangeTextDocument(params: params) { error in
                 if let error = error {
-                    continutation.resume(throwing: error)
+                    continuation.resume(throwing: error)
                 } else {
-                    continutation.resume()
+                    continuation.resume()
                 }
             }
         }
@@ -195,12 +195,12 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func didCloseTextDocument(params: DidCloseTextDocumentParams) async throws {
-        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.didCloseTextDocument(params: params) { error in
                 if let error = error {
-                    continutation.resume(throwing: error)
+                    continuation.resume(throwing: error)
                 } else {
-                    continutation.resume()
+                    continuation.resume()
                 }
             }
         }
@@ -212,12 +212,12 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func willSaveTextDocument(params: WillSaveTextDocumentParams) async throws {
-        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.willSaveTextDocument(params: params) { error in
                 if let error = error {
-                    continutation.resume(throwing: error)
+                    continuation.resume(throwing: error)
                 } else {
-                    continutation.resume()
+                    continuation.resume()
                 }
             }
         }
@@ -233,12 +233,12 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func didSaveTextDocument(params: DidSaveTextDocumentParams) async throws {
-        try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.didSaveTextDocument(params: params) { error in
                 if let error = error {
-                    continutation.resume(throwing: error)
+                    continuation.resume(throwing: error)
                 } else {
-                    continutation.resume()
+                    continuation.resume()
                 }
             }
         }
@@ -250,39 +250,39 @@ public extension Server {
 
 	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 	func didChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
-		try await withCheckedThrowingContinuation { (continutation: CheckedContinuation<Void, Error>) in
+		try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
 			self.didChangeWatchedFiles(params: params) { error in
 				if let error = error {
-					continutation.resume(throwing: error)
+					continuation.resume(throwing: error)
 				} else {
-					continutation.resume()
+					continuation.resume()
 				}
 			}
 		}
 	}
 
-	func callHeirarchyIncomingCalls(params: CallHierarchyIncomingCallsParams, block: @escaping (ServerResult<CallHierarchyIncomingCallsResponse>) -> Void) {
-		sendRequest(.callHeirarchyIncomingCalls(params), completionHandler: block)
+	func callHierarchyIncomingCalls(params: CallHierarchyIncomingCallsParams, block: @escaping (ServerResult<CallHierarchyIncomingCallsResponse>) -> Void) {
+		sendRequest(.callHierarchyIncomingCalls(params), completionHandler: block)
 	}
 
 	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 	func completion(params: CallHierarchyIncomingCallsParams) async throws -> CallHierarchyIncomingCallsResponse {
-		try await withCheckedThrowingContinuation { continutation in
-			self.callHeirarchyIncomingCalls(params: params) { result in
-				continutation.resume(with: result)
+		try await withCheckedThrowingContinuation { continuation in
+			self.callHierarchyIncomingCalls(params: params) { result in
+				continuation.resume(with: result)
 			}
 		}
 	}
 
-	func callHeirarchyOutgoingCalls(params: CallHierarchyOutgoingCallsParams, block: @escaping (ServerResult<CallHierarchyOutgoingCallsResponse>) -> Void) {
-		sendRequest(.callHeirarchyOutgoingCalls(params), completionHandler: block)
+	func callHierarchyOutgoingCalls(params: CallHierarchyOutgoingCallsParams, block: @escaping (ServerResult<CallHierarchyOutgoingCallsResponse>) -> Void) {
+		sendRequest(.callHierarchyOutgoingCalls(params), completionHandler: block)
 	}
 
 	@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-	func callHeirarchyOutgoingCalls(params: CallHierarchyOutgoingCallsParams) async throws -> CallHierarchyOutgoingCallsResponse {
-		try await withCheckedThrowingContinuation { continutation in
-			self.callHeirarchyOutgoingCalls(params: params) { result in
-				continutation.resume(with: result)
+	func callHierarchyOutgoingCalls(params: CallHierarchyOutgoingCallsParams) async throws -> CallHierarchyOutgoingCallsResponse {
+		try await withCheckedThrowingContinuation { continuation in
+			self.callHierarchyOutgoingCalls(params: params) { result in
+				continuation.resume(with: result)
 			}
 		}
 	}
@@ -293,9 +293,9 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func completion(params: CompletionParams) async throws -> CompletionResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             self.completion(params: params) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }
@@ -306,9 +306,9 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func hover(params: TextDocumentPositionParams) async throws -> HoverResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             self.hover(params: params) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }
@@ -327,9 +327,9 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func definition(params: TextDocumentPositionParams) async throws -> DefinitionResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             self.definition(params: params) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }
@@ -352,22 +352,22 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func codeAction(params: CodeActionParams) async throws -> CodeActionResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             codeAction(params: params) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }
 
-    func prepareCallHeirarchy(params: CallHierarchyPrepareParams, block: @escaping (ServerResult<CallHierarchyPrepareResponse>) -> Void) {
-        sendRequest(.prepareCallHeirarchy(params), completionHandler: block)
+    func prepareCallHierarchy(params: CallHierarchyPrepareParams, block: @escaping (ServerResult<CallHierarchyPrepareResponse>) -> Void) {
+        sendRequest(.prepareCallHierarchy(params), completionHandler: block)
     }
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-    func prepareCallHeirarchy(params: CallHierarchyPrepareParams) async throws -> CallHierarchyPrepareResponse {
-        try await withCheckedThrowingContinuation { continutation in
-            prepareCallHeirarchy(params: params) { result in
-                continutation.resume(with: result)
+    func prepareCallHierarchy(params: CallHierarchyPrepareParams) async throws -> CallHierarchyPrepareResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            prepareCallHierarchy(params: params) { result in
+                continuation.resume(with: result)
             }
         }
     }
@@ -386,9 +386,9 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func formatting(params: DocumentFormattingParams) async throws -> FormattingResult {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             self.formatting(params: params) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }
@@ -415,9 +415,9 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func semanticTokensFull(params: SemanticTokensParams) async throws -> SemanticTokensResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             self.semanticTokensFull(params: params) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }
@@ -428,9 +428,9 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func semanticTokensFullDelta(params: SemanticTokensDeltaParams) async throws -> SemanticTokensDeltaResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             self.semanticTokensFullDelta(params: params) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }
@@ -441,9 +441,9 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func semanticTokensRange(params: SemanticTokensRangeParams) async throws -> SemanticTokensResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             self.semanticTokensRange(params: params) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }
@@ -500,9 +500,9 @@ public extension Server {
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func workspaceSymbol(params: WorkspaceSymbolParams) async throws -> WorkspaceSymbolResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             self.workspaceSymbol(params: params) { result in
-                continutation.resume(with: result)
+                continuation.resume(with: result)
             }
         }
     }

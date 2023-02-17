@@ -373,7 +373,7 @@ extension JSONRPCLanguageServer {
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .codeLensResolve(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
-		case .prepareCallHeirarchy(let params):
+		case .prepareCallHierarchy(let params):
 			sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .prepareRename(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
@@ -411,9 +411,9 @@ extension JSONRPCLanguageServer {
             sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .workspaceWillDeleteFiles(let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
-		case .callHeirarchyIncomingCalls(let params):
+		case .callHierarchyIncomingCalls(let params):
 			sendRequestWithHandler(params, method: method, handler: completionHandler)
-		case .callHeirarchyOutgoingCalls(let params):
+		case .callHierarchyOutgoingCalls(let params):
 			sendRequestWithHandler(params, method: method, handler: completionHandler)
         case .custom(let method, let params):
             sendRequestWithHandler(params, method: method, handler: completionHandler)
