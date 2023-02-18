@@ -111,7 +111,7 @@ public enum ClientRequest {
         case textDocumentOnTypeFormatting = "textDocument/onTypeFormatting"
         case textDocumentRename = "textDocument/rename"
         case textDocumentPrepareRename = "textDocument/prepareRename"
-		case textDocumentPrepareCallHeirarchy = "textDocument/prepareCallHierarchy"
+		case textDocumentPrepareCallHierarchy = "textDocument/prepareCallHierarchy"
         case textDocumentFoldingRange = "textDocument/foldingRange"
         case textDocumentSelectionRange = "textDocument/selectionRange"
         case textDocumentLinkedEditingRange = "textDocument/linkedEditingRange"
@@ -120,8 +120,8 @@ public enum ClientRequest {
         case textDocumentSemanticTokensFull = "textDocument/semanticTokens/full"
         case textDocumentSemanticTokensFullDelta = "textDocument/semanticTokens/full/delta"
         case textDocumentMoniker = "textDocument/moniker"
-		case callHeirarchyIncomingCalls = "callHierarchy/incomingCalls"
-		case callHeirarchyOutgoingCalls = "callHierarchy/outgoingCalls"
+		case callHierarchyIncomingCalls = "callHierarchy/incomingCalls"
+		case callHierarchyOutgoingCalls = "callHierarchy/outgoingCalls"
         case custom
     }
 
@@ -148,7 +148,7 @@ public enum ClientRequest {
     case codeLens(CodeLensParams)
     case codeLensResolve(CodeLens)
     case selectionRange(SelectionRangeParams)
-	case prepareCallHeirarchy(CallHierarchyPrepareParams)
+	case prepareCallHierarchy(CallHierarchyPrepareParams)
     case prepareRename(PrepareRenameParams)
     case rename(RenameParams)
     case documentLink(DocumentLinkParams)
@@ -163,8 +163,8 @@ public enum ClientRequest {
     case semanticTokensFull(SemanticTokensParams)
     case semanticTokensFullDelta(SemanticTokensDeltaParams)
     case semanticTokensRange(SemanticTokensRangeParams)
-	case callHeirarchyIncomingCalls(CallHierarchyIncomingCallsParams)
-	case callHeirarchyOutgoingCalls(CallHierarchyOutgoingCallsParams)
+	case callHierarchyIncomingCalls(CallHierarchyIncomingCallsParams)
+	case callHierarchyOutgoingCalls(CallHierarchyOutgoingCallsParams)
     case custom(String, LSPAny)
 
     public var method: Method {
@@ -215,8 +215,8 @@ public enum ClientRequest {
             return .codeLensResolve
         case .selectionRange:
             return .textDocumentSelectionRange
-		case .prepareCallHeirarchy:
-			return .textDocumentPrepareCallHeirarchy
+		case .prepareCallHierarchy:
+			return .textDocumentPrepareCallHierarchy
         case .prepareRename:
             return .textDocumentPrepareRename
         case .rename:
@@ -245,10 +245,10 @@ public enum ClientRequest {
             return .textDocumentSemanticTokensFullDelta
         case .semanticTokensRange:
             return .textDocumentSemanticTokensRange
-		case .callHeirarchyIncomingCalls:
-			return .callHeirarchyIncomingCalls
-		case .callHeirarchyOutgoingCalls:
-			return .callHeirarchyOutgoingCalls
+		case .callHierarchyIncomingCalls:
+			return .callHierarchyIncomingCalls
+		case .callHierarchyOutgoingCalls:
+			return .callHierarchyOutgoingCalls
         case .custom:
             return .custom
         }
