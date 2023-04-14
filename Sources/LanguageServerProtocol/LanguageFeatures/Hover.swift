@@ -1,6 +1,6 @@
 import Foundation
 
-public struct HoverClientCapabilities: Codable, Hashable {
+public struct HoverClientCapabilities: Codable, Hashable, Sendable {
     public var dynamicRegistration: Bool?
     public var contentFormat: [MarkupKind]?
 

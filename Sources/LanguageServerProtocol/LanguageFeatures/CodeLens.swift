@@ -2,7 +2,7 @@ import Foundation
 
 public typealias CodeLensClientCapabilities = DynamicRegistrationClientCapabilities
 
-public struct CodeLensWorkspaceClientCapabilities: Codable, Hashable {
+public struct CodeLensWorkspaceClientCapabilities: Codable, Hashable, Sendable {
     public var refreshSupport: Bool?
 
     public init(refreshSupport: Bool? = nil) {
@@ -10,18 +10,18 @@ public struct CodeLensWorkspaceClientCapabilities: Codable, Hashable {
     }
 }
 
-public struct CodeLensOptions: Codable, Hashable {
+public struct CodeLensOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var resolveProvider: Bool?
 }
 
-public struct CodeLensRegistrationOptions: Codable, Hashable {
+public struct CodeLensRegistrationOptions: Codable, Hashable, Sendable {
     public var documentSelector: DocumentSelector?
     public var workDoneProgress: Bool?
     public var resolveProvider: Bool?
 }
 
-public struct CodeLensParams: Codable, Hashable {
+public struct CodeLensParams: Codable, Hashable, Sendable {
     public var textDocument: TextDocumentIdentifier
     public var workDoneToken: ProgressToken?
     public var partialResultToken: ProgressToken?
@@ -33,7 +33,7 @@ public struct CodeLensParams: Codable, Hashable {
     }
 }
 
-public struct CodeLens: Codable {
+public struct CodeLens: Codable, Sendable {
     public var range: LSPRange
     public var command: Command?
     public var data: LSPAny?

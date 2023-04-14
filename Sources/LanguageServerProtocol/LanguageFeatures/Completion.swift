@@ -1,9 +1,9 @@
 import Foundation
 import JSONRPC
 
-public struct CompletionClientCapabilities: Codable, Hashable {
-    public struct CompletionItem: Codable, Hashable {
-        public struct ResolveSupport: Codable, Hashable {
+public struct CompletionClientCapabilities: Codable, Hashable, Sendable {
+    public struct CompletionItem: Codable, Hashable, Sendable {
+        public struct ResolveSupport: Codable, Hashable, Sendable {
             public var properties: [String]
 
             public init(properties: [String]) {
@@ -45,7 +45,7 @@ public struct CompletionClientCapabilities: Codable, Hashable {
         }
     }
 
-    public struct CompletionList: Codable, Hashable {
+    public struct CompletionList: Codable, Hashable, Sendable {
         public var itemDefaults: [String]?
 
         public init(itemDefaults: [String]? = nil) {
@@ -81,7 +81,7 @@ public enum CompletionTriggerKind: Int, Codable, Hashable {
     case triggerForIncompleteCompletions = 3
 }
 
-public enum CompletionItemKind: Int, CaseIterable, Codable, Hashable {
+public enum CompletionItemKind: Int, CaseIterable, Codable, Hashable, Sendable {
     case text = 1
     case method = 2
     case function = 3
@@ -109,7 +109,7 @@ public enum CompletionItemKind: Int, CaseIterable, Codable, Hashable {
     case typeParameter = 25
 }
 
-public enum CompletionItemTag: Int, CaseIterable, Codable, Hashable {
+public enum CompletionItemTag: Int, CaseIterable, Codable, Hashable, Sendable {
     case deprecated = 1
 }
 
@@ -235,7 +235,7 @@ public struct CompletionRegistrationOptions: Codable {
     public let resolveProvider: Bool?
 }
 
-public enum InsertTextMode: Int, CaseIterable, Codable, Hashable {
+public enum InsertTextMode: Int, CaseIterable, Codable, Hashable, Sendable {
     case asIs = 1
     case adjustIndentation = 2
 }

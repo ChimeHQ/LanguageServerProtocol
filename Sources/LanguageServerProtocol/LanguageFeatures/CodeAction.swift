@@ -13,8 +13,8 @@ extension CodeActionKind {
     public static var SourceOrganizeImports: CodeActionKind = "source.organizeImports"
 }
 
-public struct CodeActionClientCapabilities: Codable, Hashable {
-    public struct CodeActionLiteralSupport: Codable, Hashable {
+public struct CodeActionClientCapabilities: Codable, Hashable, Sendable {
+    public struct CodeActionLiteralSupport: Codable, Hashable, Sendable {
         public var codeActionKind: ValueSet<CodeActionKind>
 
         public init(codeActionKind: ValueSet<CodeActionKind>) {
@@ -22,7 +22,7 @@ public struct CodeActionClientCapabilities: Codable, Hashable {
         }
     }
 
-    public struct ResolveSupport: Codable, Hashable {
+    public struct ResolveSupport: Codable, Hashable, Sendable {
         public var properties: [String]
 
         public init(properties: [String]) {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DocumentLinkClientCapabilities: Codable, Hashable {
+public struct DocumentLinkClientCapabilities: Codable, Hashable, Sendable {
     public var dynamicRegistration: Bool?
     public var tooltipSupport: Bool?
 
@@ -17,12 +17,12 @@ public struct DocumentLinkClientCapabilities: Codable, Hashable {
     }
 }
 
-public struct DocumentLinkOptions: Codable, Hashable {
+public struct DocumentLinkOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var resolveProvider: Bool?
 }
 
-public struct DocumentLinkRegistrationOptions: Codable, Hashable {
+public struct DocumentLinkRegistrationOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var documentSelector: DocumentSelector?
     public var resolveProvider: Bool?
@@ -34,12 +34,12 @@ public struct DocumentLinkRegistrationOptions: Codable, Hashable {
     }
 }
 
-public struct DocumentLinkParams: Codable, Hashable {
+public struct DocumentLinkParams: Codable, Hashable, Sendable {
     public var workDoneToken: ProgressToken?
     public var partialResultToken: ProgressToken?
 }
 
-public struct DocumentLink: Codable, Hashable {
+public struct DocumentLink: Codable, Hashable, Sendable {
     public var range: LSPRange
     public var target: DocumentUri?
     public var tooltip: String?

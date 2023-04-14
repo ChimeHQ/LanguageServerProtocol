@@ -52,7 +52,7 @@ public struct DidChangeWatchedFilesParams: Codable, Hashable {
     }
 }
 
-public struct WorkspaceFolder: Codable, Hashable {
+public struct WorkspaceFolder: Codable, Hashable, Sendable {
     public let uri: String
     public let name: String
 

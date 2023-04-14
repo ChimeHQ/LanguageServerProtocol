@@ -1,8 +1,8 @@
 import Foundation
 
-public struct SignatureHelpClientCapabilities: Codable, Hashable {
-    public struct SignatureInformation: Codable, Hashable {
-        public struct ParameterInformation: Codable, Hashable {
+public struct SignatureHelpClientCapabilities: Codable, Hashable, Sendable {
+    public struct SignatureInformation: Codable, Hashable, Sendable {
+        public struct ParameterInformation: Codable, Hashable, Sendable {
             public var labelOffsetSupport: Bool?
 
             public init(labelOffsetSupport: Bool? = nil) {

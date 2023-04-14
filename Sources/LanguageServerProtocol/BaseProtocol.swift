@@ -71,7 +71,10 @@ public extension ValueSet where T: CaseIterable {
     }
 }
 
-public enum LanguageIdentifier: String, Codable, CaseIterable {
+extension ValueSet: Sendable where T: Sendable {
+}
+
+public enum LanguageIdentifier: String, Codable, CaseIterable, Sendable {
 	case abap
 	case windowsbat = "bat"
 	case bibtex
@@ -131,7 +134,7 @@ public enum LanguageIdentifier: String, Codable, CaseIterable {
 	case yaml
 }
 
-public struct DocumentFilter: Codable, Hashable {
+public struct DocumentFilter: Codable, Hashable, Sendable {
     public let language: LanguageIdentifier?
     public let scheme: String?
     public let pattern: String?

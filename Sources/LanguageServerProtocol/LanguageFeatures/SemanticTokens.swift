@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SemanticTokensWorkspaceClientCapabilities: Codable, Hashable {
+public struct SemanticTokensWorkspaceClientCapabilities: Codable, Hashable, Sendable {
     public var refreshSupport: Bool?
 
     public init(refreshSupport: Bool) {
@@ -8,18 +8,18 @@ public struct SemanticTokensWorkspaceClientCapabilities: Codable, Hashable {
     }
 }
 
-public enum TokenFormat: String, Codable, Hashable {
+public enum TokenFormat: String, Codable, Hashable, Sendable {
     case relative = "relative"
 
     public static let Relative = TokenFormat.relative
 }
 
-public struct SemanticTokensClientCapabilities: Codable, Hashable {
-    public struct Requests: Codable, Hashable {
-        public struct Range: Codable, Hashable {
+public struct SemanticTokensClientCapabilities: Codable, Hashable, Sendable {
+    public struct Requests: Codable, Hashable, Sendable {
+        public struct Range: Codable, Hashable, Sendable {
         }
 
-        public struct Full: Codable, Hashable {
+        public struct Full: Codable, Hashable, Sendable {
             public var delta: Bool?
 
             public init(delta: Bool = true) {

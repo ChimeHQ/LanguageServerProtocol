@@ -1,7 +1,7 @@
 import Foundation
 
-public struct WorkspaceSymbolClientCapabilities: Codable, Hashable {
-    public struct Properties: Codable, Hashable {
+public struct WorkspaceSymbolClientCapabilities: Codable, Hashable, Sendable {
+    public struct Properties: Codable, Hashable, Sendable {
         public var properties: [String]
     }
 
@@ -25,14 +25,14 @@ public struct WorkspaceSymbolClientCapabilities: Codable, Hashable {
     }
 }
 
-public struct WorkspaceSymbolOptions: Codable, Hashable {
+public struct WorkspaceSymbolOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var resolveProvider: Bool?
 }
 
 public typealias WorkspaceSymbolRegistrationOptions = WorkspaceSymbolOptions
 
-public struct WorkspaceSymbolParams: Codable, Hashable {
+public struct WorkspaceSymbolParams: Codable, Hashable, Sendable {
     public var workDoneToken: ProgressToken?
     public var partialResultToken: ProgressToken?
     public var query: String
@@ -44,7 +44,7 @@ public struct WorkspaceSymbolParams: Codable, Hashable {
     }
 }
 
-public struct WorkspaceSymbol: Codable, Hashable {
+public struct WorkspaceSymbol: Codable, Hashable, Sendable {
     public var name: String
     public var kind: SymbolKind
     public var tags: [SymbolTag]?

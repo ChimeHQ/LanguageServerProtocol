@@ -1,12 +1,12 @@
 import Foundation
 
-public enum Tracing: String, Codable, Hashable {
+public enum Tracing: String, Codable, Hashable, Sendable {
     case off
     case messages
     case verbose
 }
 
-public struct InitializeParams: Codable {
+public struct InitializeParams: Codable, Hashable, Sendable {
 	public struct ClientInfo: Codable, Hashable, Sendable {
 		public let name: String
 		public let version: String?

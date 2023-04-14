@@ -108,12 +108,12 @@ extension VersionedTextDocumentIdentifier: CustomStringConvertible {
     }
 }
 
-public struct Location: Codable, Hashable {
+public struct Location: Codable, Hashable, Sendable {
     public let uri: DocumentUri
     public let range: LSPRange
 }
 
-public struct Command: Codable, Hashable {
+public struct Command: Codable, Hashable, Sendable {
     public let title: String
     public let command: String
     public let arguments: [LSPAny]?
@@ -148,7 +148,7 @@ public enum SymbolKind: Int, CaseIterable, Hashable, Codable, Sendable {
     case typeParameter = 26
 }
 
-public enum MarkupKind: String, Codable, Hashable {
+public enum MarkupKind: String, Codable, Hashable, Sendable {
     case plaintext
     case markdown
 }

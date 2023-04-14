@@ -1,6 +1,6 @@
 import Foundation
 
-public struct DynamicRegistrationClientCapabilities: Codable, Hashable {
+public struct DynamicRegistrationClientCapabilities: Codable, Hashable, Sendable {
     public var dynamicRegistration: Bool?
 
     public init(dynamicRegistration: Bool) {
@@ -8,7 +8,7 @@ public struct DynamicRegistrationClientCapabilities: Codable, Hashable {
     }
 }
 
-public struct DynamicRegistrationLinkSupportClientCapabilities: Codable, Hashable {
+public struct DynamicRegistrationLinkSupportClientCapabilities: Codable, Hashable, Sendable {
     public var dynamicRegistration: Bool?
     public var linkSupport: Bool?
 
@@ -18,20 +18,20 @@ public struct DynamicRegistrationLinkSupportClientCapabilities: Codable, Hashabl
     }
 }
 
-public enum ResourceOperationKind: String, Codable, Hashable {
+public enum ResourceOperationKind: String, Codable, Hashable, Sendable {
     case create
     case rename
     case delete
 }
 
-public enum FailureHandlingKind: String, Codable, Hashable {
+public enum FailureHandlingKind: String, Codable, Hashable, Sendable {
     case abort
     case transactional
     case textOnlyTransactional
     case undo
 }
 
-public struct WorkspaceClientCapabilityEdit: Codable, Hashable {
+public struct WorkspaceClientCapabilityEdit: Codable, Hashable, Sendable {
     public let documentChanges: Bool?
     public let resourceOperations: [ResourceOperationKind]
     public let failureHandling: FailureHandlingKind?
@@ -47,12 +47,12 @@ public typealias DidChangeConfigurationClientCapabilities = GenericDynamicRegist
 
 public typealias DidChangeWatchedFilesClientCapabilities = GenericDynamicRegistration
 
-public struct ShowDocumentClientCapabilities: Hashable, Codable {
+public struct ShowDocumentClientCapabilities: Hashable, Codable, Sendable {
     public var support: Bool
 }
 
-public struct ShowMessageRequestClientCapabilities: Hashable, Codable {
-    public struct MessageActionItemCapabilities: Hashable, Codable {
+public struct ShowMessageRequestClientCapabilities: Hashable, Codable, Sendable {
+    public struct MessageActionItemCapabilities: Hashable, Codable, Sendable {
         public var additionalPropertiesSupport: Bool
     }
 
@@ -63,7 +63,7 @@ public struct ShowMessageRequestClientCapabilities: Hashable, Codable {
     }
 }
 
-public struct WindowClientCapabilities: Hashable, Codable {
+public struct WindowClientCapabilities: Hashable, Codable, Sendable {
     public var workDoneProgress: Bool
     public var showMessage: ShowMessageRequestClientCapabilities
     public var showDocument: ShowDocumentClientCapabilities
@@ -75,7 +75,7 @@ public struct WindowClientCapabilities: Hashable, Codable {
     }
 }
 
-public struct RegularExpressionsClientCapabilities: Hashable, Codable {
+public struct RegularExpressionsClientCapabilities: Hashable, Codable, Sendable {
     public var engine: String
     public var version: String?
 
@@ -85,7 +85,7 @@ public struct RegularExpressionsClientCapabilities: Hashable, Codable {
     }
 }
 
-public struct MarkdownClientCapabilities: Hashable, Codable {
+public struct MarkdownClientCapabilities: Hashable, Codable, Sendable {
     public var parser: String
     public var version: String?
     public var allowedTags: [String]?
@@ -97,7 +97,7 @@ public struct MarkdownClientCapabilities: Hashable, Codable {
     }
 }
 
-public struct GeneralClientCapabilities: Hashable, Codable {
+public struct GeneralClientCapabilities: Hashable, Codable, Sendable {
     public var regularExpressions: RegularExpressionsClientCapabilities?
     public var markdown: MarkdownClientCapabilities?
 
@@ -107,7 +107,7 @@ public struct GeneralClientCapabilities: Hashable, Codable {
     }
 }
 
-public struct TextDocumentSyncClientCapabilities: Codable, Hashable {
+public struct TextDocumentSyncClientCapabilities: Codable, Hashable, Sendable {
     public let dynamicRegistration: Bool?
     public let willSave: Bool?
     public let willSaveWaitUntil: Bool?
@@ -121,7 +121,7 @@ public struct TextDocumentSyncClientCapabilities: Codable, Hashable {
     }
 }
 
-public struct TextDocumentClientCapabilities: Codable, Hashable {
+public struct TextDocumentClientCapabilities: Codable, Hashable, Sendable {
     public var synchronization: TextDocumentSyncClientCapabilities?
     public var completion: CompletionClientCapabilities?
     public var hover: HoverClientCapabilities?
@@ -204,9 +204,9 @@ public struct TextDocumentClientCapabilities: Codable, Hashable {
     }
 }
 
-public struct ClientCapabilities: Codable, Hashable {
-    public struct Workspace: Codable, Hashable {
-        public struct FileOperations: Codable, Hashable {
+public struct ClientCapabilities: Codable, Hashable, Sendable {
+    public struct Workspace: Codable, Hashable, Sendable {
+        public struct FileOperations: Codable, Hashable, Sendable {
             public var dynamicRegistration: Bool?
             public var didCreate: Bool?
             public var willCreate: Bool?

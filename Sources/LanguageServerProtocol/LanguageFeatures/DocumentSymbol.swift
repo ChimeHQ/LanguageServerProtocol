@@ -1,6 +1,6 @@
 import Foundation
 
-public struct DocumentSymbolClientCapabilities: Codable, Hashable {
+public struct DocumentSymbolClientCapabilities: Codable, Hashable, Sendable {
     public var dynamicRegistration: Bool?
     public var symbolKind: ValueSet<SymbolKind>?
     public var hierarchicalDocumentSymbolSupport: Bool?

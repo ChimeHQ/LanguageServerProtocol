@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PublishDiagnosticsClientCapabilities: Codable, Hashable {
+public struct PublishDiagnosticsClientCapabilities: Codable, Hashable, Sendable {
     public var relatedInformation: Bool?
     public var tagSupport: ValueSet<DiagnosticTag>?
     public var versionSupport: Bool?
@@ -16,26 +16,26 @@ public struct PublishDiagnosticsClientCapabilities: Codable, Hashable {
     }
 }
 
-public struct DiagnosticRelatedInformation: Codable, Hashable {
+public struct DiagnosticRelatedInformation: Codable, Hashable, Sendable {
     public let location: Location
     public let message: String
 }
 
 public typealias DiagnosticCode = TwoTypeOption<Int, String>
 
-public enum DiagnosticSeverity: Int, CaseIterable, Codable, Hashable {
+public enum DiagnosticSeverity: Int, CaseIterable, Codable, Hashable, Sendable {
     case error = 1
     case warning = 2
     case information = 3
     case hint = 4
 }
 
-public enum DiagnosticTag: Int, CaseIterable, Codable, Hashable {
+public enum DiagnosticTag: Int, CaseIterable, Codable, Hashable, Sendable {
     case unnecessary = 1
     case deprecated = 2
 }
 
-public struct Diagnostic: Codable, Hashable {
+public struct Diagnostic: Codable, Hashable, Sendable {
     public let range: LSPRange
     public let severity: DiagnosticSeverity?
     public let code: DiagnosticCode?
@@ -45,7 +45,7 @@ public struct Diagnostic: Codable, Hashable {
     public let relatedInformation: [DiagnosticRelatedInformation]?
 }
 
-public struct PublishDiagnosticsParams: Codable, Hashable {
+public struct PublishDiagnosticsParams: Codable, Hashable, Sendable {
     public let uri: DocumentUri
     public let version: Int?
     public let diagnostics: [Diagnostic]

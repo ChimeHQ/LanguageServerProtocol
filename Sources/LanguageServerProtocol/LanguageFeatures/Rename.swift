@@ -1,10 +1,10 @@
 import Foundation
 
-public enum PrepareSupportDefaultBehavior: Int, CaseIterable, Codable, Hashable {
+public enum PrepareSupportDefaultBehavior: Int, CaseIterable, Codable, Hashable, Sendable {
     case Identifier = 1
 }
 
-public struct RenameClientCapabilities: Codable, Hashable {
+public struct RenameClientCapabilities: Codable, Hashable, Sendable {
     public let dynamicRegistration: Bool?
     public let prepareSupport: Bool?
     public let prepareSupportDefaultBehavior: PrepareSupportDefaultBehavior?
@@ -19,14 +19,14 @@ public struct RenameClientCapabilities: Codable, Hashable {
 }
 
 
-public struct RenameOptions: Codable, Hashable {
+public struct RenameOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var prepareProvider: Bool?
 }
 
 public typealias PrepareRenameParams = TextDocumentPositionParams
 
-public struct RenameParams: Codable, Hashable {
+public struct RenameParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let position: Position
     public let newName: String
@@ -38,12 +38,12 @@ public struct RenameParams: Codable, Hashable {
     }
 }
 
-public struct RangeWithPlaceholder: Codable, Hashable {
+public struct RangeWithPlaceholder: Codable, Hashable, Sendable {
     public let range: LSPRange
     public let placeholder: String
 }
 
-public struct PrepareRenameDefaultBehavior: Codable {
+public struct PrepareRenameDefaultBehavior: Codable, Hashable, Sendable {
     public let defaultBehavior: Bool
 }
 

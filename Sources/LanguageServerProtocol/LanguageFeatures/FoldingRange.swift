@@ -1,6 +1,6 @@
 import Foundation
 
-public struct FoldingRangeClientCapabilities: Codable, Hashable {
+public struct FoldingRangeClientCapabilities: Codable, Hashable, Sendable {
     public var dynamicRegistration: Bool?
     public var rangeLimit: Int?
     public var lineFoldingOnly: Bool?
@@ -12,7 +12,7 @@ public struct FoldingRangeClientCapabilities: Codable, Hashable {
     }
 }
 
-public struct FoldingRangeParams: Codable, Hashable {
+public struct FoldingRangeParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
 
     public init(textDocument: TextDocumentIdentifier) {
@@ -20,13 +20,13 @@ public struct FoldingRangeParams: Codable, Hashable {
     }
 }
 
-public enum FoldingRangeKind: String, CaseIterable, Codable, Hashable {
+public enum FoldingRangeKind: String, CaseIterable, Codable, Hashable, Sendable {
     case comment
     case imports
     case region
 }
 
-public struct FoldingRange: Codable, Hashable {
+public struct FoldingRange: Codable, Hashable, Sendable {
     public let startLine: Int
     public let startCharacter: Int?
     public let endLine: Int
