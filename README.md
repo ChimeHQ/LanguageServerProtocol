@@ -137,7 +137,7 @@ I prefer indentation with tabs for improved accessibility. But, I'd rather you u
 
 ## Suggestions or Feedback
 
-I'd love to hear from you! Get in touch via [mastodon](https://mastodon.social/@mattiem), an issue, or a pull request.
+I'd love to hear from you! Get in touch via an issue or pull request.
 
 By participating in this project you agree to abide by the [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 
