@@ -25,6 +25,8 @@ public class TokenRepresentation {
 
 	/// Merge new token data with existing representation
 	///
+	/// - Warning: The returned range diffs are not currently calculated and will always be empty.
+	///
 	/// - Returns: Ranges affected by the new data (currently unimplemented).
 	public func applyData(_ newData: [UInt32]) -> [LSPRange] {
 		let minLength = min(data.count, newData.count)
@@ -41,7 +43,8 @@ public class TokenRepresentation {
 
 		let diffRange = diffStartIndex..<data.count
 
-		if diffRange.isEmpty && data.count > 0 {
+		// data is the same
+		if diffRange.isEmpty && data.count == newData.count {
 			return []
 		}
 
