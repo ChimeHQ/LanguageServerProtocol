@@ -38,25 +38,25 @@ public struct SignatureHelpClientCapabilities: Codable, Hashable, Sendable {
     }
 }
 
-public struct ParameterInformation: Codable, Hashable {
+public struct ParameterInformation: Codable, Hashable, Sendable {
     public var label: TwoTypeOption<String, [UInt]>
     public var documentation: TwoTypeOption<String, MarkupContent>?
 }
 
-public struct SignatureInformation: Codable, Hashable {
+public struct SignatureInformation: Codable, Hashable, Sendable {
     public var label: String
     public var documentation: TwoTypeOption<String, MarkupContent>?
     public var parameters: [ParameterInformation]?
     public var activeParameter: UInt?
 }
 
-public struct SignatureHelp: Codable, Hashable {
+public struct SignatureHelp: Codable, Hashable, Sendable {
     public let signatures: [SignatureInformation]
     public let activeSignature: Int?
     public let activeParameter: Int?
 }
 
-public struct SignatureHelpRegistrationOptions: Codable, Hashable {
+public struct SignatureHelpRegistrationOptions: Codable, Hashable, Sendable {
     public let documentSelector: DocumentSelector?
     public let triggerCharacters: [String]?
 }

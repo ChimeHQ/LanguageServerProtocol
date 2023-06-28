@@ -1,6 +1,6 @@
 import Foundation
 
-public struct DidOpenTextDocumentParams: Codable, Hashable {
+public struct DidOpenTextDocumentParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentItem
 
     public init(textDocument: TextDocumentItem) {
@@ -8,7 +8,7 @@ public struct DidOpenTextDocumentParams: Codable, Hashable {
     }
 }
 
-public struct TextDocumentContentChangeEvent: Codable, Hashable {
+public struct TextDocumentContentChangeEvent: Codable, Hashable, Sendable {
     public let range: LSPRange?
     public let rangeLength: Int?
     public let text: String
@@ -20,7 +20,7 @@ public struct TextDocumentContentChangeEvent: Codable, Hashable {
     }
 }
 
-public struct DidChangeTextDocumentParams: Codable, Hashable {
+public struct DidChangeTextDocumentParams: Codable, Hashable, Sendable {
     public let textDocument: VersionedTextDocumentIdentifier
     public let contentChanges: [TextDocumentContentChangeEvent]
 
@@ -40,12 +40,12 @@ public struct DidChangeTextDocumentParams: Codable, Hashable {
     }
 }
 
-public struct TextDocumentChangeRegistrationOptions: Codable, Hashable {
+public struct TextDocumentChangeRegistrationOptions: Codable, Hashable, Sendable {
     public let documentSelector: DocumentSelector?
     public let syncKind: TextDocumentSyncKind
 }
 
-public struct DidSaveTextDocumentParams: Codable, Hashable {
+public struct DidSaveTextDocumentParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let text: String?
 
@@ -62,12 +62,12 @@ public struct DidSaveTextDocumentParams: Codable, Hashable {
     }
 }
 
-public struct TextDocumentSaveRegistrationOptions: Codable, Hashable {
+public struct TextDocumentSaveRegistrationOptions: Codable, Hashable, Sendable {
     public let documentSelector: DocumentSelector?
     public let includeText: Bool?
 }
 
-public struct DidCloseTextDocumentParams: Codable {
+public struct DidCloseTextDocumentParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
 
     public init(textDocument: TextDocumentIdentifier) {
@@ -81,13 +81,13 @@ public struct DidCloseTextDocumentParams: Codable {
     }
 }
 
-public enum TextDocumentSaveReason: Int, Codable, Hashable {
+public enum TextDocumentSaveReason: Int, Codable, Hashable, Sendable {
     case manual = 1
     case afterDelay = 2
     case focusOut = 3
 }
 
-public struct WillSaveTextDocumentParams: Codable, Hashable {
+public struct WillSaveTextDocumentParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let reason: TextDocumentSaveReason
 
@@ -99,7 +99,7 @@ public struct WillSaveTextDocumentParams: Codable, Hashable {
 
 public typealias WillSaveWaitUntilResponse = [TextEdit]?
 
-public struct TextEdit: Codable, Hashable {
+public struct TextEdit: Codable, Hashable, Sendable {
     public let range: LSPRange
     public let newText: String
 

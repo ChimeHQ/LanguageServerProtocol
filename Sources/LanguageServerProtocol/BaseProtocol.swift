@@ -9,7 +9,7 @@ public typealias DocumentUri = String
 
 public typealias ProgressToken = TwoTypeOption<Int, String>
 
-public struct CancelParams: Hashable, Codable {
+public struct CancelParams: Hashable, Codable, Sendable {
     public var id: TwoTypeOption<Int, String>
 
     public init(id: Int) {
@@ -21,23 +21,23 @@ public struct CancelParams: Hashable, Codable {
     }
 }
 
-public struct ProgressParams: Hashable, Codable {
+public struct ProgressParams: Hashable, Codable, Sendable {
     public var token: ProgressToken
     public var value: LSPAny?
 }
 
-public struct LogTraceParams: Hashable, Codable {
+public struct LogTraceParams: Hashable, Codable, Sendable {
     public var string: String
     public var verbose: String?
 }
 
-public enum TraceValue: String, Hashable, Codable {
+public enum TraceValue: String, Hashable, Codable, Sendable {
     case off
     case messages
     case verbose
 }
 
-public struct SetTraceParams: Hashable, Codable {
+public struct SetTraceParams: Hashable, Codable, Sendable {
     public var value: TraceValue
 
     public init(value: TraceValue) {

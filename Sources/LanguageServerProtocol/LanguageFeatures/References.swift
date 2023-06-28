@@ -2,7 +2,7 @@ import Foundation
 
 public typealias ReferenceClientCapabilities = DynamicRegistrationClientCapabilities
 
-public struct ReferenceContext: Codable, Hashable {
+public struct ReferenceContext: Codable, Hashable, Sendable {
     public let includeDeclaration: Bool
 
     public init(includeDeclaration: Bool) {
@@ -10,7 +10,7 @@ public struct ReferenceContext: Codable, Hashable {
     }
 }
 
-public struct ReferenceParams: Codable, Hashable {
+public struct ReferenceParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let position: Position
     public let context: ReferenceContext

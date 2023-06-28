@@ -3,14 +3,14 @@ import Foundation
 public typealias CodeActionKind = String
 
 extension CodeActionKind {
-    public static var Empty: CodeActionKind = ""
-    public static var Quickfix: CodeActionKind = "quickfix"
-    public static var Refactor: CodeActionKind = "refactor"
-    public static var RefactorExtract: CodeActionKind = "refactor.extract"
-    public static var RefactorInline: CodeActionKind = "refactor.inline"
-    public static var RefactorRewrite: CodeActionKind = "refactor.rewrite"
-    public static var Source: CodeActionKind = "source"
-    public static var SourceOrganizeImports: CodeActionKind = "source.organizeImports"
+    public static let Empty: CodeActionKind = ""
+    public static let Quickfix: CodeActionKind = "quickfix"
+    public static let Refactor: CodeActionKind = "refactor"
+    public static let RefactorExtract: CodeActionKind = "refactor.extract"
+    public static let RefactorInline: CodeActionKind = "refactor.inline"
+    public static let RefactorRewrite: CodeActionKind = "refactor.rewrite"
+    public static let Source: CodeActionKind = "source"
+    public static let SourceOrganizeImports: CodeActionKind = "source.organizeImports"
 }
 
 public struct CodeActionClientCapabilities: Codable, Hashable, Sendable {
@@ -55,7 +55,7 @@ public struct CodeActionClientCapabilities: Codable, Hashable, Sendable {
     }
 }
 
-public struct CodeActionContext: Codable, Hashable {
+public struct CodeActionContext: Codable, Hashable, Sendable {
     public let diagnostics: [Diagnostic]
     public let only: [CodeActionKind]?
 
@@ -65,7 +65,7 @@ public struct CodeActionContext: Codable, Hashable {
     }
 }
 
-public struct CodeActionParams: Codable, Hashable {
+public struct CodeActionParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let range: LSPRange
     public let context: CodeActionContext
@@ -77,8 +77,8 @@ public struct CodeActionParams: Codable, Hashable {
     }
 }
 
-public struct CodeAction: Codable, Hashable {
-    public struct Disabled: Codable, Hashable {
+public struct CodeAction: Codable, Hashable, Sendable {
+    public struct Disabled: Codable, Hashable, Sendable {
         public var disabled: Bool
     }
 

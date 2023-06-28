@@ -16,7 +16,7 @@ public struct DocumentSymbolClientCapabilities: Codable, Hashable, Sendable {
     }
 }
 
-public struct DocumentSymbolParams: Codable, Hashable {
+public struct DocumentSymbolParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
 
     public init(textDocument: TextDocumentIdentifier) {
@@ -24,7 +24,7 @@ public struct DocumentSymbolParams: Codable, Hashable {
     }
 }
 
-public struct DocumentSymbol: Codable, Hashable {
+public struct DocumentSymbol: Codable, Hashable, Sendable {
     public let name: String
     public let detail: String?
     public let kind: SymbolKind

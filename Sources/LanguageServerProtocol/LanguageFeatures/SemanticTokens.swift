@@ -70,12 +70,12 @@ public struct SemanticTokensClientCapabilities: Codable, Hashable, Sendable {
     }
 }
 
-public struct SemanticTokensLegend: Codable, Hashable {
+public struct SemanticTokensLegend: Codable, Hashable, Sendable {
     public var tokenTypes: [String]
     public var tokenModifiers: [String]
 }
 
-public enum SemanticTokenTypes: String, Codable, Hashable, CaseIterable {
+public enum SemanticTokenTypes: String, Codable, Hashable, CaseIterable, Sendable {
     case namespace = "namespace"
     case type = "type"
     case `class` = "class"
@@ -104,7 +104,7 @@ public enum SemanticTokenTypes: String, Codable, Hashable, CaseIterable {
     }
 }
 
-public enum SemanticTokenModifiers: String, Codable, Hashable, CaseIterable {
+public enum SemanticTokenModifiers: String, Codable, Hashable, CaseIterable, Sendable {
     case declaration = "declaration"
     case definition = "definition"
     case readonly = "readonly"
@@ -121,7 +121,7 @@ public enum SemanticTokenModifiers: String, Codable, Hashable, CaseIterable {
     }
 }
 
-public struct SemanticTokensParams: Codable, Hashable {
+public struct SemanticTokensParams: Codable, Hashable, Sendable {
     public var workDoneToken: ProgressToken?
     public var partialResultToken: ProgressToken?
     public var textDocument: TextDocumentIdentifier
@@ -131,18 +131,18 @@ public struct SemanticTokensParams: Codable, Hashable {
     }
 }
 
-public struct SemanticTokens: Codable {
+public struct SemanticTokens: Codable, Hashable, Sendable {
     public var resultId: String?
     public var data: [UInt32]
 }
 
 public typealias SemanticTokensResponse = SemanticTokens?
 
-public struct SemanticTokensPartialResult: Codable {
+public struct SemanticTokensPartialResult: Codable, Hashable, Sendable {
     public var data: [UInt32]
 }
 
-public struct SemanticTokensDeltaParams: Codable {
+public struct SemanticTokensDeltaParams: Codable, Hashable, Sendable {
     public var workDoneToken: ProgressToken?
     public var partialResultToken: ProgressToken?
     public var textDocument: TextDocumentIdentifier
@@ -154,20 +154,20 @@ public struct SemanticTokensDeltaParams: Codable {
     }
 }
 
-public struct SemanticTokensEdit: Codable {
+public struct SemanticTokensEdit: Codable, Hashable, Sendable {
     public var start: UInt
     public var deleteCount: UInt
     public var data: [UInt32]?
 }
 
-public struct SemanticTokensDelta: Codable {
+public struct SemanticTokensDelta: Codable, Hashable, Sendable {
     public var resultId: String?
     public var edits: [SemanticTokensEdit]
 }
 
 public typealias SemanticTokensDeltaResponse = TwoTypeOption<SemanticTokens, SemanticTokensDelta>?
 
-public struct SemanticTokensRangeParams: Codable {
+public struct SemanticTokensRangeParams: Codable, Hashable, Sendable {
     public var workDoneToken: ProgressToken?
     public var partialResultToken: ProgressToken?
     public var textDocument: TextDocumentIdentifier

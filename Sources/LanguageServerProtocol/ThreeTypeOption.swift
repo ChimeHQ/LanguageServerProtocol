@@ -38,8 +38,6 @@ extension ThreeTypeOption: Codable where T: Codable, U: Codable, V: Codable {
     }
 }
 
-extension ThreeTypeOption: Equatable where T: Equatable, U: Equatable, V: Equatable {
-}
-
-extension ThreeTypeOption: Hashable where T: Hashable, U: Hashable, V: Hashable {
-}
+extension ThreeTypeOption: Equatable where T: Equatable, U: Equatable, V: Equatable {}
+extension ThreeTypeOption: Hashable where T: Hashable, U: Hashable, V: Hashable {}
+extension ThreeTypeOption: Sendable where T: Sendable, U: Sendable, V: Sendable {}

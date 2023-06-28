@@ -1,9 +1,15 @@
 import Foundation
 
-public struct Registration: Codable {
+public struct Registration: Codable, Hashable, Sendable {
     public var id: String
     public var method: String
     public var registerOptions: LSPAny?
+
+	public init(id: String, method: String, registerOptions: LSPAny? = nil) {
+		self.id = id
+		self.method = method
+		self.registerOptions = registerOptions
+	}
 }
 
 extension Registration {
@@ -19,7 +25,7 @@ extension Registration {
 
     func decodeServerRegistration() throws -> ServerRegistration {
         guard let regMethod = ServerRegistration.Method(rawValue: method) else {
-            throw ServerError.unhandledMethod(method)
+            throw ServerError.unhandledRegisterationMethod(method)
         }
 
         switch regMethod {
@@ -44,19 +50,23 @@ extension Registration {
     }
 }
 
-public struct RegistrationParams: Codable {
+public struct RegistrationParams: Codable, Hashable, Sendable {
     public var registrations: [Registration]
+
+	public init(registrations: [Registration]) {
+		self.registrations = registrations
+	}
 
     public var serverRegistrations: [ServerRegistration] {
         return registrations.compactMap({ $0.serverRegistration })
     }
 }
 
-public struct Unregistration: Codable {
+public struct Unregistration: Codable, Hashable, Sendable {
     public var id: String
     public var method: String
 }
 
-public struct UnregistrationParams: Codable {
+public struct UnregistrationParams: Codable, Hashable, Sendable {
     public var unregistrations: [Unregistration]
 }

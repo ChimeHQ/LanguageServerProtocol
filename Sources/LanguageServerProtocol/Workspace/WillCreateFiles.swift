@@ -1,11 +1,11 @@
 import Foundation
 
-public enum FileOperationPatternKind: String, Codable, Hashable {
+public enum FileOperationPatternKind: String, Codable, Hashable, Sendable {
     case file = "file"
     case folder = "folder"
 }
 
-public struct FileOperationPatternOptions: Codable, Hashable {
+public struct FileOperationPatternOptions: Codable, Hashable, Sendable {
     public var ignoreCase: Bool?
 
     public init(ignoreCase: Bool? = nil) {
@@ -13,7 +13,7 @@ public struct FileOperationPatternOptions: Codable, Hashable {
     }
 }
 
-public struct FileOperationPattern: Codable, Hashable {
+public struct FileOperationPattern: Codable, Hashable, Sendable {
     public let glob: String
     public let matches: FileOperationPatternKind?
     public let options: FileOperationPatternOptions?
@@ -25,7 +25,7 @@ public struct FileOperationPattern: Codable, Hashable {
     }
 }
 
-public struct FileOperationFilter: Codable, Hashable {
+public struct FileOperationFilter: Codable, Hashable, Sendable {
     public var scheme: String?
     public var pattern: FileOperationPattern
 
@@ -35,7 +35,7 @@ public struct FileOperationFilter: Codable, Hashable {
     }
 }
 
-public struct FileOperationRegistrationOptions: Codable, Hashable {
+public struct FileOperationRegistrationOptions: Codable, Hashable, Sendable {
     public var filters: [FileOperationFilter]
 
     public init(filters: [FileOperationFilter]) {
@@ -43,7 +43,7 @@ public struct FileOperationRegistrationOptions: Codable, Hashable {
     }
 }
 
-public struct CreateFilesParams: Codable, Hashable {
+public struct CreateFilesParams: Codable, Hashable, Sendable {
     public var files: [FileCreate]
 
     public init(files: [FileCreate]) {
@@ -51,7 +51,7 @@ public struct CreateFilesParams: Codable, Hashable {
     }
 }
 
-public struct FileCreate: Codable, Hashable {
+public struct FileCreate: Codable, Hashable, Sendable {
     public var uri: String
 
     public init(uri: String) {

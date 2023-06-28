@@ -2,7 +2,7 @@ import Foundation
 
 public typealias DocumentColorClientCapabilities = DynamicRegistrationClientCapabilities
 
-public struct DocumentColorParams: Codable, Hashable {
+public struct DocumentColorParams: Codable, Hashable, Sendable {
     public let workDoneToken: ProgressToken?
     public let partialResultToken: ProgressToken?
     public let textDocument: TextDocumentIdentifier
@@ -14,14 +14,14 @@ public struct DocumentColorParams: Codable, Hashable {
     }
 }
 
-public struct Color: Codable, Hashable {
+public struct Color: Codable, Hashable, Sendable {
     public let red: Float
     public let green: Float
     public let blue: Float
     public let alpha: Float
 }
 
-public struct ColorInformation: Codable, Hashable {
+public struct ColorInformation: Codable, Hashable, Sendable {
     public let range: LSPRange
     public let color: Color
 }

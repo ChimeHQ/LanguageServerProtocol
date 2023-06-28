@@ -33,7 +33,7 @@ public struct CodeLensParams: Codable, Hashable, Sendable {
     }
 }
 
-public struct CodeLens: Codable, Sendable {
+public struct CodeLens: Codable, Hashable, Sendable {
     public var range: LSPRange
     public var command: Command?
     public var data: LSPAny?

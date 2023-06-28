@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ConfigurationItem: Codable, Hashable {
+public struct ConfigurationItem: Codable, Hashable, Sendable {
     public var scopeUri: DocumentUri?
     public var section: String?
 
@@ -10,7 +10,7 @@ public struct ConfigurationItem: Codable, Hashable {
     }
 }
 
-public struct ConfigurationParams: Codable, Hashable {
+public struct ConfigurationParams: Codable, Hashable, Sendable {
     public var items: [ConfigurationItem]
 
     public init(items: [ConfigurationItem]) {

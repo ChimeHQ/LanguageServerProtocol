@@ -14,8 +14,9 @@ public struct Token: Codable, Hashable, Sendable {
 }
 
 /// Stores and updates raw Semantic Token data and converts it into Tokens.
-public class TokenRepresentation {
+public final class TokenRepresentation {
 	private var data: [UInt32]
+	public private(set) var lastResultId: String?
 	public let legend: SemanticTokensLegend
 
 	public init(legend: SemanticTokensLegend) {
@@ -128,3 +129,32 @@ public class TokenRepresentation {
 	}
 }
 
+extension TokenRepresentation {
+	public func applyResponse(_ response: SemanticTokensDeltaResponse) -> [LSPRange] {
+		switch response {
+		case .optionA(let fullResponse):
+			self.lastResultId = fullResponse.resultId
+
+			return applyData(fullResponse.data)
+		case .optionB(let delta):
+			self.lastResultId = delta.resultId
+
+			return applyEdits(delta.edits)
+		case nil:
+			return []
+		}
+	}
+
+	public func applyResponse(_ response: SemanticTokensResponse) -> [LSPRange] {
+		guard let response = response else {
+			self.lastResultId = nil
+			self.data = []
+
+			return []
+		}
+
+		self.lastResultId = response.resultId
+
+		return applyData(response.data)
+	}
+}

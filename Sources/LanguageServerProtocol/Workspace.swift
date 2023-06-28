@@ -1,6 +1,6 @@
 import Foundation
 
-public struct WatchKind: OptionSet, Codable, Hashable {
+public struct WatchKind: OptionSet, Codable, Hashable, Sendable {
     public let rawValue: Int
 
     public init(rawValue: Int) {
@@ -14,7 +14,7 @@ public struct WatchKind: OptionSet, Codable, Hashable {
     public static let all: WatchKind = [.create, .change, .delete]
 }
 
-public struct FileSystemWatcher: Codable, Hashable {
+public struct FileSystemWatcher: Codable, Hashable, Sendable {
     public var globPattern: String
     public var kind: WatchKind?
 
@@ -24,17 +24,17 @@ public struct FileSystemWatcher: Codable, Hashable {
     }
 }
 
-public struct DidChangeWatchedFilesRegistrationOptions: Codable, Hashable {
+public struct DidChangeWatchedFilesRegistrationOptions: Codable, Hashable, Sendable {
     public var watchers: [FileSystemWatcher]
 }
 
-public enum FileChangeType: Int, Codable, Hashable {
+public enum FileChangeType: Int, Codable, Hashable, Sendable {
     case created = 1
     case changed = 2
     case deleted = 3
 }
 
-public struct FileEvent: Codable, Hashable {
+public struct FileEvent: Codable, Hashable, Sendable {
     public var uri: DocumentUri
     public var type: FileChangeType
 
@@ -44,7 +44,7 @@ public struct FileEvent: Codable, Hashable {
     }
 }
 
-public struct DidChangeWatchedFilesParams: Codable, Hashable {
+public struct DidChangeWatchedFilesParams: Codable, Hashable, Sendable {
     public var changes: [FileEvent]
 
     public init(changes: [FileEvent]) {
@@ -62,7 +62,7 @@ public struct WorkspaceFolder: Codable, Hashable, Sendable {
     }
 }
 
-public struct WorkspaceFoldersChangeEvent: Codable, Hashable {
+public struct WorkspaceFoldersChangeEvent: Codable, Hashable, Sendable {
     public var added: [WorkspaceFolder]
     public var removed: [WorkspaceFolder]
 
@@ -72,7 +72,7 @@ public struct WorkspaceFoldersChangeEvent: Codable, Hashable {
     }
 }
 
-public struct DidChangeWorkspaceFoldersParams: Codable, Hashable {
+public struct DidChangeWorkspaceFoldersParams: Codable, Hashable, Sendable {
     public var event: WorkspaceFoldersChangeEvent
 
     public init(event: WorkspaceFoldersChangeEvent) {
@@ -80,7 +80,7 @@ public struct DidChangeWorkspaceFoldersParams: Codable, Hashable {
     }
 }
 
-public struct DidChangeConfigurationParams: Codable, Hashable {
+public struct DidChangeConfigurationParams: Codable, Hashable, Sendable {
     public var settings: LSPAny?
 
     public init(settings: LSPAny) {
@@ -92,7 +92,7 @@ public enum SymbolTag: Int, Codable, Hashable, CaseIterable, Sendable {
     case Deprecated = 1
 }
 
-public struct SymbolInformation: Codable, Hashable {
+public struct SymbolInformation: Codable, Hashable, Sendable {
     public let name: String
     public let kind: SymbolKind
     public let tags: [SymbolTag]?
@@ -101,12 +101,12 @@ public struct SymbolInformation: Codable, Hashable {
     public let containerName: String?
 }
 
-public struct CreateFileOptions: Codable, Hashable {
+public struct CreateFileOptions: Codable, Hashable, Sendable {
     public let overwrite: Bool?
     public let ignoreIfExists: Bool?
 }
 
-public struct CreateFile: Codable, Hashable {
+public struct CreateFile: Codable, Hashable, Sendable {
    public  let kind: String
     public let uri: DocumentUri
     public let options: CreateFileOptions?
@@ -114,30 +114,30 @@ public struct CreateFile: Codable, Hashable {
 
 public typealias RenameFileOptions = CreateFileOptions
 
-public struct RenameFile: Codable, Hashable {
+public struct RenameFile: Codable, Hashable, Sendable {
     public let kind: String
     public let oldUri: DocumentUri
     public let newUri: DocumentUri
     public let options: RenameFileOptions
 }
 
-public struct DeleteFileOptions: Codable, Hashable {
+public struct DeleteFileOptions: Codable, Hashable, Sendable {
     public let recursive: Bool?
     public let ignoreIfNotExists: Bool?
 }
 
-public struct DeleteFile: Codable, Hashable {
+public struct DeleteFile: Codable, Hashable, Sendable {
     public let kind: String
     public let uri: DocumentUri
     public let options: DeleteFileOptions
 }
 
-public struct TextDocumentEdit: Codable, Hashable {
+public struct TextDocumentEdit: Codable, Hashable, Sendable {
     public let textDocument: VersionedTextDocumentIdentifier
     public let edits: [TextEdit]
 }
 
-public enum WorkspaceEditDocumentChange: Codable, Hashable {
+public enum WorkspaceEditDocumentChange: Codable, Hashable, Sendable {
     case textDocumentEdit(TextDocumentEdit)
     case createFile(CreateFile)
     case renameFile(RenameFile)
@@ -174,7 +174,7 @@ public enum WorkspaceEditDocumentChange: Codable, Hashable {
     }
 }
 
-public struct WorkspaceEdit: Codable, Hashable {
+public struct WorkspaceEdit: Codable, Hashable, Sendable {
     public let changes: [DocumentUri : [TextEdit]]?
     public let documentChanges: [WorkspaceEditDocumentChange]?
 }

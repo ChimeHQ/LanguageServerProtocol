@@ -3,7 +3,7 @@ import Foundation
 public typealias DocumentFormattingClientCapabilities = DynamicRegistrationClientCapabilities
 public typealias DocumentRangeFormattingClientCapabilities = DynamicRegistrationClientCapabilities
 
-public struct FormattingOptions: Codable, Hashable {
+public struct FormattingOptions: Codable, Hashable, Sendable {
     public let tabSize: Int
     public let insertSpaces: Bool
 
@@ -13,7 +13,7 @@ public struct FormattingOptions: Codable, Hashable {
     }
 }
 
-public struct DocumentFormattingParams: Codable, Hashable {
+public struct DocumentFormattingParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let options: FormattingOptions
 
@@ -23,7 +23,7 @@ public struct DocumentFormattingParams: Codable, Hashable {
     }
 }
 
-public struct DocumentRangeFormattingParams: Codable, Hashable {
+public struct DocumentRangeFormattingParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let range: LSPRange
     public let options: FormattingOptions
@@ -35,7 +35,7 @@ public struct DocumentRangeFormattingParams: Codable, Hashable {
     }
 }
 
-public struct DocumentOnTypeFormattingParams: Codable, Hashable {
+public struct DocumentOnTypeFormattingParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let position: Position
     public let ch: String

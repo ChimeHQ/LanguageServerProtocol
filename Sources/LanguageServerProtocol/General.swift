@@ -48,11 +48,11 @@ public struct InitializeParams: Codable, Hashable, Sendable {
     }
 }
 
-public struct InitializationResponse: Codable, Hashable {
+public struct InitializationResponse: Codable, Hashable, Sendable {
     public let capabilities: ServerCapabilities
 }
 
-public struct InitializedParams: Codable, Hashable {
+public struct InitializedParams: Codable, Hashable, Sendable {
     public init() {
     }
 }

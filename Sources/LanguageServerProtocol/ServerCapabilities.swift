@@ -1,6 +1,6 @@
 import Foundation
 
-public struct StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions: Codable, Hashable {
+public struct StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var textDocument: TextDocumentIdentifier
     public var position: Position
@@ -8,7 +8,7 @@ public struct StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions:
     public var id: String?
 }
 
-public struct PartialResultsWorkDoneProgressTextDocumentRegistrationOptions: Codable, Hashable {
+public struct PartialResultsWorkDoneProgressTextDocumentRegistrationOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var textDocument: TextDocumentIdentifier
     public var position: Position
@@ -16,21 +16,21 @@ public struct PartialResultsWorkDoneProgressTextDocumentRegistrationOptions: Cod
     public var partialResultToken: ProgressToken?
 }
 
-public struct WorkDoneProgressOptions: Codable, Hashable {
+public struct WorkDoneProgressOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
 }
 
-public struct SaveOptions: Codable, Hashable {
+public struct SaveOptions: Codable, Hashable, Sendable {
     public let includeText: Bool?
 }
 
-public enum TextDocumentSyncKind: Int, Codable, Hashable {
+public enum TextDocumentSyncKind: Int, Codable, Hashable, Sendable {
     case none = 0
     case full = 1
     case incremental = 2
 }
 
-public struct TextDocumentSyncOptions: Codable, Hashable {
+public struct TextDocumentSyncOptions: Codable, Hashable, Sendable {
     public var openClose: Bool?
     public var change: TextDocumentSyncKind?
     public var willSave: Bool?
@@ -49,14 +49,14 @@ public struct TextDocumentSyncOptions: Codable, Hashable {
     }
 }
 
-public struct CompletionOptions: Codable, Hashable {
+public struct CompletionOptions: Codable, Hashable, Sendable {
     public var resolveProvider: Bool?
     public var triggerCharacters: [String]
 }
 
 public typealias HoverOptions = WorkDoneProgressOptions
 
-public struct SignatureHelpOptions: Codable, Hashable {
+public struct SignatureHelpOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var triggerCharacters: [String]?
     public var retriggerCharacters: [String]?
@@ -78,12 +78,12 @@ public typealias ImplementationRegistrationOptions = StaticRegistrationWorkDoneP
 
 public typealias ReferenceOptions = WorkDoneProgressOptions
 
-public struct DocumentSymbolOptions: Codable, Hashable {
+public struct DocumentSymbolOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var label: String?
 }
 
-public struct CodeActionOptions: Codable, Hashable {
+public struct CodeActionOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var codeActionKinds: [CodeActionKind]?
     public var resolveProvider: Bool?
@@ -97,7 +97,7 @@ public typealias DocumentFormattingOptions = WorkDoneProgressOptions
 
 public typealias DocumentRangeFormattingOptions = WorkDoneProgressOptions
 
-public struct DocumentOnTypeFormattingOptions: Codable, Hashable {
+public struct DocumentOnTypeFormattingOptions: Codable, Hashable, Sendable {
     public var firstTriggerCharacter: String
     public var moreTriggerCharacter: [String]?
 }
@@ -110,19 +110,19 @@ public typealias LinkedEditingRangeOptions = WorkDoneProgressOptions
 
 public typealias LinkedEditingRangeRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
 
-public struct SemanticTokensOptions: Codable, Hashable {
+public struct SemanticTokensOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var legend: SemanticTokensLegend
-    public var range: SemanticTokensClientCapabilities.Requests.RangeOption
-    public var full: SemanticTokensClientCapabilities.Requests.FullOption
+    public var range: SemanticTokensClientCapabilities.Requests.RangeOption?
+    public var full: SemanticTokensClientCapabilities.Requests.FullOption?
 }
 
-public struct SemanticTokensRegistrationOptions: Codable, Hashable {
+public struct SemanticTokensRegistrationOptions: Codable, Hashable, Sendable {
     public var documentSelector: DocumentSelector?
     public var workDoneProgress: Bool?
     public var legend: SemanticTokensLegend
-    public var range: SemanticTokensClientCapabilities.Requests.RangeOption
-    public var full: SemanticTokensClientCapabilities.Requests.FullOption
+    public var range: SemanticTokensClientCapabilities.Requests.RangeOption?
+    public var full: SemanticTokensClientCapabilities.Requests.FullOption?
     public var id: String?
 }
 
@@ -130,24 +130,44 @@ public typealias MonikerOptions = WorkDoneProgressOptions
 
 public typealias MonikerRegistrationOptions = PartialResultsWorkDoneProgressTextDocumentRegistrationOptions
 
-public struct WorkspaceFoldersServerCapabilities: Codable, Hashable {
+public struct WorkspaceFoldersServerCapabilities: Codable, Hashable, Sendable {
     public var supported: Bool?
     public var changeNotifications: TwoTypeOption<String, Bool>?
 }
 
-public struct ServerCapabilities: Codable, Hashable {
-    public struct Workspace: Codable, Hashable {
-        public struct FileOperations: Codable, Hashable {
+public struct ServerCapabilities: Codable, Hashable, Sendable {
+    public struct Workspace: Codable, Hashable, Sendable {
+        public struct FileOperations: Codable, Hashable, Sendable {
             public var didCreate: FileOperationRegistrationOptions?
             public var willCreate: FileOperationRegistrationOptions?
             public var didRename: FileOperationRegistrationOptions?
             public var willRename: FileOperationRegistrationOptions?
             public var didDelete: FileOperationRegistrationOptions?
             public var willDelete: FileOperationRegistrationOptions?
+
+			public init(didCreate: FileOperationRegistrationOptions? = nil,
+						willCreate: FileOperationRegistrationOptions? = nil,
+						didRename: FileOperationRegistrationOptions? = nil,
+						willRename: FileOperationRegistrationOptions? = nil,
+						didDelete: FileOperationRegistrationOptions? = nil,
+						willDelete: FileOperationRegistrationOptions? = nil) {
+				self.didCreate = didCreate
+				self.willCreate = willCreate
+				self.didRename = didRename
+				self.willRename = willRename
+				self.didDelete = didDelete
+				self.willDelete = willDelete
+			}
         }
 
         public var workspaceFolders: WorkspaceFoldersServerCapabilities?
         public var fileOperations: FileOperations?
+
+		public init(workspaceFolders: WorkspaceFoldersServerCapabilities? = nil,
+					fileOperations: FileOperations? = nil) {
+			self.workspaceFolders = workspaceFolders
+			self.fileOperations = fileOperations
+		}
     }
 
     public var textDocumentSync: TwoTypeOption<TextDocumentSyncOptions, TextDocumentSyncKind>?

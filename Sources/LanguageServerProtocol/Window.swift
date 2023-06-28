@@ -1,6 +1,6 @@
 import Foundation
 
-public enum MessageType: Int, Codable, Hashable {
+public enum MessageType: Int, Codable, Hashable, Sendable {
     case error = 1
     case warning = 2
     case info = 3
@@ -22,7 +22,7 @@ extension MessageType: CustomStringConvertible {
     }
 }
 
-public struct LogMessageParams: Codable, Hashable {
+public struct LogMessageParams: Codable, Hashable, Sendable {
     public let type: MessageType
     public let message: String
 }
@@ -35,7 +35,7 @@ extension LogMessageParams: CustomStringConvertible {
 
 public typealias ShowMessageParams = LogMessageParams
 
-public struct ShowDocumentParams: Hashable, Codable {
+public struct ShowDocumentParams: Hashable, Codable, Sendable {
     public var uri: URI
     public var external: Bool?
     public var takeFocus: Bool?
@@ -49,7 +49,7 @@ public struct ShowDocumentParams: Hashable, Codable {
     }
 }
 
-public struct WorkDoneProgressCreateParams: Hashable, Codable {
+public struct WorkDoneProgressCreateParams: Hashable, Codable, Sendable {
     public var token: ProgressToken
 
     public init(token: ProgressToken) {
@@ -58,3 +58,11 @@ public struct WorkDoneProgressCreateParams: Hashable, Codable {
 }
 
 public typealias WorkDoneProgressCancelParams = WorkDoneProgressCreateParams
+
+public struct ShowDocumentResult: Hashable, Codable, Sendable {
+	public let success: Bool
+
+	public init(success: Bool) {
+		self.success = success
+	}
+}

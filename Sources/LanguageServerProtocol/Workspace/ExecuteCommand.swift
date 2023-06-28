@@ -2,7 +2,7 @@ import Foundation
 
 public typealias ExecuteCommandClientCapabilities = DynamicRegistrationClientCapabilities
 
-public struct ExecuteCommandOptions: Codable, Hashable {
+public struct ExecuteCommandOptions: Codable, Hashable, Sendable {
     public var workDoneProgress: Bool?
     public var commands: [String]
 
@@ -14,7 +14,7 @@ public struct ExecuteCommandOptions: Codable, Hashable {
 
 public typealias ExecuteCommandRegistrationOptions = ExecuteCommandOptions
 
-public struct ExecuteCommandParams: Codable, Hashable {
+public struct ExecuteCommandParams: Codable, Hashable, Sendable {
     public var workDoneToken: ProgressToken?
     public var command: String
     public var arguments: [LSPAny]?

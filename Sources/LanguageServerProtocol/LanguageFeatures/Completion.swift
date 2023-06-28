@@ -75,7 +75,7 @@ public struct CompletionClientCapabilities: Codable, Hashable, Sendable {
     }
 }
 
-public enum CompletionTriggerKind: Int, Codable, Hashable {
+public enum CompletionTriggerKind: Int, Codable, Hashable, Sendable {
     case invoked = 1
     case triggerCharacter = 2
     case triggerForIncompleteCompletions = 3
@@ -113,7 +113,7 @@ public enum CompletionItemTag: Int, CaseIterable, Codable, Hashable, Sendable {
     case deprecated = 1
 }
 
-public struct CompletionContext: Codable, Hashable {
+public struct CompletionContext: Codable, Hashable, Sendable {
     public let triggerKind: CompletionTriggerKind
     public let triggerCharacter: String?
 
@@ -123,7 +123,7 @@ public struct CompletionContext: Codable, Hashable {
     }
 }
 
-public struct CompletionParams: Codable, Hashable {
+public struct CompletionParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let position: Position
     public let context: CompletionContext?
@@ -142,12 +142,12 @@ public struct CompletionParams: Codable, Hashable {
     }
 }
 
-public enum InsertTextFormat: Int, Codable, Hashable {
+public enum InsertTextFormat: Int, Codable, Hashable, Sendable {
     case plaintext = 1
     case snippet = 2
 }
 
-public struct CompletionItem: Codable, Hashable {
+public struct CompletionItem: Codable, Hashable, Sendable {
     public let label: String
     public let kind: CompletionItemKind?
     public let detail: String?
@@ -197,7 +197,7 @@ public struct CompletionItem: Codable, Hashable {
     }
 }
 
-public struct CompletionList: Codable, Hashable {
+public struct CompletionList: Codable, Hashable, Sendable {
     public let isIncomplete: Bool
     public let items: [CompletionItem]
 

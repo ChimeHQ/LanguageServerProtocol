@@ -18,7 +18,7 @@ public struct CallHierarchyPrepareParams: Codable, Hashable, Sendable {
 	}
 }
 
-public struct CallHierarchyItem: Codable, Hashable {
+public struct CallHierarchyItem: Codable, Hashable, Sendable {
 	public let name: String
 	public let kind: SymbolKind
 	public let tag: [SymbolTag]?
@@ -49,7 +49,7 @@ public struct CallHierarchyItem: Codable, Hashable {
 
 public typealias CallHierarchyPrepareResponse = [CallHierarchyItem]?
 
-public struct CallHierarchyIncomingCallsParams: Codable, Hashable {
+public struct CallHierarchyIncomingCallsParams: Codable, Hashable, Sendable {
 	public let workDoneToken: ProgressToken?
 	public let partialResultToken: ProgressToken?
 
@@ -62,7 +62,7 @@ public struct CallHierarchyIncomingCallsParams: Codable, Hashable {
 	}
 }
 
-public struct CallHierarchyIncomingCall: Codable, Hashable {
+public struct CallHierarchyIncomingCall: Codable, Hashable, Sendable {
 	public let from: CallHierarchyItem
 	public let fromRanges: [LSPRange]
 }
@@ -71,7 +71,7 @@ public typealias CallHierarchyIncomingCallsResponse = [CallHierarchyIncomingCall
 
 public typealias CallHierarchyOutgoingCallsParams = CallHierarchyIncomingCallsParams
 
-public struct CallHierarchyOutgoingCall: Codable, Hashable {
+public struct CallHierarchyOutgoingCall: Codable, Hashable, Sendable {
 	public let to: CallHierarchyItem
 	public let fromRanges: [LSPRange]
 }

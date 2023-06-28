@@ -28,8 +28,10 @@ dependencies: [
 
 For the most part, this library strives to be a straightforward version of the spec in Swift. There are a few places, however, where it just makes sense to pull in some extra functionality.
 
+- `MockServer`: a stand-in that is useful for mocking a real server
+- `Server`: a protocol that describes the essential server functionality
 - `Snippet`: makes it easier to interpret the contents of completion results
-- `SemanticTokensClient`: helps to consume Semantic Token information
+- `TokenRepresentation`: maintains the state of a document's semantic tokens
 
 ## Supported Features
 

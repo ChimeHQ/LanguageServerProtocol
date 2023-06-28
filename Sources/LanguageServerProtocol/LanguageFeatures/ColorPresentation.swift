@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ColorPresentationParams: Codable, Hashable {
+public struct ColorPresentationParams: Codable, Hashable, Sendable {
     public let workDoneToken: ProgressToken?
     public let partialResultToken: ProgressToken?
     public let textDocument: TextDocumentIdentifier
@@ -16,7 +16,7 @@ public struct ColorPresentationParams: Codable, Hashable {
     }
 }
 
-public struct ColorPresentation: Codable, Hashable {
+public struct ColorPresentation: Codable, Hashable, Sendable {
     public let label: String
     public let textEdit: TextEdit?
     public let additionalTextEdits: [TextEdit]?

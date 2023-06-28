@@ -6,7 +6,7 @@ public typealias SelectionRangeOptions = WorkDoneProgressOptions
 
 public typealias SelectionRangeRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
 
-public struct SelectionRangeParams: Codable, Hashable {
+public struct SelectionRangeParams: Codable, Hashable, Sendable {
     public let workDoneToken: ProgressToken?
     public let partialResultToken: ProgressToken?
     public let textDocument: TextDocumentIdentifier
@@ -20,7 +20,7 @@ public struct SelectionRangeParams: Codable, Hashable {
     }
 }
 
-public class SelectionRange: Codable {
+public final class SelectionRange: Codable, Sendable {
     public let range: LSPRange
     public let parent: SelectionRange?
 }

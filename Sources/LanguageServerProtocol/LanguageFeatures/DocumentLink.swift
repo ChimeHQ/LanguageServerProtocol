@@ -44,6 +44,13 @@ public struct DocumentLink: Codable, Hashable, Sendable {
     public var target: DocumentUri?
     public var tooltip: String?
     public var data: LSPAny?
+
+	public init(range: LSPRange, target: DocumentUri?, tooltip: String?, data: LSPAny?) {
+		self.range = range
+		self.target = target
+		self.tooltip = tooltip
+		self.data = data
+	}
 }
 
 public typealias DocumentLinkResponse = [DocumentLink]?

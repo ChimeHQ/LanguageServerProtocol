@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ApplyWorkspaceEditParams: Codable, Hashable {
+public struct ApplyWorkspaceEditParams: Codable, Hashable, Sendable {
     public var label: String?
     public var edit: WorkspaceEdit
 
@@ -10,7 +10,7 @@ public struct ApplyWorkspaceEditParams: Codable, Hashable {
     }
 }
 
-public struct ApplyWorkspaceEditResult: Codable, Hashable {
+public struct ApplyWorkspaceEditResult: Codable, Hashable, Sendable {
     public var applied: Bool
     public var failureReason: String?
     public var failedChange: UInt?

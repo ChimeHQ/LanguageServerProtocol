@@ -3,10 +3,11 @@ import JSONRPC
 typealias UnusedResult = String?
 typealias UnusedParam = String?
 
-public enum ClientNotification {
-    public enum Method: String {
+public enum ClientNotification: Sendable, Hashable {
+    public enum Method: String, Hashable, Sendable {
         case initialized
         case exit
+		case windowWorkDoneProgressCancel = "window/workDoneProgress/cancel"
         case workspaceDidChangeWatchedFiles = "workspace/didChangeWatchedFiles"
         case workspaceDidChangeConfiguration = "workspace/didChangeConfiguration"
         case workspaceDidChangeWorkspaceFolders = "workspace/didChangeWorkspaceFolders"
@@ -33,6 +34,7 @@ public enum ClientNotification {
     case didChangeWatchedFiles(DidChangeWatchedFilesParams)
     case protocolCancelRequest(CancelParams)
     case protocolSetTrace(SetTraceParams)
+	case windowWorkDoneProgressCancel(WorkDoneProgressCancelParams)
     case workspaceDidChangeWorkspaceFolders(DidChangeWorkspaceFoldersParams)
     case workspaceDidChangeConfiguration(DidChangeConfigurationParams)
     case workspaceDidCreateFiles(CreateFilesParams)
@@ -63,6 +65,8 @@ public enum ClientNotification {
             return .protocolCancelRequest
         case .protocolSetTrace:
             return .protocolSetTrace
+		case .windowWorkDoneProgressCancel:
+			return .windowWorkDoneProgressCancel
         case .workspaceDidChangeWorkspaceFolders:
             return .workspaceDidChangeWorkspaceFolders
         case .workspaceDidChangeConfiguration:
@@ -77,8 +81,8 @@ public enum ClientNotification {
     }
 }
 
-public enum ClientRequest {
-    public enum Method: String {
+public enum ClientRequest: Sendable, Hashable {
+	public enum Method: String, Hashable, Sendable {
         case initialize
         case shutdown
         case workspaceExecuteCommand = "workspace/executeCommand"
@@ -125,47 +129,47 @@ public enum ClientRequest {
         case custom
     }
 
-    case initialize(InitializeParams)
-    case shutdown
-    case workspaceExecuteCommand(ExecuteCommandParams)
-    case workspaceWillCreateFiles(CreateFilesParams)
-    case workspaceWillRenameFiles(RenameFilesParams)
-    case workspaceWillDeleteFiles(DeleteFilesParams)
-    case workspaceSymbol(WorkspaceSymbolParams)
-    case workspaceSymbolResolve(WorkspaceSymbol)
-    case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
-    case completion(CompletionParams)
-    case completionItemResolve(CompletionItem)
-    case hover(TextDocumentPositionParams)
-    case signatureHelp(TextDocumentPositionParams)
-    case declaration(TextDocumentPositionParams)
-    case definition(TextDocumentPositionParams)
-    case typeDefinition(TextDocumentPositionParams)
-    case implementation(TextDocumentPositionParams)
-    case documentHighlight(DocumentHighlightParams)
-    case documentSymbol(DocumentSymbolParams)
-    case codeAction(CodeActionParams)
-    case codeLens(CodeLensParams)
-    case codeLensResolve(CodeLens)
-    case selectionRange(SelectionRangeParams)
+	case initialize(InitializeParams)
+	case shutdown
+	case workspaceExecuteCommand(ExecuteCommandParams)
+	case workspaceWillCreateFiles(CreateFilesParams)
+	case workspaceWillRenameFiles(RenameFilesParams)
+	case workspaceWillDeleteFiles(DeleteFilesParams)
+	case workspaceSymbol(WorkspaceSymbolParams)
+	case workspaceSymbolResolve(WorkspaceSymbol)
+	case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
+	case completion(CompletionParams)
+	case completionItemResolve(CompletionItem)
+	case hover(TextDocumentPositionParams)
+	case signatureHelp(TextDocumentPositionParams)
+	case declaration(TextDocumentPositionParams)
+	case definition(TextDocumentPositionParams)
+	case typeDefinition(TextDocumentPositionParams)
+	case implementation(TextDocumentPositionParams)
+	case documentHighlight(DocumentHighlightParams)
+	case documentSymbol(DocumentSymbolParams)
+	case codeAction(CodeActionParams)
+	case codeLens(CodeLensParams)
+	case codeLensResolve(CodeLens)
+	case selectionRange(SelectionRangeParams)
 	case prepareCallHierarchy(CallHierarchyPrepareParams)
-    case prepareRename(PrepareRenameParams)
-    case rename(RenameParams)
-    case documentLink(DocumentLinkParams)
-    case documentLinkResolve(DocumentLink)
-    case documentColor(DocumentColorParams)
-    case colorPresentation(ColorPresentationParams)
-    case formatting(DocumentFormattingParams)
-    case rangeFormatting(DocumentRangeFormattingParams)
-    case onTypeFormatting(DocumentOnTypeFormattingParams)
-    case references(ReferenceParams)
-    case foldingRange(FoldingRangeParams)
-    case semanticTokensFull(SemanticTokensParams)
-    case semanticTokensFullDelta(SemanticTokensDeltaParams)
-    case semanticTokensRange(SemanticTokensRangeParams)
+	case prepareRename(PrepareRenameParams)
+	case rename(RenameParams)
+	case documentLink(DocumentLinkParams)
+	case documentLinkResolve(DocumentLink)
+	case documentColor(DocumentColorParams)
+	case colorPresentation(ColorPresentationParams)
+	case formatting(DocumentFormattingParams)
+	case rangeFormatting(DocumentRangeFormattingParams)
+	case onTypeFormatting(DocumentOnTypeFormattingParams)
+	case references(ReferenceParams)
+	case foldingRange(FoldingRangeParams)
+	case semanticTokensFull(SemanticTokensParams)
+	case semanticTokensFullDelta(SemanticTokensDeltaParams)
+	case semanticTokensRange(SemanticTokensRangeParams)
 	case callHierarchyIncomingCalls(CallHierarchyIncomingCallsParams)
 	case callHierarchyOutgoingCalls(CallHierarchyOutgoingCallsParams)
-    case custom(String, LSPAny)
+	case custom(String, LSPAny)
 
     public var method: Method {
         switch self {
@@ -255,8 +259,8 @@ public enum ClientRequest {
     }
 }
 
-public enum ServerNotification {
-    public enum Method: String {
+public enum ServerNotification: Sendable, Hashable {
+    public enum Method: String, Hashable, Sendable {
         case windowLogMessage = "window/logMessage"
         case windowShowMessage = "window/showMessage"
         case textDocumentPublishDiagnostics = "textDocument/publishDiagnostics"
@@ -294,7 +298,10 @@ public enum ServerNotification {
     }
 }
 
-public enum ServerRequest {
+public enum ServerRequest: Sendable {
+	public typealias Handler<T: Sendable & Encodable> = @Sendable (Result<T, AnyJSONRPCResponseError>) async -> Void
+	public typealias ErrorOnlyHandler = @Sendable (AnyJSONRPCResponseError?) async -> Void
+
     public enum Method: String {
         case workspaceConfiguration = "workspace/configuration"
         case workspaceFolders = "workspace/workspaceFolders"
@@ -306,20 +313,18 @@ public enum ServerRequest {
         case windowShowMessageRequest = "window/showMessageRequest"
         case windowShowDocument = "window/showDocument"
         case windowWorkDoneProgressCreate = "window/workDoneProgress/create"
-        case windowWorkDoneProgressCancel = "window/workDoneProgress/cancel"
     }
 
-    case workspaceConfiguration(ConfigurationParams)
-    case workspaceFolders
-    case workspaceApplyEdit(ApplyWorkspaceEditParams)
-    case clientRegisterCapability(RegistrationParams)
-    case clientUnregisterCapability(UnregistrationParams)
-    case workspaceCodeLensRefresh
-    case workspaceSemanticTokenRefresh
-    case windowShowMessageRequest(ShowMessageRequestParams)
-    case windowShowDocument(ShowDocumentParams)
-    case windowWorkDoneProgressCreate(WorkDoneProgressCreateParams)
-    case windowWorkDoneProgressCancel(WorkDoneProgressCancelParams)
+    case workspaceConfiguration(ConfigurationParams, Handler<[LSPAny]>)
+    case workspaceFolders(Handler<WorkspaceFoldersResponse>)
+    case workspaceApplyEdit(ApplyWorkspaceEditParams, Handler<ApplyWorkspaceEditResult>)
+    case clientRegisterCapability(RegistrationParams, ErrorOnlyHandler)
+    case clientUnregisterCapability(UnregistrationParams, ErrorOnlyHandler)
+    case workspaceCodeLensRefresh(ErrorOnlyHandler)
+    case workspaceSemanticTokenRefresh(ErrorOnlyHandler)
+    case windowShowMessageRequest(ShowMessageRequestParams, Handler<ShowMessageRequestResponse>)
+    case windowShowDocument(ShowDocumentParams, Handler<ShowDocumentResult>)
+	case windowWorkDoneProgressCreate(WorkDoneProgressCreateParams, ErrorOnlyHandler)
 
     public var method: Method {
         switch self {
@@ -343,10 +348,35 @@ public enum ServerRequest {
             return .windowShowDocument
         case .windowWorkDoneProgressCreate:
             return .windowWorkDoneProgressCreate
-        case .windowWorkDoneProgressCancel:
-            return .windowWorkDoneProgressCancel
         }
     }
+
+	public func relyWithError(_ error: Error) async {
+		let protocolError = AnyJSONRPCResponseError(code: JSONRPCErrors.internalError, message: "unsupported", data: nil)
+
+		switch self {
+		case let .workspaceConfiguration(_, handler):
+			await handler(.failure(protocolError))
+		case let .workspaceFolders(handler):
+			await handler(.failure(protocolError))
+		case let .workspaceApplyEdit(_, handler):
+			await handler(.failure(protocolError))
+		case let .clientRegisterCapability(_, handler):
+			await handler(protocolError)
+		case let .clientUnregisterCapability(_, handler):
+			await handler(protocolError)
+		case let .workspaceCodeLensRefresh(handler):
+			await handler(protocolError)
+		case let .workspaceSemanticTokenRefresh(handler):
+			await handler(protocolError)
+		case let .windowShowMessageRequest(_, handler):
+			await handler(.failure(protocolError))
+		case let .windowShowDocument(_, handler):
+			await handler(.failure(protocolError))
+		case let .windowWorkDoneProgressCreate(_, handler):
+			await handler(protocolError)
+		}
+	}
 }
 
 public enum ServerRegistration {

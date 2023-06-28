@@ -35,7 +35,7 @@ extension Position: Comparable {
 }
 
 public struct LSPRange: Codable, Hashable, Sendable {
-    static let zero = LSPRange(start: .zero, end: .zero)
+    public static let zero = LSPRange(start: .zero, end: .zero)
 
     public let start: Position
     public let end: Position
@@ -69,7 +69,7 @@ extension LSPRange: CustomStringConvertible {
     }
 }
 
-public struct TextDocumentItem: Codable, Hashable {
+public struct TextDocumentItem: Codable, Hashable, Sendable {
     public let uri: DocumentUri
     public let languageId: String
     public let version: Int
@@ -90,7 +90,7 @@ public struct TextDocumentItem: Codable, Hashable {
 	}
 }
 
-public struct VersionedTextDocumentIdentifier: Codable, Hashable {
+public struct VersionedTextDocumentIdentifier: Codable, Hashable, Sendable {
     public let uri: DocumentUri
     public let version: Int?
 
@@ -153,7 +153,7 @@ public enum MarkupKind: String, Codable, Hashable, Sendable {
     case markdown
 }
 
-public struct TextDocumentPositionParams: Codable, Hashable {
+public struct TextDocumentPositionParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let position: Position
 
@@ -169,7 +169,7 @@ public struct TextDocumentPositionParams: Codable, Hashable {
     }
 }
 
-public struct LanguageStringPair: Codable, Hashable {
+public struct LanguageStringPair: Codable, Hashable, Sendable {
     public let language: LanguageIdentifier
     public let value: String
 }
@@ -187,12 +187,12 @@ public extension MarkedString {
     }
 }
 
-public struct MarkupContent: Codable, Hashable {
+public struct MarkupContent: Codable, Hashable, Sendable {
     public let kind: MarkupKind
     public let value: String
 }
 
-public struct LocationLink: Codable, Hashable {
+public struct LocationLink: Codable, Hashable, Sendable {
     public let originSelectionRange: LSPRange?
     public let targetUri: String
     public let targetRange: LSPRange
