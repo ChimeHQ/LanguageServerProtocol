@@ -21,10 +21,22 @@ public actor JSONRPCServer: Server {
 
 	public init(dataChannel: DataChannel) {
 		self.session = JSONRPCSession(channel: dataChannel)
-		
+
+		// this is annoying, but temporary
+#if compiler(>=5.9)
 		(self.notificationSequence, self.notificationContinuation) = NotificationSequence.makeStream()
 		(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
+#else
+		var escapedNoteContinuation: NotificationSequence.Continuation?
 
+		self.notificationSequence = NotificationSequence { escapedNoteContinuation = $0 }
+		self.notificationContinuation = escapedNoteContinuation!
+
+		var escapedRequestContinuation: RequestSequence.Continuation?
+
+		self.requestSequence = RequestSequence { escapedRequestContinuation = $0 }
+		self.requestContinuation = escapedRequestContinuation!
+#endif
 		Task {
 			await startMonitoringSession()
 		}

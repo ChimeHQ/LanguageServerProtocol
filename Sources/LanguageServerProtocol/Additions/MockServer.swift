@@ -28,9 +28,27 @@ public actor MockServer: Server {
 	private let sentMessageContinuation: ClientMessageSequence.Continuation
 
 	public init() {
+		// this is annoying, but temporary
+#if compiler(>=5.9)
 		(self.notificationSequence, self.notificationContinuation) = NotificationSequence.makeStream()
 		(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
 		(self.sentMessageSequence, self.sentMessageContinuation) = ClientMessageSequence.makeStream()
+#else
+		var escapedNoteContinuation: NotificationSequence.Continuation?
+
+		self.notificationSequence = NotificationSequence { escapedNoteContinuation = $0 }
+		self.notificationContinuation = escapedNoteContinuation!
+
+		var escapedRequestContinuation: RequestSequence.Continuation?
+
+		self.requestSequence = RequestSequence { escapedRequestContinuation = $0 }
+		self.requestContinuation = escapedRequestContinuation!
+
+		var escapedSentContinuation: ClientMessageSequence.Continuation?
+
+		self.sentMessageSequence = ClientMessageSequence { escapedSentContinuation = $0 }
+		self.sentMessageContinuation = escapedSentContinuation!
+#endif
 	}
 
 	deinit {
