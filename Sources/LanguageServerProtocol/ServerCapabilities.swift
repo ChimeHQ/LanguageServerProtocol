@@ -50,8 +50,33 @@ public struct TextDocumentSyncOptions: Codable, Hashable, Sendable {
 }
 
 public struct CompletionOptions: Codable, Hashable, Sendable {
-    public var resolveProvider: Bool?
-    public var triggerCharacters: [String]
+	public struct CompletionItem: Codable, Hashable, Sendable {
+		public var labelDetailsSupport: Bool?
+
+		public init(labelDetailsSupport: Bool?) {
+			self.labelDetailsSupport = labelDetailsSupport
+		}
+	}
+
+	public var workDoneProgress: Bool?
+	public var triggerCharacters: [String]?
+	public var allCommitCharacters: [String]?
+	public var resolveProvider: Bool?
+	public var completionItem: CompletionItem?
+
+	public init(
+		workDoneProgress: Bool,
+		triggerCharacters: [String]?,
+		allCommitCharacters: [String]?,
+		resolveProvider: Bool,
+		completionItem: CompletionItem?
+	) {
+		self.workDoneProgress = workDoneProgress
+		self.triggerCharacters = triggerCharacters
+		self.allCommitCharacters = allCommitCharacters
+		self.resolveProvider = resolveProvider
+		self.completionItem = completionItem
+	}
 }
 
 public typealias HoverOptions = WorkDoneProgressOptions

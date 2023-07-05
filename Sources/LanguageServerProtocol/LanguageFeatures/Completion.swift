@@ -230,9 +230,9 @@ public extension TwoTypeOption where T == [CompletionItem], U == CompletionList 
 }
 
 public struct CompletionRegistrationOptions: Codable {
-    public let documentSelector: DocumentSelector?
-    public let triggerCharacters: [String]?
-    public let resolveProvider: Bool?
+	public let documentSelector: DocumentSelector?
+	public let triggerCharacters: [String]?
+	public let resolveProvider: Bool?
 }
 
 public enum InsertTextMode: Int, CaseIterable, Codable, Hashable, Sendable {
