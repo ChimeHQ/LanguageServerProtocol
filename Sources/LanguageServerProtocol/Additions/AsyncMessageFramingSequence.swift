@@ -59,6 +59,10 @@ public struct AsyncMessageFramingSequence<Base> : AsyncSequence where Base : Asy
 				headers[name] = value
 			}
 
+			if headers.isEmpty {
+				return nil
+			}
+
 			// then use them to read the content
 			guard var length = Int(headers["Content-Length"] ?? "") else {
 				throw MessageFramingError.contentLengthMissing
