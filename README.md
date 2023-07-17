@@ -32,6 +32,8 @@ For the most part, this library strives to be a straightforward version of the s
 - `Server`: a protocol that describes the essential server functionality
 - `Snippet`: makes it easier to interpret the contents of completion results
 - `TokenRepresentation`: maintains the state of a document's semantic tokens
+- `AsyncMessageFramingSequence`: parsers an input AsyncSequence with LSP's HTTP header-based message framing (see also `MessageFraming`)
+- `AsyncByteSequence`: transforms a sequence of Data into a sequence of bytes
 
 ## Supported Features
 
