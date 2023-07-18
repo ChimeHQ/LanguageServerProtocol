@@ -104,6 +104,7 @@ public enum ClientRequest: Sendable, Hashable {
         case textDocumentDocumentHighlight = "textDocument/documentHighlight"
         case textDocumentDocumentSymbol = "textDocument/documentSymbol"
         case textDocumentCodeAction = "textDocument/codeAction"
+		case codeActionResolve = "codeAction/resolve"
         case codeLensResolve = "codeLens/resolve"
         case textDocumentCodeLens = "textDocument/codeLens"
         case textDocumentDocumentLink = "textDocument/documentLink"
@@ -149,6 +150,7 @@ public enum ClientRequest: Sendable, Hashable {
 	case documentHighlight(DocumentHighlightParams)
 	case documentSymbol(DocumentSymbolParams)
 	case codeAction(CodeActionParams)
+	case codeActionResolve(CodeAction)
 	case codeLens(CodeLensParams)
 	case codeLensResolve(CodeLens)
 	case selectionRange(SelectionRangeParams)
@@ -213,6 +215,8 @@ public enum ClientRequest: Sendable, Hashable {
             return .textDocumentDocumentSymbol
         case .codeAction:
             return .textDocumentCodeAction
+		case .codeActionResolve:
+			return .codeActionResolve
         case .codeLens:
             return .textDocumentCodeLens
         case .codeLensResolve:

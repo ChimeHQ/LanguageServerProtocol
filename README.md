@@ -49,7 +49,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | callHierarchy/outgoingCalls | ✅ |
 | client/registerCapability | ✅ |
 | client/unregisterCapability | ✅ |
-| codeAction/resolve | - |
+| codeAction/resolve | ✅ |
 | codeLens/resolve | ✅ |
 | completionItem/resolve | ✅ |
 | documentLink/resolve | ✅ |

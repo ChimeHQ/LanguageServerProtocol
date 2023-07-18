@@ -161,6 +161,8 @@ public actor JSONRPCServer: Server {
 			return try await session.response(to: method, params: params)
 		case .codeAction(let params):
 			return try await session.response(to: method, params: params)
+		case .codeActionResolve(let params):
+			return try await session.response(to: method, params: params)
 		case .codeLens(let params):
 			return try await session.response(to: method, params: params)
 		case .codeLensResolve(let params):

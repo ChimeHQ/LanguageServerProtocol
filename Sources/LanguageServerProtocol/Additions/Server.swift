@@ -113,10 +113,6 @@ public extension Server {
         try await sendRequest(.documentSymbol(params))
     }
 
-    func codeAction(params: CodeActionParams) async throws -> CodeActionResponse {
-        try await sendRequest(.codeAction(params))
-    }
-
     func prepareCallHierarchy(params: CallHierarchyPrepareParams) async throws -> CallHierarchyPrepareResponse {
         try await sendRequest(.prepareCallHierarchy(params))
     }
@@ -222,6 +218,14 @@ public extension Server {
     func documentHighlight(params: DocumentHighlightParams) async throws -> DocumentHighlightResponse {
         try await sendRequest(.documentHighlight(params))
     }
+
+	func codeAction(params: CodeActionParams) async throws -> CodeActionResponse {
+		try await sendRequest(.codeAction(params))
+	}
+
+	func codeActionResolve(params: CodeAction) async throws -> CodeAction {
+		try await sendRequest(.codeActionResolve(params))
+	}
 
     func codeLens(params: CodeLensParams) async throws -> CodeLensResponse {
         try await sendRequest(.codeLens(params))

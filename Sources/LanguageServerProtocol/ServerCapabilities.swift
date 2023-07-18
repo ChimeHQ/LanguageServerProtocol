@@ -108,12 +108,6 @@ public struct DocumentSymbolOptions: Codable, Hashable, Sendable {
     public var label: String?
 }
 
-public struct CodeActionOptions: Codable, Hashable, Sendable {
-    public var workDoneProgress: Bool?
-    public var codeActionKinds: [CodeActionKind]?
-    public var resolveProvider: Bool?
-}
-
 public typealias DocumentColorOptions = WorkDoneProgressOptions
 
 public typealias DocumentColorRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions

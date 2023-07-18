@@ -11,6 +11,7 @@ extension CodeActionKind {
     public static let RefactorRewrite: CodeActionKind = "refactor.rewrite"
     public static let Source: CodeActionKind = "source"
     public static let SourceOrganizeImports: CodeActionKind = "source.organizeImports"
+	public static let SourceFixAll: CodeActionKind = "source.fixAll"
 }
 
 public struct CodeActionClientCapabilities: Codable, Hashable, Sendable {
@@ -55,13 +56,32 @@ public struct CodeActionClientCapabilities: Codable, Hashable, Sendable {
     }
 }
 
+public struct CodeActionOptions: Codable, Hashable, Sendable {
+	public var workDoneProgress: Bool?
+	public var codeActionKinds: [CodeActionKind]?
+	public var resolveProvider: Bool?
+
+	public init(workDoneProgress: Bool?, codeActionKinds: [CodeActionKind]?, resolveProvider: Bool) {
+		self.workDoneProgress = workDoneProgress
+		self.codeActionKinds = codeActionKinds
+		self.resolveProvider = resolveProvider
+	}
+}
+
+public enum CodeActionTriggerKind: Int, Codable, Hashable, Sendable {
+	case invoked = 1
+	case automatic = 2
+}
+
 public struct CodeActionContext: Codable, Hashable, Sendable {
     public let diagnostics: [Diagnostic]
     public let only: [CodeActionKind]?
+	public let triggerKind: CodeActionTriggerKind?
 
-    public init(diagnostics: [Diagnostic] = [], only: [CodeActionKind]? = nil) {
+    public init(diagnostics: [Diagnostic], only: [CodeActionKind]?, triggerKind: CodeActionTriggerKind? = nil) {
         self.diagnostics = diagnostics
         self.only = only
+		self.triggerKind = triggerKind
     }
 }
 
