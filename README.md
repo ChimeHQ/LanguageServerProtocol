@@ -57,10 +57,10 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | initialize | ✅ |
 | initialized | ✅ |
 | inlayHint/resolve | - |
-| notebookDocument/didChange | |
-| notebookDocument/didClose | |
-| notebookDocument/didOpen | |
-| notebookDocument/didSave | |
+| notebookDocument/didChange | - |
+| notebookDocument/didClose | - |
+| notebookDocument/didOpen | - |
+| notebookDocument/didSave | - |
 | server-defined | ✅ |
 | shutdown | ✅ |
 | telemetry/event | ✅ |
@@ -114,8 +114,8 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | workspace/applyEdit | ✅ |
 | workspace/codeLens/refresh | ✅ |
 | workspace/configuration | ✅ |
-| workspace/diagnostic | |
-| workspace/diagnostic/refresh | |
+| workspace/diagnostic | - |
+| workspace/diagnostic/refresh | - |
 | workspace/didChangeConfiguration | ✅ |
 | workspace/didChangeWatchedFiles | ✅ |
 | workspace/didChangeWorkspaceFolders | ✅ |
