@@ -175,6 +175,8 @@ public actor JSONRPCServer: Server {
 			return try await session.response(to: method, params: params)
 		case .rename(let params):
 			return try await session.response(to: method, params: params)
+		case .diagnostics(let params):
+			return try await session.response(to: method, params: params)
 		case .documentLink(let params):
 			return try await session.response(to: method, params: params)
 		case .documentLinkResolve(let params):

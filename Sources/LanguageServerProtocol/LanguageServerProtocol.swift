@@ -107,6 +107,7 @@ public enum ClientRequest: Sendable, Hashable {
 		case codeActionResolve = "codeAction/resolve"
         case codeLensResolve = "codeLens/resolve"
         case textDocumentCodeLens = "textDocument/codeLens"
+		case textDocumentDiagnostic = "textDocument/diagnostic"
         case textDocumentDocumentLink = "textDocument/documentLink"
         case documentLinkResolve = "documentLink/resolve"
         case textDocumentDocumentColor = "textDocument/documentColor"
@@ -147,6 +148,7 @@ public enum ClientRequest: Sendable, Hashable {
 	case definition(TextDocumentPositionParams)
 	case typeDefinition(TextDocumentPositionParams)
 	case implementation(TextDocumentPositionParams)
+	case diagnostics(DocumentDiagnosticParams)
 	case documentHighlight(DocumentHighlightParams)
 	case documentSymbol(DocumentSymbolParams)
 	case codeAction(CodeActionParams)
@@ -235,6 +237,8 @@ public enum ClientRequest: Sendable, Hashable {
             return .documentLinkResolve
         case .documentColor:
             return .textDocumentDocumentColor
+		case .diagnostics:
+			return .textDocumentDiagnostic
         case .colorPresentation:
             return .textDocumentColorPresentation
         case .formatting:

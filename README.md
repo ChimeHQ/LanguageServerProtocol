@@ -70,7 +70,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/completion | ✅ |
 | textDocument/declaration | ✅ |
 | textDocument/definition | ✅ |
-| textDocument/diagnostic | |
+| textDocument/diagnostic | ✅ |
 | textDocument/didChange | ✅ |
 | textDocument/didClose | ✅ |
 | textDocument/didOpen | ✅ |

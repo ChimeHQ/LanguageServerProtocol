@@ -235,6 +235,10 @@ public extension Server {
         try await sendRequest(.codeLensResolve(params))
     }
 
+	func diagnostics(params: DocumentDiagnosticParams) async throws -> DocumentDiagnosticReport {
+		try await sendRequest(.diagnostics(params))
+	}
+	
     func selectionRange(params: SelectionRangeParams) async throws -> SelectionRangeResponse {
         try await sendRequest(.selectionRange(params))
     }
