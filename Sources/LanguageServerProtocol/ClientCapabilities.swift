@@ -148,6 +148,7 @@ public struct TextDocumentClientCapabilities: Codable, Hashable, Sendable {
     public var callHierarchy: CallHierarchyClientCapabilities?
     public var semanticTokens: SemanticTokensClientCapabilities?
     public var moniker: MonikerClientCapabilities?
+	public var diagnostic: DiagnosticClientCapabilities?
 
     public init(synchronization: TextDocumentSyncClientCapabilities? = nil,
                 completion: CompletionClientCapabilities? = nil,
@@ -174,7 +175,8 @@ public struct TextDocumentClientCapabilities: Codable, Hashable, Sendable {
                 linkedEditingRange: LinkedEditingRangeClientCapabilities? = nil,
                 callHierarchy: CallHierarchyClientCapabilities? = nil,
                 semanticTokens: SemanticTokensClientCapabilities? = nil,
-                moniker: MonikerClientCapabilities? = nil) {
+                moniker: MonikerClientCapabilities? = nil,
+				diagnostic: DiagnosticClientCapabilities? = nil) {
         self.synchronization = synchronization
         self.completion = completion
         self.hover = hover
@@ -201,6 +203,7 @@ public struct TextDocumentClientCapabilities: Codable, Hashable, Sendable {
         self.callHierarchy = callHierarchy
         self.semanticTokens = semanticTokens
         self.moniker = moniker
+		self.diagnostic = diagnostic
     }
 }
 

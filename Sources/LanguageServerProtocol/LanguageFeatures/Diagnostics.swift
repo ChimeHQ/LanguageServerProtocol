@@ -32,6 +32,16 @@ public struct PublishDiagnosticsClientCapabilities: Codable, Hashable, Sendable 
     }
 }
 
+public struct DiagnosticClientCapabilities: Codable, Hashable, Sendable {
+	public var dynamicRegistration: Bool?
+	public var relatedDocumentSupport: Bool?
+
+	public init(dynamicRegistration: Bool? = nil, relatedDocumentSupport: Bool?) {
+		self.dynamicRegistration = dynamicRegistration
+		self.relatedDocumentSupport = relatedDocumentSupport
+	}
+}
+
 public struct DiagnosticRelatedInformation: Codable, Hashable, Sendable {
     public let location: Location
     public let message: String
