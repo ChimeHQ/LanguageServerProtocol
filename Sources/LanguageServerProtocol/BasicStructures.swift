@@ -111,6 +111,11 @@ extension VersionedTextDocumentIdentifier: CustomStringConvertible {
 public struct Location: Codable, Hashable, Sendable {
     public let uri: DocumentUri
     public let range: LSPRange
+
+	public init(uri: DocumentUri, range: LSPRange) {
+		self.uri = uri
+		self.range = range
+	}
 }
 
 public struct Command: Codable, Hashable, Sendable {
