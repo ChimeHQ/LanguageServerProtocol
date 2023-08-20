@@ -8,7 +8,7 @@ extension AsyncSequence {
 
 /// Simulate LSP communication.
 public actor MockServer: Server {
-	public enum ClientMessage: Sendable, Hashable {
+	public enum ClientMessage: Sendable {
 		case notification(ClientNotification)
 		case request(ClientRequest)
 	}

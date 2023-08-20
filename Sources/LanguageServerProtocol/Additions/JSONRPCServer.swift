@@ -78,7 +78,7 @@ public actor JSONRPCServer: Server {
 
 	public func sendNotification(_ notif: ClientNotification) async throws {
 		let method = notif.method.rawValue
-		
+
 		switch notif {
 		case .initialized(let params):
 			try await session.sendNotification(params, method: method)
@@ -86,17 +86,15 @@ public actor JSONRPCServer: Server {
 			try await session.sendNotification(method: method)
 		case .textDocumentDidChange(let params):
 			try await session.sendNotification(params, method: method)
-		case .didOpenTextDocument(let params):
+		case .textDocumentDidOpen(let params):
 			try await session.sendNotification(params, method: method)
-		case .didChangeTextDocument(let params):
+		case .textDocumentDidClose(let params):
 			try await session.sendNotification(params, method: method)
-		case .didCloseTextDocument(let params):
+		case .textDocumentWillSave(let params):
 			try await session.sendNotification(params, method: method)
-		case .willSaveTextDocument(let params):
+		case .textDocumentDidSave(let params):
 			try await session.sendNotification(params, method: method)
-		case .didSaveTextDocument(let params):
-			try await session.sendNotification(params, method: method)
-		case .didChangeWatchedFiles(let params):
+		case .workspaceDidChangeWatchedFiles(let params):
 			try await session.sendNotification(params, method: method)
 		case .protocolCancelRequest(let params):
 			try await session.sendNotification(params, method: method)
@@ -121,91 +119,95 @@ public actor JSONRPCServer: Server {
 		let method = request.method.rawValue
 
 		switch request {
-		case .initialize(let params):
+		case .initialize(let params, _):
 			return try await session.response(to: method, params: params)
 		case .shutdown:
 			return try await session.response(to: method)
-		case .workspaceExecuteCommand(let params):
+		case .workspaceExecuteCommand(let params, _):
 			return try await session.response(to: method, params: params)
-		case .workspaceWillCreateFiles(let params):
+		case .workspaceWillCreateFiles(let params, _):
 			return try await session.response(to: method, params: params)
-		case .workspaceWillRenameFiles(let params):
+		case .workspaceWillRenameFiles(let params, _):
 			return try await session.response(to: method, params: params)
-		case .workspaceWillDeleteFiles(let params):
+		case .workspaceWillDeleteFiles(let params, _):
 			return try await session.response(to: method, params: params)
-		case .workspaceSymbol(let params):
+		case .workspaceSymbol(let params, _):
 			return try await session.response(to: method, params: params)
-		case .workspaceSymbolResolve(let params):
+		case .workspaceSymbolResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .willSaveWaitUntilTextDocument(let params):
+		case .textDocumentWillSaveWaitUntil(let params, _):
 			return try await session.response(to: method, params: params)
-		case .completion(let params):
+		case .completion(let params, _):
 			return try await session.response(to: method, params: params)
-		case .completionItemResolve(let params):
+		case .completionItemResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .hover(let params):
+		case .hover(let params, _):
 			return try await session.response(to: method, params: params)
-		case .signatureHelp(let params):
+		case .signatureHelp(let params, _):
 			return try await session.response(to: method, params: params)
-		case .declaration(let params):
+		case .declaration(let params, _):
 			return try await session.response(to: method, params: params)
-		case .definition(let params):
+		case .definition(let params, _):
 			return try await session.response(to: method, params: params)
-		case .typeDefinition(let params):
+		case .typeDefinition(let params, _):
 			return try await session.response(to: method, params: params)
-		case .implementation(let params):
+		case .implementation(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentHighlight(let params):
+		case .documentHighlight(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentSymbol(let params):
+		case .documentSymbol(let params, _):
 			return try await session.response(to: method, params: params)
-		case .codeAction(let params):
+		case .codeAction(let params, _):
 			return try await session.response(to: method, params: params)
-		case .codeActionResolve(let params):
+		case .codeActionResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .codeLens(let params):
+		case .codeLens(let params, _):
 			return try await session.response(to: method, params: params)
-		case .codeLensResolve(let params):
+		case .codeLensResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .selectionRange(let params):
+		case .selectionRange(let params, _):
 			return try await session.response(to: method, params: params)
-		case .prepareCallHierarchy(let params):
+		case .linkedEditingRange(let params, _):
 			return try await session.response(to: method, params: params)
-		case .prepareRename(let params):
+		case .prepareCallHierarchy(let params, _):
 			return try await session.response(to: method, params: params)
-		case .rename(let params):
+		case .prepareRename(let params, _):
 			return try await session.response(to: method, params: params)
-		case .diagnostics(let params):
+		case .rename(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentLink(let params):
+		case .diagnostics(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentLinkResolve(let params):
+		case .documentLink(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentColor(let params):
+		case .documentLinkResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .colorPresentation(let params):
+		case .documentColor(let params, _):
 			return try await session.response(to: method, params: params)
-		case .formatting(let params):
+		case .colorPresentation(let params, _):
 			return try await session.response(to: method, params: params)
-		case .rangeFormatting(let params):
+		case .formatting(let params, _):
 			return try await session.response(to: method, params: params)
-		case .onTypeFormatting(let params):
+		case .rangeFormatting(let params, _):
 			return try await session.response(to: method, params: params)
-		case .references(let params):
+		case .onTypeFormatting(let params, _):
 			return try await session.response(to: method, params: params)
-		case .foldingRange(let params):
+		case .references(let params, _):
 			return try await session.response(to: method, params: params)
-		case .semanticTokensFull(let params):
+		case .foldingRange(let params, _):
 			return try await session.response(to: method, params: params)
-		case .semanticTokensFullDelta(let params):
+		case .moniker(let params, _):
 			return try await session.response(to: method, params: params)
-		case .semanticTokensRange(let params):
+		case .semanticTokensFull(let params, _):
 			return try await session.response(to: method, params: params)
-		case .callHierarchyIncomingCalls(let params):
+		case .semanticTokensFullDelta(let params, _):
 			return try await session.response(to: method, params: params)
-		case .callHierarchyOutgoingCalls(let params):
+		case .semanticTokensRange(let params, _):
 			return try await session.response(to: method, params: params)
-		case let .custom(method, params):
+		case .callHierarchyIncomingCalls(let params, _):
+			return try await session.response(to: method, params: params)
+		case .callHierarchyOutgoingCalls(let params, _):
+			return try await session.response(to: method, params: params)
+		case let .custom(method, params, _):
 			return try await session.response(to: method, params: params)
 		}
 	}
@@ -231,7 +233,7 @@ public actor JSONRPCServer: Server {
 			switch method {
 			case .windowLogMessage:
 				let params = try decodeNotificationParams(LogMessageParams.self, from: data)
-				
+
 				notificationContinuation.yield(.windowLogMessage(params))
 			case .windowShowMessage:
 				let params = try decodeNotificationParams(ShowMessageParams.self, from: data)

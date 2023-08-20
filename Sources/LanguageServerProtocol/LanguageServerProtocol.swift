@@ -8,7 +8,7 @@ public enum ClientNotification: Sendable, Hashable {
         case initialized
         case exit
 		case windowWorkDoneProgressCancel = "window/workDoneProgress/cancel"
-        case workspaceDidChangeWatchedFiles = "workspace/didChangeWatchedFiles"
+        case workspaceDidChangeWatchedFiles = "workspace/workspaceDidChangeWatchedFiles"
         case workspaceDidChangeConfiguration = "workspace/didChangeConfiguration"
         case workspaceDidChangeWorkspaceFolders = "workspace/didChangeWorkspaceFolders"
         case workspaceDidCreateFiles = "workspace/didCreateFiles"
@@ -25,15 +25,14 @@ public enum ClientNotification: Sendable, Hashable {
 
     case initialized(InitializedParams)
     case exit
+    case textDocumentDidOpen(DidOpenTextDocumentParams)
     case textDocumentDidChange(DidChangeTextDocumentParams)
-    case didOpenTextDocument(DidOpenTextDocumentParams)
-    case didChangeTextDocument(DidChangeTextDocumentParams)
-    case didCloseTextDocument(DidCloseTextDocumentParams)
-    case willSaveTextDocument(WillSaveTextDocumentParams)
-    case didSaveTextDocument(DidSaveTextDocumentParams)
-    case didChangeWatchedFiles(DidChangeWatchedFilesParams)
+    case textDocumentDidClose(DidCloseTextDocumentParams)
+    case textDocumentWillSave(WillSaveTextDocumentParams)
+    case textDocumentDidSave(DidSaveTextDocumentParams)
     case protocolCancelRequest(CancelParams)
     case protocolSetTrace(SetTraceParams)
+    case workspaceDidChangeWatchedFiles(DidChangeWatchedFilesParams)
 	case windowWorkDoneProgressCancel(WorkDoneProgressCancelParams)
     case workspaceDidChangeWorkspaceFolders(DidChangeWorkspaceFoldersParams)
     case workspaceDidChangeConfiguration(DidChangeConfigurationParams)
@@ -49,17 +48,15 @@ public enum ClientNotification: Sendable, Hashable {
             return .exit
         case .textDocumentDidChange:
             return .textDocumentDidChange
-        case .didOpenTextDocument:
+        case .textDocumentDidOpen:
             return .textDocumentDidOpen
-        case .didCloseTextDocument:
+        case .textDocumentDidClose:
             return .textDocumentDidClose
-        case .willSaveTextDocument:
+        case .textDocumentWillSave:
             return .textDocumentWillSave
-        case .didChangeTextDocument:
-            return .textDocumentDidChange
-        case .didSaveTextDocument:
+        case .textDocumentDidSave:
             return .textDocumentDidSave
-        case .didChangeWatchedFiles:
+        case .workspaceDidChangeWatchedFiles:
             return .workspaceDidChangeWatchedFiles
         case .protocolCancelRequest:
             return .protocolCancelRequest
@@ -81,8 +78,17 @@ public enum ClientNotification: Sendable, Hashable {
     }
 }
 
-public enum ClientRequest: Sendable, Hashable {
-	public enum Method: String, Hashable, Sendable {
+public enum ClientRequest: Sendable {
+	public typealias Handler<T: Sendable & Encodable> = @Sendable (Result<T, AnyJSONRPCResponseError>) async -> Void
+	public typealias ErrorOnlyHandler = @Sendable (AnyJSONRPCResponseError?) async -> Void
+
+	// NOTE: The same `ClientRequest` type is used on the client side and the server side, only the server use the handler to send back the response, on the client side we use the `NullHandler`, which will never be called
+	@Sendable
+	public static func NullHandler<T>(result: Result<T, AnyJSONRPCResponseError>) async {
+		// throw NullHandlerError.notImplemented(result)
+	}
+
+	public enum Method: String {
         case initialize
         case shutdown
         case workspaceExecuteCommand = "workspace/executeCommand"
@@ -131,49 +137,52 @@ public enum ClientRequest: Sendable, Hashable {
         case custom
     }
 
-	case initialize(InitializeParams)
+	case initialize(InitializeParams, Handler<InitializationResponse>)
 	case shutdown
-	case workspaceExecuteCommand(ExecuteCommandParams)
-	case workspaceWillCreateFiles(CreateFilesParams)
-	case workspaceWillRenameFiles(RenameFilesParams)
-	case workspaceWillDeleteFiles(DeleteFilesParams)
-	case workspaceSymbol(WorkspaceSymbolParams)
-	case workspaceSymbolResolve(WorkspaceSymbol)
-	case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
-	case completion(CompletionParams)
-	case completionItemResolve(CompletionItem)
-	case hover(TextDocumentPositionParams)
-	case signatureHelp(TextDocumentPositionParams)
-	case declaration(TextDocumentPositionParams)
-	case definition(TextDocumentPositionParams)
-	case typeDefinition(TextDocumentPositionParams)
-	case implementation(TextDocumentPositionParams)
-	case diagnostics(DocumentDiagnosticParams)
-	case documentHighlight(DocumentHighlightParams)
-	case documentSymbol(DocumentSymbolParams)
-	case codeAction(CodeActionParams)
-	case codeActionResolve(CodeAction)
-	case codeLens(CodeLensParams)
-	case codeLensResolve(CodeLens)
-	case selectionRange(SelectionRangeParams)
-	case prepareCallHierarchy(CallHierarchyPrepareParams)
-	case prepareRename(PrepareRenameParams)
-	case rename(RenameParams)
-	case documentLink(DocumentLinkParams)
-	case documentLinkResolve(DocumentLink)
-	case documentColor(DocumentColorParams)
-	case colorPresentation(ColorPresentationParams)
-	case formatting(DocumentFormattingParams)
-	case rangeFormatting(DocumentRangeFormattingParams)
-	case onTypeFormatting(DocumentOnTypeFormattingParams)
-	case references(ReferenceParams)
-	case foldingRange(FoldingRangeParams)
-	case semanticTokensFull(SemanticTokensParams)
-	case semanticTokensFullDelta(SemanticTokensDeltaParams)
-	case semanticTokensRange(SemanticTokensRangeParams)
-	case callHierarchyIncomingCalls(CallHierarchyIncomingCallsParams)
-	case callHierarchyOutgoingCalls(CallHierarchyOutgoingCallsParams)
-	case custom(String, LSPAny)
+	case workspaceExecuteCommand(ExecuteCommandParams, Handler<LSPAny?>)
+	case workspaceWillCreateFiles(CreateFilesParams, Handler<WorkspaceEdit?>)
+	case workspaceWillRenameFiles(RenameFilesParams, Handler<WorkspaceEdit?>)
+	case workspaceWillDeleteFiles(DeleteFilesParams, Handler<WorkspaceEdit?>)
+	case workspaceSymbol(WorkspaceSymbolParams, Handler<WorkspaceSymbolResponse>)
+	case workspaceSymbolResolve(WorkspaceSymbol, Handler<WorkspaceSymbol>)
+	case textDocumentWillSaveWaitUntil(WillSaveTextDocumentParams, Handler<[TextEdit]?>)
+	case completion(CompletionParams, Handler<CompletionResponse>)
+	case completionItemResolve(CompletionItem, Handler<CompletionItem>)
+	case hover(TextDocumentPositionParams, Handler<HoverResponse>)
+	case signatureHelp(TextDocumentPositionParams, Handler<SignatureHelpResponse>)
+	case declaration(TextDocumentPositionParams, Handler<DeclarationResponse>)
+	case definition(TextDocumentPositionParams, Handler<DefinitionResponse>)
+	case typeDefinition(TextDocumentPositionParams, Handler<TypeDefinitionResponse>)
+	case implementation(TextDocumentPositionParams, Handler<ImplementationResponse>)
+	case diagnostics(DocumentDiagnosticParams, Handler<DocumentDiagnosticReport>)
+	case documentHighlight(DocumentHighlightParams, Handler<DocumentHighlightResponse>)
+	case documentSymbol(DocumentSymbolParams, Handler<DocumentSymbolResponse>)
+	case codeAction(CodeActionParams, Handler<CodeActionResponse>)
+	case codeActionResolve(CodeAction, Handler<CodeAction>)
+	case codeLens(CodeLensParams, Handler<CodeLensResponse>)
+	case codeLensResolve(CodeLens, Handler<CodeLens>)
+	case selectionRange(SelectionRangeParams, Handler<SelectionRangeResponse>)
+	case linkedEditingRange(LinkedEditingRangeParams, Handler<LinkedEditingRangeResponse>)
+	case prepareCallHierarchy(CallHierarchyPrepareParams, Handler<CallHierarchyPrepareResponse>)
+	case prepareRename(PrepareRenameParams, Handler<PrepareRenameResponse>)
+	case rename(RenameParams, Handler<RenameResponse>)
+	case documentLink(DocumentLinkParams, Handler<DocumentLinkResponse>)
+	case documentLinkResolve(DocumentLink, Handler<DocumentLink>)
+	case documentColor(DocumentColorParams, Handler<DocumentColorResponse>)
+	case colorPresentation(ColorPresentationParams, Handler<ColorPresentationResponse>)
+	case formatting(DocumentFormattingParams, Handler<FormattingResult>)
+	case rangeFormatting(DocumentRangeFormattingParams, Handler<FormattingResult>)
+	case onTypeFormatting(DocumentOnTypeFormattingParams, Handler<FormattingResult>)
+	case references(ReferenceParams, Handler<ReferenceResponse>)
+	case foldingRange(FoldingRangeParams, Handler<FoldingRangeResponse>)
+	// case semanticTokens(SemanticTokensParams, Handler<SemanticTokensResponse>)
+	case moniker(MonkierParams, Handler<MonikerResponse>)
+	case semanticTokensFull(SemanticTokensParams, Handler<SemanticTokensResponse>)
+	case semanticTokensFullDelta(SemanticTokensDeltaParams, Handler<SemanticTokensDeltaResponse>)
+	case semanticTokensRange(SemanticTokensRangeParams, Handler<SemanticTokensResponse>)
+	case callHierarchyIncomingCalls(CallHierarchyIncomingCallsParams, Handler<CallHierarchyIncomingCallsResponse>)
+	case callHierarchyOutgoingCalls(CallHierarchyOutgoingCallsParams, Handler<CallHierarchyOutgoingCallsResponse>)
+	case custom(String, LSPAny, Handler<LSPAny>)
 
     public var method: Method {
         switch self {
@@ -193,7 +202,7 @@ public enum ClientRequest: Sendable, Hashable {
             return .workspaceSymbol
         case .workspaceSymbolResolve:
             return .workspaceSymbolResolve
-        case .willSaveWaitUntilTextDocument:
+        case .textDocumentWillSaveWaitUntil:
             return .textDocumentWillSaveWaitUntil
         case .completion:
             return .textDocumentCompletion
@@ -225,6 +234,8 @@ public enum ClientRequest: Sendable, Hashable {
             return .codeLensResolve
         case .selectionRange:
             return .textDocumentSelectionRange
+		case .linkedEditingRange:
+			return .textDocumentLinkedEditingRange
 		case .prepareCallHierarchy:
 			return .textDocumentPrepareCallHierarchy
         case .prepareRename:
@@ -251,6 +262,8 @@ public enum ClientRequest: Sendable, Hashable {
             return .textDocumentReferences
         case .foldingRange:
             return .textDocumentFoldingRange
+		case .moniker:
+            return .textDocumentMoniker
         case .semanticTokensFull:
             return .textDocumentSemanticTokensFull
         case .semanticTokensFullDelta:
