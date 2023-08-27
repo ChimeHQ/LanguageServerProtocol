@@ -33,7 +33,13 @@ public extension ServerCapabilities {
 
             self.semanticTokensProvider = options
             return
-        default:
+				case .textDocumentCompletion:
+					let data = try JSONEncoder().encode(registration.registerOptions)
+					let options = try JSONDecoder().decode(CompletionOptions.self, from: data)
+
+					self.completionProvider = options
+					return
+				default:
             break
         }
 
@@ -54,6 +60,9 @@ public extension ServerCapabilities {
         case .textDocumentSemanticTokens:
             self.semanticTokensProvider = nil
             return
+				case .textDocumentCompletion:
+						self.completionProvider = nil
+						return
         default:
             break
         }
