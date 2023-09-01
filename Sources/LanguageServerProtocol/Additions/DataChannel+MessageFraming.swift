@@ -12,14 +12,7 @@ extension DataChannel {
 			try await self.writeHandler(data)
 		}
 
-#if compiler(>=5.9)
 		let (stream, continuation) = DataSequence.makeStream()
-#else
-		var escapedContinuation: DataSequence.Continuation?
-
-		let stream = DataSequence  { escapedContinuation = $0 }
-		let continuation = escapedContinuation!
-#endif
 
 		Task {
 			let byteStream = AsyncByteSequence(base: dataSequence)

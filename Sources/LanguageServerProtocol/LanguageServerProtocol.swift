@@ -1,7 +1,18 @@
 import JSONRPC
 
-typealias UnusedResult = String?
-typealias UnusedParam = String?
+public typealias UnusedResult = String?
+public typealias UnusedParam = String?
+
+public enum ProtocolError: Error {
+	case unrecognizedMethod(String)
+	case missingParams
+	case unhandledRegisterationMethod(String)
+	case missingReply
+}
+
+// NOTE: We should remove these and only use `ProtocolError`?
+public typealias ServerError = ProtocolError
+public typealias ClientError = ProtocolError
 
 public enum ClientNotification: Sendable, Hashable {
     public enum Method: String, Hashable, Sendable {

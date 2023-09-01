@@ -1,12 +1,7 @@
 import Foundation
 import JSONRPC
+import LanguageServerProtocol
 
-enum ServerError: Error {
-	case unrecognizedMethod(String)
-	case missingParams
-	case unhandledRegisterationMethod(String)
-	case missingReply
-}
 
 public actor JSONRPCServer: Server {
 	public let notificationSequence: NotificationSequence
@@ -19,24 +14,13 @@ public actor JSONRPCServer: Server {
 	private var notificationTask: Task<Void, Never>?
 	private var requestTask: Task<Void, Never>?
 
+	/// NOTE: The channel will wrapped with message framing
 	public init(dataChannel: DataChannel) {
-		self.session = JSONRPCSession(channel: dataChannel)
+		self.session = JSONRPCSession(channel: dataChannel.withMessageFraming())
 
-		// this is annoying, but temporary
-#if compiler(>=5.9)
 		(self.notificationSequence, self.notificationContinuation) = NotificationSequence.makeStream()
 		(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
-#else
-		var escapedNoteContinuation: NotificationSequence.Continuation?
 
-		self.notificationSequence = NotificationSequence { escapedNoteContinuation = $0 }
-		self.notificationContinuation = escapedNoteContinuation!
-
-		var escapedRequestContinuation: RequestSequence.Continuation?
-
-		self.requestSequence = RequestSequence { escapedRequestContinuation = $0 }
-		self.requestContinuation = escapedRequestContinuation!
-#endif
 		Task {
 			await startMonitoringSession()
 		}

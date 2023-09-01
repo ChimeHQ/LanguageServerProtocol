@@ -13,15 +13,39 @@ let package = Package(
         .library(
             name: "LanguageServerProtocol",
             targets: ["LanguageServerProtocol"]),
+
+        .library(
+            name: "LanguageServerProtocol-Client",
+            targets: ["LanguageServerProtocol-Client"]),
+
+        .library(
+            name: "LanguageServerProtocol-Server",
+            targets: ["LanguageServerProtocol-Server"]),
     ],
     dependencies: [
 		.package(url: "https://github.com/ChimeHQ/JSONRPC", from: "0.8.0"),
+
+		// NOTE: Since stdio pipe is commonly used as transport, it is very important to never print
+		// non-transport related messages to stdout, we therefore require proper logging
+		.package(url: "https://github.com/apple/swift-log.git", from: "1.5.0"),
     ],
     targets: [
         .target(
             name: "LanguageServerProtocol",
-            dependencies: ["JSONRPC"],
+            dependencies: [
+				.product(name: "Logging", package: "swift-log"),
+				"JSONRPC"
+			],
 			swiftSettings: settings),
+        .target(
+            name: "LanguageServerProtocol-Client",
+            dependencies: ["LanguageServerProtocol"],
+			swiftSettings: settings),
+        .target(
+            name: "LanguageServerProtocol-Server",
+            dependencies: ["LanguageServerProtocol"],
+			swiftSettings: settings),
+
         .testTarget(
             name: "LanguageServerProtocolTests",
             dependencies: ["LanguageServerProtocol"],
