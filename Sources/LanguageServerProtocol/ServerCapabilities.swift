@@ -134,6 +134,14 @@ public struct SemanticTokensOptions: Codable, Hashable, Sendable {
     public var legend: SemanticTokensLegend
     public var range: SemanticTokensClientCapabilities.Requests.RangeOption?
     public var full: SemanticTokensClientCapabilities.Requests.FullOption?
+
+	public init(workDoneProgress: Bool? = nil, legend: SemanticTokensLegend, range: SemanticTokensClientCapabilities.Requests.RangeOption? = nil, full: SemanticTokensClientCapabilities.Requests.FullOption? = nil) {
+		self.workDoneProgress = workDoneProgress
+		self.legend = legend
+		self.range = range
+		self.full = full
+	}
+
 }
 
 public struct SemanticTokensRegistrationOptions: Codable, Hashable, Sendable {
@@ -143,6 +151,15 @@ public struct SemanticTokensRegistrationOptions: Codable, Hashable, Sendable {
     public var range: SemanticTokensClientCapabilities.Requests.RangeOption?
     public var full: SemanticTokensClientCapabilities.Requests.FullOption?
     public var id: String?
+
+	public init(documentSelector: DocumentSelector? = nil, workDoneProgress: Bool? = nil, legend: SemanticTokensLegend, range: SemanticTokensClientCapabilities.Requests.RangeOption? = nil, full: SemanticTokensClientCapabilities.Requests.FullOption? = nil, id: String? = nil) {
+		self.documentSelector = documentSelector
+		self.workDoneProgress = workDoneProgress
+		self.legend = legend
+		self.range = range
+		self.full = full
+		self.id = id
+	}
 }
 
 public typealias MonikerOptions = WorkDoneProgressOptions

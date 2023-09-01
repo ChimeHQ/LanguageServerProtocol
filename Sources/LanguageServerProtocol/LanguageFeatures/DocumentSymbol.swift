@@ -25,6 +25,16 @@ public struct DocumentSymbolParams: Codable, Hashable, Sendable {
 }
 
 public struct DocumentSymbol: Codable, Hashable, Sendable {
+	public init(name: String, detail: String? = nil, kind: SymbolKind, deprecated: Bool? = nil, range: LSPRange, selectionRange: LSPRange, children: [DocumentSymbol]? = nil) {
+		self.name = name
+		self.detail = detail
+		self.kind = kind
+		self.deprecated = deprecated
+		self.range = range
+		self.selectionRange = selectionRange
+		self.children = children
+	}
+
     public let name: String
     public let detail: String?
     public let kind: SymbolKind

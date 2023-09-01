@@ -193,6 +193,13 @@ public struct MarkupContent: Codable, Hashable, Sendable {
 }
 
 public struct LocationLink: Codable, Hashable, Sendable {
+	public init(originSelectionRange: LSPRange? = nil, targetUri: String, targetRange: LSPRange, targetSelectionRange: LSPRange) {
+		self.originSelectionRange = originSelectionRange
+		self.targetUri = targetUri
+		self.targetRange = targetRange
+		self.targetSelectionRange = targetSelectionRange
+	}
+
     public let originSelectionRange: LSPRange?
     public let targetUri: String
     public let targetRange: LSPRange

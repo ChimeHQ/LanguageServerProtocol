@@ -73,6 +73,11 @@ public struct SemanticTokensClientCapabilities: Codable, Hashable, Sendable {
 public struct SemanticTokensLegend: Codable, Hashable, Sendable {
     public var tokenTypes: [String]
     public var tokenModifiers: [String]
+
+	public init(tokenTypes: [String], tokenModifiers: [String]) {
+		self.tokenTypes = tokenTypes
+		self.tokenModifiers = tokenModifiers
+	}
 }
 
 public enum SemanticTokenTypes: String, Codable, Hashable, CaseIterable, Sendable {
@@ -131,9 +136,64 @@ public struct SemanticTokensParams: Codable, Hashable, Sendable {
     }
 }
 
+// https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#documentSelector
+public struct SemanticToken {
+	// typealias EncodedTuple = (line: UInt32, char: UInt32, length: UInt32, type: UInt32, modifiers: UInt32)
+
+	let line: UInt32
+	let char: UInt32
+	let length: UInt32
+	let type: UInt32
+	let modifiers: UInt32
+
+	public static let numFields = 5
+
+	// public func toArray() -> EncodedTuple {
+	// }
+
+	public init(line: UInt32, char: UInt32, length: UInt32, type: UInt32, modifiers: UInt32 = 0) {
+		self.line = line
+		self.char = char
+		self.length = length
+		self.type = type
+		self.modifiers = modifiers
+	}
+}
+
 public struct SemanticTokens: Codable, Hashable, Sendable {
+	/**
+	 * An optional result id. If provided and clients support delta updating
+	 * the client will include the result id in the next semantic token request.
+	 * A server can then instead of computing all semantic tokens again simply
+	 * send a delta.
+	 */
     public var resultId: String?
+
+	/// Encoded token data
     public var data: [UInt32]
+
+	// Convert tokens to encoded packed array format
+	// https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens
+	public init(resultId: String? = nil, tokens: [SemanticToken]) {
+		self.resultId = resultId
+		self.data = Array(repeating: 0, count: tokens.count * SemanticToken.numFields)
+		var currentLine: UInt32 = 0
+		for i in 0..<tokens.count {
+			let d0 = i * SemanticToken.numFields
+			let t = tokens[i]
+			self.data[d0+0] = t.line - currentLine
+			self.data[d0+1] = t.char
+			self.data[d0+2] = t.length
+			self.data[d0+3] = t.type
+			self.data[d0+4] = t.modifiers
+			currentLine = t.line
+		}
+	}
+
+	public init(resultId: String? = nil, data: [UInt32]) {
+		self.resultId = resultId
+		self.data = data
+	}
 }
 
 public typealias SemanticTokensResponse = SemanticTokens?
