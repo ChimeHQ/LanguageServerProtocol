@@ -7,11 +7,11 @@ public protocol NotificationHandler : ProtocolHandler {
 
   func initialized(_ params: InitializedParams) async
   func exit() async
-  func textDocumentDidOpen(_ params: DidOpenTextDocumentParams) async
-  func textDocumentDidChange(_ params: DidChangeTextDocumentParams) async
-  func textDocumentDidClose(_ params: DidCloseTextDocumentParams) async
-  func textDocumentWillSave(_ params: WillSaveTextDocumentParams) async
-  func textDocumentDidSave(_ params: DidSaveTextDocumentParams) async
+  func textDocumentDidOpen(_ params: TextDocumentDidOpenParams) async
+  func textDocumentDidChange(_ params: TextDocumentDidChangeParams) async
+  func textDocumentDidClose(_ params: TextDocumentDidCloseParams) async
+  func textDocumentWillSave(_ params: TextDocumentWillSaveParams) async
+  func textDocumentDidSave(_ params: TextDocumentDidSaveParams) async
   func protocolCancelRequest(_ params: CancelParams) async
   func protocolSetTrace(_ params: SetTraceParams) async
   func workspaceDidChangeWatchedFiles(_ params: DidChangeWatchedFilesParams) async
@@ -84,23 +84,23 @@ public extension NotificationHandler {
     await _logNotImplemented("NotificationHandler.exit not implemented")
   }
 
-  func textDocumentDidOpen(_ params: DidOpenTextDocumentParams) async {
+  func textDocumentDidOpen(_ params: TextDocumentDidOpenParams) async {
     await _logNotImplemented("NotificationHandler.textDocumentDidOpen not implemented")
   }
 
-  func textDocumentDidChange(_ params: DidChangeTextDocumentParams) async {
+  func textDocumentDidChange(_ params: TextDocumentDidChangeParams) async {
     await _logNotImplemented("NotificationHandler.textDocumentDidChange not implemented")
   }
 
-  func textDocumentDidClose(_ params: DidCloseTextDocumentParams) async {
+  func textDocumentDidClose(_ params: TextDocumentDidCloseParams) async {
     await _logNotImplemented("NotificationHandler.textDocumentDidClose not implemented")
   }
 
-  func textDocumentWillSave(_ params: WillSaveTextDocumentParams) async {
+  func textDocumentWillSave(_ params: TextDocumentWillSaveParams) async {
     await _logNotImplemented("NotificationHandler.textDocumentWillSave not implemented")
   }
 
-  func textDocumentDidSave(_ params: DidSaveTextDocumentParams) async {
+  func textDocumentDidSave(_ params: TextDocumentDidSaveParams) async {
     await _logNotImplemented("NotificationHandler.textDocumentDidSave not implemented")
   }
 

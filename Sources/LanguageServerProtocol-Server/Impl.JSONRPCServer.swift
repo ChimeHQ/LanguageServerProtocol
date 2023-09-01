@@ -107,19 +107,19 @@ public actor JSONRPCServer : Server {
         case .exit:
           notificationContinuation.yield(.exit)
         case .textDocumentDidOpen:
-          let params = try decodeNotificationParams(DidOpenTextDocumentParams.self, from: data)
+          let params = try decodeNotificationParams(TextDocumentDidOpenParams.self, from: data)
           notificationContinuation.yield(.textDocumentDidOpen(params))
         case .textDocumentDidChange:
-          let params = try decodeNotificationParams(DidChangeTextDocumentParams.self, from: data)
+          let params = try decodeNotificationParams(TextDocumentDidChangeParams.self, from: data)
           notificationContinuation.yield(.textDocumentDidChange(params))
         case .textDocumentDidClose:
-          let params = try decodeNotificationParams(DidCloseTextDocumentParams.self, from: data)
+          let params = try decodeNotificationParams(TextDocumentDidCloseParams.self, from: data)
           notificationContinuation.yield(.textDocumentDidClose(params))
         case .textDocumentWillSave:
-          let params = try decodeNotificationParams(WillSaveTextDocumentParams.self, from: data)
+          let params = try decodeNotificationParams(TextDocumentWillSaveParams.self, from: data)
           notificationContinuation.yield(.textDocumentWillSave(params))
         case .textDocumentDidSave:
-          let params = try decodeNotificationParams(DidSaveTextDocumentParams.self, from: data)
+          let params = try decodeNotificationParams(TextDocumentDidSaveParams.self, from: data)
           notificationContinuation.yield(.textDocumentDidSave(params))
         case .protocolCancelRequest:
           let params = try decodeNotificationParams(CancelParams.self, from: data)

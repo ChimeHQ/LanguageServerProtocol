@@ -14,7 +14,7 @@ public protocol RequestHandler : ProtocolHandler {
   func workspaceWillDeleteFiles(_ params: DeleteFilesParams) async -> Result<WorkspaceEdit?, AnyJSONRPCResponseError>
   func workspaceSymbol(_ params: WorkspaceSymbolParams) async -> Result<WorkspaceSymbolResponse, AnyJSONRPCResponseError>
   func workspaceSymbolResolve(_ params: WorkspaceSymbol) async -> Result<WorkspaceSymbol, AnyJSONRPCResponseError>
-  func textDocumentWillSaveWaitUntil(_ params: WillSaveTextDocumentParams) async -> Result<[TextEdit]?, AnyJSONRPCResponseError>
+  func textDocumentWillSaveWaitUntil(_ params: TextDocumentWillSaveParams) async -> Result<[TextEdit]?, AnyJSONRPCResponseError>
   func completion(_ params: CompletionParams) async -> Result<CompletionResponse, AnyJSONRPCResponseError>
   func completionItemResolve(_ params: CompletionItem) async -> Result<CompletionItem, AnyJSONRPCResponseError>
   func hover(_ params: TextDocumentPositionParams) async -> Result<HoverResponse, AnyJSONRPCResponseError>
@@ -167,7 +167,7 @@ public extension RequestHandler {
   func workspaceWillDeleteFiles(_ params: DeleteFilesParams) async -> Result<WorkspaceEdit?, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
   func workspaceSymbol(_ params: WorkspaceSymbolParams) async -> Result<WorkspaceSymbolResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
   func workspaceSymbolResolve(_ params: WorkspaceSymbol) async -> Result<WorkspaceSymbol, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-  func textDocumentWillSaveWaitUntil(_ params: WillSaveTextDocumentParams) async -> Result<[TextEdit]?, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
+  func textDocumentWillSaveWaitUntil(_ params: TextDocumentWillSaveParams) async -> Result<[TextEdit]?, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
   func completion(_ params: CompletionParams) async -> Result<CompletionResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
   func completionItemResolve(_ params: CompletionItem) async -> Result<CompletionItem, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
   func hover(_ params: TextDocumentPositionParams) async -> Result<HoverResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
