@@ -140,11 +140,11 @@ public struct SemanticTokensParams: Codable, Hashable, Sendable {
 public struct SemanticToken {
 	// typealias EncodedTuple = (line: UInt32, char: UInt32, length: UInt32, type: UInt32, modifiers: UInt32)
 
-	let line: UInt32
-	let char: UInt32
-	let length: UInt32
-	let type: UInt32
-	let modifiers: UInt32
+	public let line: UInt32
+	public let char: UInt32
+	public let length: UInt32
+	public let type: UInt32
+	public let modifiers: UInt32
 
 	public static let numFields = 5
 
@@ -172,27 +172,81 @@ public struct SemanticTokens: Codable, Hashable, Sendable {
 	/// Encoded token data
     public var data: [UInt32]
 
+
+	public init(resultId: String? = nil, data: [UInt32]) {
+		self.resultId = resultId
+		self.data = data
+	}
+
 	// Convert tokens to encoded packed array format
 	// https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens
 	public init(resultId: String? = nil, tokens: [SemanticToken]) {
 		self.resultId = resultId
 		self.data = Array(repeating: 0, count: tokens.count * SemanticToken.numFields)
-		var currentLine: UInt32 = 0
+		var currentRow: UInt32 = 0
+		var currentCol: UInt32 = 0
 		for i in 0..<tokens.count {
 			let d0 = i * SemanticToken.numFields
 			let t = tokens[i]
-			self.data[d0+0] = t.line - currentLine
-			self.data[d0+1] = t.char
+
+			guard t.line >= currentRow else {
+				fatalError("Sematic tokens are out of order: \(t)")
+			}
+
+			self.data[d0+0] = t.line - currentRow
+
+			if t.line != currentRow {
+				currentRow = t.line
+				currentCol = 0
+			}
+
+			// TODO: Maybe we should just sort the row tokens instead
+			// Lines can be expected to be in order, but tokens on a row maybe be more difficult to order from the user side
+			guard t.char >= currentCol else {
+				fatalError("Sematic tokens are out of order: \(t)")
+			}
+
+      		self.data[d0+1] = t.char - currentCol
+			currentCol = t.char
+
 			self.data[d0+2] = t.length
 			self.data[d0+3] = t.type
 			self.data[d0+4] = t.modifiers
-			currentLine = t.line
 		}
 	}
 
-	public init(resultId: String? = nil, data: [UInt32]) {
-		self.resultId = resultId
-		self.data = data
+	// Convert encoded packed array format to SemanticToken array
+	// https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens
+	public func decode() -> [SemanticToken] {
+		var tokens: [SemanticToken] = []
+
+		var currentRow: UInt32 = 0
+		var currentCol: UInt32 = 0
+		let numTokens = data.count/5
+		tokens.reserveCapacity(numTokens)
+
+		for n in 0..<numTokens {
+			let i = n * 5
+
+			// Check if new line
+			if data[i] > 0 {
+				currentCol = 0
+			}
+
+			let token = SemanticToken(
+				line: data[i] + currentRow,
+				char: data[i+1] + currentCol,
+				length: data[i+2],
+				type: data[i+3],
+				modifiers: data[i+4]
+			)
+
+			tokens.append(token)
+			currentRow += data[i]
+			currentCol += data[i+1]
+		}
+
+		return tokens
 	}
 }
 
