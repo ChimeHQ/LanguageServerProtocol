@@ -178,40 +178,59 @@ public struct SemanticTokens: Codable, Hashable, Sendable {
 		self.data = data
 	}
 
+	func getLineTokens(_ tokens: Array<SemanticToken>.SubSequence) -> (line: UInt32, tokens: Array<SemanticToken>.SubSequence) {
+		precondition(!tokens.isEmpty)
+
+		var end = tokens.startIndex + 1
+		let line = tokens[tokens.startIndex].line
+
+		while end < tokens.endIndex && tokens[end].line == line {
+			end += 1
+		}
+
+		return (line, tokens[tokens.startIndex..<end])
+	}
+
+	mutating func encodeLine(_ tokens: Array<SemanticToken>.SubSequence, prevLine: UInt32) {
+
+		// Sort line tokens
+		let sortedTokens = tokens.sorted { $0.char < $1.char }
+
+		var prevCol: UInt32 = 0
+		var prevLine = prevLine
+
+		for i in 0..<sortedTokens.count {
+			let d0 = (tokens.startIndex + i) * SemanticToken.numFields
+			let t = sortedTokens[i]
+
+			self.data[d0+0] = t.line - prevLine
+			self.data[d0+1] = t.char - prevCol
+			self.data[d0+2] = t.length
+			self.data[d0+3] = t.type
+			self.data[d0+4] = t.modifiers
+
+			prevLine = t.line
+			prevCol = t.char
+		}
+	}
+
 	// Convert tokens to encoded packed array format
 	// https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens
 	public init(resultId: String? = nil, tokens: [SemanticToken]) {
 		self.resultId = resultId
 		self.data = Array(repeating: 0, count: tokens.count * SemanticToken.numFields)
-		var currentRow: UInt32 = 0
-		var currentCol: UInt32 = 0
-		for i in 0..<tokens.count {
-			let d0 = i * SemanticToken.numFields
-			let t = tokens[i]
+		var prevLine: UInt32 = 0
 
-			guard t.line >= currentRow else {
-				fatalError("Sematic tokens are out of order: \(t)")
-			}
-
-			self.data[d0+0] = t.line - currentRow
-
-			if t.line != currentRow {
-				currentRow = t.line
-				currentCol = 0
-			}
-
-			// TODO: Maybe we should just sort the row tokens instead
-			// Lines can be expected to be in order, but tokens on a row maybe be more difficult to order from the user side
-			guard t.char >= currentCol else {
-				fatalError("Sematic tokens are out of order: \(t)")
-			}
-
-      		self.data[d0+1] = t.char - currentCol
-			currentCol = t.char
-
-			self.data[d0+2] = t.length
-			self.data[d0+3] = t.type
-			self.data[d0+4] = t.modifiers
+		// Process tokens one line at a time
+		// Lines are assumed to be in order, but tokens within a line are implicitly
+		// sorted, to make producing tokens easier for the user
+		var tail = tokens[...]
+		while !tail.isEmpty {
+			let (line, lineTokens) = getLineTokens(tail)
+			precondition(line >= prevLine, "Sematic token lines are out of order @ \(prevLine)")
+			encodeLine(lineTokens, prevLine: prevLine)
+			prevLine = line
+			tail = tail[lineTokens.endIndex...]
 		}
 	}
 
