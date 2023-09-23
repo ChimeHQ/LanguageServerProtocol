@@ -178,7 +178,7 @@ public struct SemanticTokens: Codable, Hashable, Sendable {
 		self.data = data
 	}
 
-	func getLineTokens(_ tokens: Array<SemanticToken>.SubSequence) -> (line: UInt32, tokens: Array<SemanticToken>.SubSequence) {
+	func getLineTokens(_ tokens: Array<SemanticToken>.SubSequence) -> Line {
 		precondition(!tokens.isEmpty)
 
 		var end = tokens.startIndex + 1
@@ -188,7 +188,7 @@ public struct SemanticTokens: Codable, Hashable, Sendable {
 			end += 1
 		}
 
-		return (line, tokens[tokens.startIndex..<end])
+		return Line(line: line, tokens: tokens[tokens.startIndex..<end])
 	}
 
 	mutating func encodeLine(_ tokens: Array<SemanticToken>.SubSequence, prevLine: UInt32) {
@@ -214,23 +214,32 @@ public struct SemanticTokens: Codable, Hashable, Sendable {
 		}
 	}
 
+	struct Line {
+		public let line: UInt32
+		public let tokens: Array<SemanticToken>.SubSequence
+	}
+
 	// Convert tokens to encoded packed array format
 	// https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens
 	public init(resultId: String? = nil, tokens: [SemanticToken]) {
 		self.resultId = resultId
 		self.data = Array(repeating: 0, count: tokens.count * SemanticToken.numFields)
-		var prevLine: UInt32 = 0
 
-		// Process tokens one line at a time
-		// Lines are assumed to be in order, but tokens within a line are implicitly
-		// sorted, to make producing tokens easier for the user
 		var tail = tokens[...]
+		var lines: Array<Line> = []
 		while !tail.isEmpty {
-			let (line, lineTokens) = getLineTokens(tail)
-			precondition(line >= prevLine, "Sematic token lines are out of order @ \(prevLine)")
-			encodeLine(lineTokens, prevLine: prevLine)
-			prevLine = line
-			tail = tail[lineTokens.endIndex...]
+			let line = getLineTokens(tail)
+			lines.append(line)
+			tail = tail[line.tokens.endIndex...]
+		}
+
+		// Sort lines
+		let sortedLines = lines.sorted { $0.line < $1.line }
+
+		var prevLine: UInt32 = 0
+		for line in sortedLines {
+			encodeLine(line.tokens, prevLine: prevLine)
+			prevLine = line.line
 		}
 	}
 
