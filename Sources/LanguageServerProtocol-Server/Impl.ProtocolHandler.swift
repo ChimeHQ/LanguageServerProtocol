@@ -12,10 +12,11 @@ public extension ProtocolHandler {
 
   func logInternalError(_ message: String, type: MessageType = .warning) async {
     do {
-      try await lsp.sendNotification(.windowLogMessage(LogMessageParams(type: type, message: message)))
+		logger.error(Logger.Message(stringLiteral: message))
+		try await lsp.sendNotification(.windowLogMessage(LogMessageParams(type: type, message: message)))
     }
     catch {
-      logger.error(Logger.Message(stringLiteral: message))
+		// logger.error(Logger.Message(stringLiteral: message))
     }
   }
 
