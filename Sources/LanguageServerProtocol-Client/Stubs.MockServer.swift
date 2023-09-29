@@ -17,11 +17,8 @@ public actor MockServer: Server {
 	public typealias ClientMessageSequence = AsyncStream<ClientMessage>
 	private typealias ResponseDataSequence = AsyncStream<Data>
 
-	public let notificationSequence: NotificationSequence
-	public let requestSequence: RequestSequence
-
-	private let notificationContinuation: NotificationSequence.Continuation
-	private let requestContinuation: RequestSequence.Continuation
+	public let eventSequence: EventSequence
+	private let eventContinuation: EventSequence.Continuation
 
 	private var mockResponses = [Data]()
 
@@ -29,15 +26,13 @@ public actor MockServer: Server {
 	private let sentMessageContinuation: ClientMessageSequence.Continuation
 
 	public init() {
-		(self.notificationSequence, self.notificationContinuation) = NotificationSequence.makeStream()
-		(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
+		(self.eventSequence, self.eventContinuation) = EventSequence.makeStream()
 		(self.sentMessageSequence, self.sentMessageContinuation) = ClientMessageSequence.makeStream()
 	}
 
 	deinit {
 		sentMessageContinuation.finish()
-		notificationContinuation.finish()
-		requestContinuation.finish()
+		eventContinuation.finish()
 	}
 
 	public func sendNotification(_ notif: ClientNotification) async throws {
@@ -61,8 +56,7 @@ extension MockServer {
 	/// Returns an array of sent messages.
 	public func finishSession() async -> [ClientMessage] {
 		sentMessageContinuation.finish()
-		notificationContinuation.finish()
-		requestContinuation.finish()
+		eventContinuation.finish()
 
 		return await sentMessageSequence.collect()
 	}
@@ -86,11 +80,11 @@ extension MockServer {
 
 	/// Simulate a server request.
 	public func sendMockRequest(_ request: ServerRequest) {
-		requestContinuation.yield(request)
+		eventContinuation.yield(.request(request))
 	}
 
 	/// Simulate a server notification.
 	public func sendMockNotification(_ note: ServerNotification) {
-		notificationContinuation.yield(note)
+		eventContinuation.yield(.notification(note))
 	}
 }

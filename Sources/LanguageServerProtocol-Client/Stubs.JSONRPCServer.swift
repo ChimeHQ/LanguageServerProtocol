@@ -4,22 +4,17 @@ import LanguageServerProtocol
 
 
 public actor JSONRPCServer: Server {
-	public let notificationSequence: NotificationSequence
-	public let requestSequence: RequestSequence
-
-	private let notificationContinuation: NotificationSequence.Continuation
-	private let requestContinuation: RequestSequence.Continuation
+	public let eventSequence: EventSequence
+	private let eventContinuation: EventSequence.Continuation
+	private var eventTask: Task<Void, Never>?
 
 	private let session: JSONRPCSession
-	private var notificationTask: Task<Void, Never>?
-	private var requestTask: Task<Void, Never>?
 
 	/// NOTE: The channel will wrapped with message framing
 	public init(dataChannel: DataChannel) {
 		self.session = JSONRPCSession(channel: dataChannel.withMessageFraming())
 
-		(self.notificationSequence, self.notificationContinuation) = NotificationSequence.makeStream()
-		(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
+		(self.eventSequence, self.eventContinuation) = EventSequence.makeStream()
 
 		Task {
 			await startMonitoringSession()
@@ -27,37 +22,28 @@ public actor JSONRPCServer: Server {
 	}
 
 	deinit {
-		notificationTask?.cancel()
-		notificationContinuation.finish()
-
-		requestTask?.cancel()
-		requestContinuation.finish()
+		eventTask?.cancel()
+		eventContinuation.finish()
 	}
 
 	private func startMonitoringSession() async {
-		let noteSequence = await session.notificationSequence
+		let seq = await session.eventSequence
 
-		self.notificationTask = Task { [weak self] in
-			for await (notification, data) in noteSequence {
-				guard let self = self else { break }
+		for await event in seq {
 
-				await self.handleNotification(notification, data: data)
+
+			switch event {
+			case let .notification(notification, data):
+				self.handleNotification(notification, data: data)
+			case let .request(request, handler, data):
+				self.handleRequest(request, data: data, handler: handler)
+			case .error:
+				break // TODO?
 			}
 
-			self?.notificationContinuation.finish()
 		}
 
-		let reqSequence = await session.requestSequence
-
-		self.requestTask = Task { [weak self] in
-			for await (request, handler, data) in reqSequence {
-				guard let self = self else { break }
-
-				await self.handleRequest(request, data: data, handler: handler)
-			}
-
-			self?.requestContinuation.finish()
-		}
+		eventContinuation.finish()
 	}
 
 	public func sendNotification(_ notif: ClientNotification) async throws {
@@ -206,6 +192,14 @@ public actor JSONRPCServer: Server {
 		return params
 	}
 
+	private func yield(_ notification: ServerNotification) {
+		eventContinuation.yield(.notification(notification))
+	}
+
+	private func yield(_ request: ServerRequest) {
+		eventContinuation.yield(.request(request))
+	}
+
 	private func handleNotification(_ anyNotification: AnyJSONRPCNotification, data: Data) {
 		let methodName = anyNotification.method
 
@@ -218,31 +212,31 @@ public actor JSONRPCServer: Server {
 			case .windowLogMessage:
 				let params = try decodeNotificationParams(LogMessageParams.self, from: data)
 
-				notificationContinuation.yield(.windowLogMessage(params))
+				yield(.windowLogMessage(params))
 			case .windowShowMessage:
 				let params = try decodeNotificationParams(ShowMessageParams.self, from: data)
 
-				notificationContinuation.yield(.windowShowMessage(params))
+				yield(.windowShowMessage(params))
 			case .textDocumentPublishDiagnostics:
 				let params = try decodeNotificationParams(PublishDiagnosticsParams.self, from: data)
 
-				notificationContinuation.yield(.textDocumentPublishDiagnostics(params))
+				yield(.textDocumentPublishDiagnostics(params))
 			case .telemetryEvent:
 				let params = anyNotification.params ?? .null
 
-				notificationContinuation.yield(.telemetryEvent(params))
+				yield(.telemetryEvent(params))
 			case .protocolCancelRequest:
 				let params = try decodeNotificationParams(CancelParams.self, from: data)
 
-				notificationContinuation.yield(.protocolCancelRequest(params))
+				yield(.protocolCancelRequest(params))
 			case .protocolProgress:
 				let params = try decodeNotificationParams(ProgressParams.self, from: data)
 
-				notificationContinuation.yield(.protocolProgress(params))
+				yield(.protocolProgress(params))
 			case .protocolLogTrace:
 				let params = try decodeNotificationParams(LogTraceParams.self, from: data)
 
-				notificationContinuation.yield(.protocolLogTrace(params))
+				yield(.protocolLogTrace(params))
 			}
 		} catch {
 			// should we backchannel this to the client somehow?
@@ -260,7 +254,7 @@ public actor JSONRPCServer: Server {
 		return params
 	}
 
-	private nonisolated func makeErrorOnlyHandler(_ handler: @escaping JSONRPCSession.RequestHandler) -> ServerRequest.ErrorOnlyHandler {
+	private nonisolated func makeErrorOnlyHandler(_ handler: @escaping JSONRPCEvent.RequestHandler) -> ServerRequest.ErrorOnlyHandler {
 		return {
 			if let error = $0 {
 				await handler(.failure(error))
@@ -270,7 +264,7 @@ public actor JSONRPCServer: Server {
 		}
 	}
 
-	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCSession.RequestHandler) -> ServerRequest.Handler<T> {
+	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCEvent.RequestHandler) -> ServerRequest.Handler<T> {
 		return {
 			let loweredResult = $0.map({ $0 as Encodable & Sendable })
 
@@ -278,7 +272,7 @@ public actor JSONRPCServer: Server {
 		}
 	}
 
-	private func handleRequest(_ anyRequest: AnyJSONRPCRequest, data: Data, handler: @escaping JSONRPCSession.RequestHandler) {
+	private func handleRequest(_ anyRequest: AnyJSONRPCRequest, data: Data, handler: @escaping JSONRPCEvent.RequestHandler) {
 		let methodName = anyRequest.method
 
 		do {
@@ -291,49 +285,49 @@ public actor JSONRPCServer: Server {
 				let params = try decodeRequestParams(ConfigurationParams.self, from: data)
 				let reqHandler: ServerRequest.Handler<[LSPAny]> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceConfiguration(params, reqHandler))
+				yield(ServerRequest.workspaceConfiguration(params, reqHandler))
 			case .workspaceFolders:
 				let reqHandler: ServerRequest.Handler<WorkspaceFoldersResponse> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceFolders(reqHandler))
+				yield(ServerRequest.workspaceFolders(reqHandler))
 			case .workspaceApplyEdit:
 				let params = try decodeRequestParams(ApplyWorkspaceEditParams.self, from: data)
 				let reqHandler: ServerRequest.Handler<ApplyWorkspaceEditResult> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceApplyEdit(params, reqHandler))
+				yield(ServerRequest.workspaceApplyEdit(params, reqHandler))
 			case .clientRegisterCapability:
 				let params = try decodeRequestParams(RegistrationParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.clientRegisterCapability(params, reqHandler))
+				yield(ServerRequest.clientRegisterCapability(params, reqHandler))
 			case .clientUnregisterCapability:
 				let params = try decodeRequestParams(UnregistrationParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.clientUnregisterCapability(params, reqHandler))
+				yield(ServerRequest.clientUnregisterCapability(params, reqHandler))
 			case .workspaceCodeLensRefresh:
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceCodeLensRefresh(reqHandler))
+				yield(ServerRequest.workspaceCodeLensRefresh(reqHandler))
 			case .workspaceSemanticTokenRefresh:
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceSemanticTokenRefresh(reqHandler))
+				yield(ServerRequest.workspaceSemanticTokenRefresh(reqHandler))
 			case .windowShowMessageRequest:
 				let params = try decodeRequestParams(ShowMessageRequestParams.self, from: data)
 				let reqHandler: ServerRequest.Handler<ShowMessageRequestResponse> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.windowShowMessageRequest(params, reqHandler))
+				yield(ServerRequest.windowShowMessageRequest(params, reqHandler))
 			case .windowShowDocument:
 				let params = try decodeRequestParams(ShowDocumentParams.self, from: data)
 				let reqHandler: ServerRequest.Handler<ShowDocumentResult> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.windowShowDocument(params, reqHandler))
+				yield(ServerRequest.windowShowDocument(params, reqHandler))
 			case .windowWorkDoneProgressCreate:
 				let params = try decodeRequestParams(WorkDoneProgressCreateParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.windowWorkDoneProgressCreate(params, reqHandler))
+				yield(ServerRequest.windowWorkDoneProgressCreate(params, reqHandler))
 
 			}
 

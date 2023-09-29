@@ -5,11 +5,9 @@ import LanguageServerProtocol
 ///
 /// This protocol defines all the messages that can be sent between an LSP client and server. It does **not** enforce correct ordering of those messages.
 public protocol Server {
-	typealias NotificationSequence = AsyncStream<ServerNotification>
-	typealias RequestSequence = AsyncStream<ServerRequest>
+	typealias EventSequence = AsyncStream<ServerEvent>
 
-	var notificationSequence: NotificationSequence { get }
-	var requestSequence: RequestSequence { get }
+	var eventSequence: EventSequence { get }
 
 	func sendNotification(_ notif: ClientNotification) async throws
 	func sendRequest<Response: Decodable & Sendable>(_ request: ClientRequest) async throws -> Response

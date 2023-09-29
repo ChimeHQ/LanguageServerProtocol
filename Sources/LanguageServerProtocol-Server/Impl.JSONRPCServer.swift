@@ -3,27 +3,17 @@ import JSONRPC
 import LanguageServerProtocol
 
 public actor JSONRPCServer : Server {
-	public let notificationSequence: NotificationSequence
-	public let requestSequence: RequestSequence
-	public let errorSequence: JSONRPCSession.ErrorSequence
-	// public nonisolated let errorSequence: JSONRPCSession.ErrorSequence { session.errorSequence }
-
-	private let notificationContinuation: NotificationSequence.Continuation
-	private let requestContinuation: RequestSequence.Continuation
-	private let errorContinuation: JSONRPCSession.ErrorSequence.Continuation
+	public let eventSequence: EventSequence
+	private let eventContinuation: EventSequence.Continuation
+	private var eventTask: Task<Void, Never>?
 
 	private let session: JSONRPCSession
-	private var notificationTask: Task<Void, Never>?
-	private var requestTask: Task<Void, Never>?
-	private var errorTask: Task<Void, Never>?
 
 	/// NOTE: The channel will wrapped with message framing
 	public init(_ dataChannel: DataChannel) {
 		self.session = JSONRPCSession(channel: dataChannel.withMessageFraming())
 
-		(self.notificationSequence, self.notificationContinuation) = NotificationSequence.makeStream()
-		(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
-		(self.errorSequence, self.errorContinuation) = JSONRPCSession.ErrorSequence.makeStream()
+		(self.eventSequence, self.eventContinuation) = EventSequence.makeStream()
 
 		Task {
 			await startMonitoringSession()
@@ -31,54 +21,27 @@ public actor JSONRPCServer : Server {
 	}
 
 	deinit {
-		notificationTask?.cancel()
-		notificationContinuation.finish()
-
-		requestTask?.cancel()
-		requestContinuation.finish()
-
-    errorTask?.cancel()
-		errorContinuation.finish()
+		eventTask?.cancel()
+		eventContinuation.finish()
 	}
 
 
 	private func startMonitoringSession() async {
-		let noteSequence = await session.notificationSequence
+		let seq = await session.eventSequence
 
-		self.notificationTask = Task { [weak self] in
-			for await (notification, data) in noteSequence {
-				guard let self = self else { break }
+		for await event in seq {
 
-				await self.handleNotification(notification, data: data)
+			switch event {
+			case let .notification(notification, data):
+				self.handleNotification(notification, data: data)
+			case let .request(request, handler, data):
+				self.handleRequest(request, data: data, handler: handler)
+			case let .error(error):
+				self.handleError(error)
 			}
-
-			self?.notificationContinuation.finish()
 		}
 
-		let reqSequence = await session.requestSequence
-
-		self.requestTask = Task { [weak self] in
-			for await (request, handler, data) in reqSequence {
-				guard let self = self else { break }
-
-				await self.handleRequest(request, data: data, handler: handler)
-			}
-
-			self?.requestContinuation.finish()
-		}
-
-		let errorSequence = await session.errorSequence
-
-		self.errorTask = Task { [weak self] in
-			for await err in errorSequence {
-        guard let self = self else { break }
-
-        self.errorContinuation.yield(err)
-			}
-
-			self?.errorContinuation.finish()
-		}
-
+		eventContinuation.finish()
 	}
 
 
@@ -92,6 +55,18 @@ public actor JSONRPCServer : Server {
 		return params
 	}
 
+	private func yield(_ notification: ClientNotification) {
+		eventContinuation.yield(.notification(notification))
+	}
+
+	private func yield(_ request: ClientRequest) {
+		eventContinuation.yield(.request(request))
+	}
+
+	private func yield(_ error: ClientError) {
+		eventContinuation.yield(.error(error))
+	}
+
 	private func handleNotification(_ anyNotification: AnyJSONRPCNotification, data: Data) {
 		let methodName = anyNotification.method
 
@@ -103,51 +78,51 @@ public actor JSONRPCServer : Server {
 			switch method {
         case .initialized:
           let params = try decodeNotificationParams(InitializedParams.self, from: data)
-          notificationContinuation.yield(.initialized(params))
+          yield(.initialized(params))
         case .exit:
-          notificationContinuation.yield(.exit)
+          yield(.exit)
         case .textDocumentDidOpen:
           let params = try decodeNotificationParams(TextDocumentDidOpenParams.self, from: data)
-          notificationContinuation.yield(.textDocumentDidOpen(params))
+          yield(.textDocumentDidOpen(params))
         case .textDocumentDidChange:
           let params = try decodeNotificationParams(TextDocumentDidChangeParams.self, from: data)
-          notificationContinuation.yield(.textDocumentDidChange(params))
+          yield(.textDocumentDidChange(params))
         case .textDocumentDidClose:
           let params = try decodeNotificationParams(TextDocumentDidCloseParams.self, from: data)
-          notificationContinuation.yield(.textDocumentDidClose(params))
+          yield(.textDocumentDidClose(params))
         case .textDocumentWillSave:
           let params = try decodeNotificationParams(TextDocumentWillSaveParams.self, from: data)
-          notificationContinuation.yield(.textDocumentWillSave(params))
+          yield(.textDocumentWillSave(params))
         case .textDocumentDidSave:
           let params = try decodeNotificationParams(TextDocumentDidSaveParams.self, from: data)
-          notificationContinuation.yield(.textDocumentDidSave(params))
+          yield(.textDocumentDidSave(params))
         case .protocolCancelRequest:
           let params = try decodeNotificationParams(CancelParams.self, from: data)
-          notificationContinuation.yield(.protocolCancelRequest(params))
+          yield(.protocolCancelRequest(params))
         case .protocolSetTrace:
           let params = try decodeNotificationParams(SetTraceParams.self, from: data)
-          notificationContinuation.yield(.protocolSetTrace(params))
+          yield(.protocolSetTrace(params))
         case .workspaceDidChangeWatchedFiles:
           let params = try decodeNotificationParams(DidChangeWatchedFilesParams.self, from: data)
-          notificationContinuation.yield(.workspaceDidChangeWatchedFiles(params))
+          yield(.workspaceDidChangeWatchedFiles(params))
         case .windowWorkDoneProgressCancel:
           let params = try decodeNotificationParams(WorkDoneProgressCancelParams.self, from: data)
-          notificationContinuation.yield(.windowWorkDoneProgressCancel(params))
+          yield(.windowWorkDoneProgressCancel(params))
         case .workspaceDidChangeWorkspaceFolders:
           let params = try decodeNotificationParams(DidChangeWorkspaceFoldersParams.self, from: data)
-          notificationContinuation.yield(.workspaceDidChangeWorkspaceFolders(params))
+          yield(.workspaceDidChangeWorkspaceFolders(params))
         case .workspaceDidChangeConfiguration:
           let params = try decodeNotificationParams(DidChangeConfigurationParams.self, from: data)
-          notificationContinuation.yield(.workspaceDidChangeConfiguration(params))
+          yield(.workspaceDidChangeConfiguration(params))
         case .workspaceDidCreateFiles:
           let params = try decodeNotificationParams(CreateFilesParams.self, from: data)
-          notificationContinuation.yield(.workspaceDidCreateFiles(params))
+          yield(.workspaceDidCreateFiles(params))
         case .workspaceDidRenameFiles:
           let params = try decodeNotificationParams(RenameFilesParams.self, from: data)
-          notificationContinuation.yield(.workspaceDidRenameFiles(params))
+          yield(.workspaceDidRenameFiles(params))
         case .workspaceDidDeleteFiles:
           let params = try decodeNotificationParams(DeleteFilesParams.self, from: data)
-          notificationContinuation.yield(.workspaceDidDeleteFiles(params))
+          yield(.workspaceDidDeleteFiles(params))
 			}
 		} catch {
 			// should we backchannel this to the client somehow?
@@ -177,17 +152,7 @@ public actor JSONRPCServer : Server {
 	}
 
 
-	private nonisolated func makeErrorOnlyHandler(_ handler: @escaping JSONRPCSession.RequestHandler) -> ServerRequest.ErrorOnlyHandler {
-		return {
-			if let error = $0 {
-				await handler(.failure(error))
-			} else {
-				await handler(.success(JSONValue.null))
-			}
-		}
-	}
-
-	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCSession.RequestHandler) -> ServerRequest.Handler<T> {
+	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCEvent.RequestHandler) -> ServerRequest.Handler<T> {
 		return {
 			let loweredResult = $0.map({ $0 as Encodable & Sendable })
 
@@ -195,7 +160,7 @@ public actor JSONRPCServer : Server {
 		}
 	}
 
-	private func handleRequest(_ anyRequest: AnyJSONRPCRequest, data: Data, handler: @escaping JSONRPCSession.RequestHandler) {
+	private func handleRequest(_ anyRequest: AnyJSONRPCRequest, data: Data, handler: @escaping JSONRPCEvent.RequestHandler) {
 		let methodName = anyRequest.method
 
 		do {
@@ -204,106 +169,109 @@ public actor JSONRPCServer : Server {
 			}
 
 			switch method {
-        case .initialize:
-          requestContinuation.yield(ClientRequest.initialize(try decodeRequestParams(data), makeHandler(handler)))
-        case .shutdown:
-          requestContinuation.yield(ClientRequest.shutdown)
+			case .initialize:
+				yield(ClientRequest.initialize(try decodeRequestParams(data), makeHandler(handler)))
+			case .shutdown:
+				yield(ClientRequest.shutdown)
 
-        case .workspaceExecuteCommand:
-          requestContinuation.yield(ClientRequest.workspaceExecuteCommand(try decodeRequestParams(data), makeHandler(handler)))
-        case .workspaceWillCreateFiles:
-          requestContinuation.yield(ClientRequest.workspaceWillCreateFiles(try decodeRequestParams(data), makeHandler(handler)))
-        case .workspaceWillRenameFiles:
-          requestContinuation.yield(ClientRequest.workspaceWillRenameFiles(try decodeRequestParams(data), makeHandler(handler)))
-        case .workspaceWillDeleteFiles:
-          requestContinuation.yield(ClientRequest.workspaceWillDeleteFiles(try decodeRequestParams(data), makeHandler(handler)))
-        case .workspaceSymbol:
-          requestContinuation.yield(ClientRequest.workspaceSymbol(try decodeRequestParams(data), makeHandler(handler)))
-
-        case .workspaceSymbolResolve:
-          requestContinuation.yield(ClientRequest.workspaceSymbolResolve(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentWillSaveWaitUntil:
-          requestContinuation.yield(ClientRequest.textDocumentWillSaveWaitUntil(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentCompletion:
-          requestContinuation.yield(ClientRequest.completion(try decodeRequestParams(data), makeHandler(handler)))
-        case .completionItemResolve:
-          requestContinuation.yield(ClientRequest.completionItemResolve(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentHover:
-          requestContinuation.yield(ClientRequest.hover(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentSignatureHelp:
-          requestContinuation.yield(ClientRequest.signatureHelp(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentDeclaration:
-          requestContinuation.yield(ClientRequest.declaration(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentDefinition:
-          requestContinuation.yield(ClientRequest.definition(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentTypeDefinition:
-          requestContinuation.yield(ClientRequest.typeDefinition(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentImplementation:
-          requestContinuation.yield(ClientRequest.implementation(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentDiagnostic:
-          requestContinuation.yield(ClientRequest.diagnostics(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentDocumentHighlight:
-          requestContinuation.yield(ClientRequest.documentHighlight(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentDocumentSymbol:
-          requestContinuation.yield(ClientRequest.documentSymbol(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentCodeAction:
-          requestContinuation.yield(ClientRequest.codeAction(try decodeRequestParams(data), makeHandler(handler)))
-        case .codeActionResolve:
-          requestContinuation.yield(ClientRequest.codeActionResolve(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentCodeLens:
-          requestContinuation.yield(ClientRequest.codeLens(try decodeRequestParams(data), makeHandler(handler)))
-        case .codeLensResolve:
-          requestContinuation.yield(ClientRequest.codeLensResolve(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentSelectionRange:
-          requestContinuation.yield(ClientRequest.selectionRange(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentLinkedEditingRange:
-          requestContinuation.yield(ClientRequest.linkedEditingRange(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentPrepareCallHierarchy:
-          requestContinuation.yield(ClientRequest.prepareCallHierarchy(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentPrepareRename:
-          requestContinuation.yield(ClientRequest.prepareRename(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentRename:
-          requestContinuation.yield(ClientRequest.rename(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentDocumentLink:
-          requestContinuation.yield(ClientRequest.documentLink(try decodeRequestParams(data), makeHandler(handler)))
-        case .documentLinkResolve:
-          requestContinuation.yield(ClientRequest.documentLinkResolve(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentDocumentColor:
-          requestContinuation.yield(ClientRequest.documentColor(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentColorPresentation:
-          requestContinuation.yield(ClientRequest.colorPresentation(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentFormatting:
-          requestContinuation.yield(ClientRequest.formatting(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentRangeFormatting:
-          requestContinuation.yield(ClientRequest.rangeFormatting(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentOnTypeFormatting:
-          requestContinuation.yield(ClientRequest.onTypeFormatting(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentReferences:
-          requestContinuation.yield(ClientRequest.references(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentFoldingRange:
-          requestContinuation.yield(ClientRequest.foldingRange(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentMoniker:
-          requestContinuation.yield(ClientRequest.moniker(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentSemanticTokens:
-          throw ClientError.unhandledRegisterationMethod(methodName)
-        case .textDocumentSemanticTokensFull:
-          requestContinuation.yield(ClientRequest.semanticTokensFull(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentSemanticTokensFullDelta:
-          requestContinuation.yield(ClientRequest.semanticTokensFullDelta(try decodeRequestParams(data), makeHandler(handler)))
-        case .textDocumentSemanticTokensRange:
-          requestContinuation.yield(ClientRequest.semanticTokensRange(try decodeRequestParams(data), makeHandler(handler)))
-        case .callHierarchyIncomingCalls:
-          requestContinuation.yield(ClientRequest.callHierarchyIncomingCalls(try decodeRequestParams(data), makeHandler(handler)))
-        case .callHierarchyOutgoingCalls:
-          requestContinuation.yield(ClientRequest.callHierarchyOutgoingCalls(try decodeRequestParams(data), makeHandler(handler)))
-        case .custom:
-          requestContinuation.yield(ClientRequest.custom(methodName, try decodeRequestParams(data), makeHandler(handler)))
-    }
+			case .workspaceExecuteCommand:
+				yield(ClientRequest.workspaceExecuteCommand(try decodeRequestParams(data), makeHandler(handler)))
+			case .workspaceWillCreateFiles:
+				yield(ClientRequest.workspaceWillCreateFiles(try decodeRequestParams(data), makeHandler(handler)))
+			case .workspaceWillRenameFiles:
+				yield(ClientRequest.workspaceWillRenameFiles(try decodeRequestParams(data), makeHandler(handler)))
+			case .workspaceWillDeleteFiles:
+				yield(ClientRequest.workspaceWillDeleteFiles(try decodeRequestParams(data), makeHandler(handler)))
+			case .workspaceSymbol:
+				yield(ClientRequest.workspaceSymbol(try decodeRequestParams(data), makeHandler(handler)))
+			case .workspaceSymbolResolve:
+				yield(ClientRequest.workspaceSymbolResolve(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentWillSaveWaitUntil:
+				yield(ClientRequest.textDocumentWillSaveWaitUntil(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentCompletion:
+				yield(ClientRequest.completion(try decodeRequestParams(data), makeHandler(handler)))
+			case .completionItemResolve:
+				yield(ClientRequest.completionItemResolve(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentHover:
+				yield(ClientRequest.hover(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentSignatureHelp:
+				yield(ClientRequest.signatureHelp(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentDeclaration:
+				yield(ClientRequest.declaration(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentDefinition:
+				yield(ClientRequest.definition(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentTypeDefinition:
+				yield(ClientRequest.typeDefinition(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentImplementation:
+				yield(ClientRequest.implementation(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentDiagnostic:
+				yield(ClientRequest.diagnostics(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentDocumentHighlight:
+				yield(ClientRequest.documentHighlight(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentDocumentSymbol:
+				yield(ClientRequest.documentSymbol(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentCodeAction:
+				yield(ClientRequest.codeAction(try decodeRequestParams(data), makeHandler(handler)))
+			case .codeActionResolve:
+				yield(ClientRequest.codeActionResolve(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentCodeLens:
+				yield(ClientRequest.codeLens(try decodeRequestParams(data), makeHandler(handler)))
+			case .codeLensResolve:
+				yield(ClientRequest.codeLensResolve(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentSelectionRange:
+				yield(ClientRequest.selectionRange(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentLinkedEditingRange:
+				yield(ClientRequest.linkedEditingRange(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentPrepareCallHierarchy:
+				yield(ClientRequest.prepareCallHierarchy(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentPrepareRename:
+				yield(ClientRequest.prepareRename(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentRename:
+				yield(ClientRequest.rename(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentDocumentLink:
+				yield(ClientRequest.documentLink(try decodeRequestParams(data), makeHandler(handler)))
+			case .documentLinkResolve:
+				yield(ClientRequest.documentLinkResolve(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentDocumentColor:
+				yield(ClientRequest.documentColor(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentColorPresentation:
+				yield(ClientRequest.colorPresentation(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentFormatting:
+				yield(ClientRequest.formatting(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentRangeFormatting:
+				yield(ClientRequest.rangeFormatting(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentOnTypeFormatting:
+				yield(ClientRequest.onTypeFormatting(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentReferences:
+				yield(ClientRequest.references(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentFoldingRange:
+				yield(ClientRequest.foldingRange(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentMoniker:
+				yield(ClientRequest.moniker(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentSemanticTokens:
+				throw ClientError.unhandledRegisterationMethod(methodName)
+			case .textDocumentSemanticTokensFull:
+				yield(ClientRequest.semanticTokensFull(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentSemanticTokensFullDelta:
+				yield(ClientRequest.semanticTokensFullDelta(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentSemanticTokensRange:
+				yield(ClientRequest.semanticTokensRange(try decodeRequestParams(data), makeHandler(handler)))
+			case .callHierarchyIncomingCalls:
+				yield(ClientRequest.callHierarchyIncomingCalls(try decodeRequestParams(data), makeHandler(handler)))
+			case .callHierarchyOutgoingCalls:
+				yield(ClientRequest.callHierarchyOutgoingCalls(try decodeRequestParams(data), makeHandler(handler)))
+			case .custom:
+				yield(ClientRequest.custom(methodName, try decodeRequestParams(data), makeHandler(handler)))
+			}
 
 		} catch {
 			// should we backchannel this to the client somehow?
 			print("failed to relay request: \(error)")
 		}
+	}
+
+	private func handleError(_ anyError: Error) {
+		eventContinuation.yield(.error(anyError))
 	}
 
 	public func sendNotification(_ notif: ServerNotification) async throws {
