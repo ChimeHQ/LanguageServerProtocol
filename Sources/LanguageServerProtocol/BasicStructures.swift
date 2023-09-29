@@ -2,7 +2,7 @@ import Foundation
 import JSONRPC
 
 public struct Position: Codable, Hashable, Sendable {
-    static let zero = Position(line: 0, character: 0)
+    public static let zero = Position(line: 0, character: 0)
 
     public let line: Int
     public let character: Int
