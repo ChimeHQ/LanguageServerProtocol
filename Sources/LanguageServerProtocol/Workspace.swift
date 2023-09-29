@@ -99,6 +99,15 @@ public struct SymbolInformation: Codable, Hashable, Sendable {
     public let deprecated: Bool?
     public let location: Location
     public let containerName: String?
+
+	public init(name: String, kind: SymbolKind, tags: [SymbolTag]? = nil, deprecated: Bool? = nil, location: Location, containerName: String? = nil) {
+		self.name = name
+		self.kind = kind
+		self.tags = tags
+		self.deprecated = deprecated
+		self.location = location
+		self.containerName = containerName
+	}
 }
 
 public struct CreateFileOptions: Codable, Hashable, Sendable {
