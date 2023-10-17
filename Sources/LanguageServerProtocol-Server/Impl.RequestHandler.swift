@@ -55,7 +55,6 @@ public protocol RequestHandler : ProtocolHandler {
 
 public extension RequestHandler {
   func handleRequest(_ request: ClientRequest) async {
-    logger.debug("request: \(request.method)")
 
     switch request {
     case let .initialize(params, handler):

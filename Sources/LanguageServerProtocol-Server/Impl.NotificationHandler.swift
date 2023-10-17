@@ -25,7 +25,6 @@ public protocol NotificationHandler : ProtocolHandler {
 
 public extension NotificationHandler {
   func handleNotification(_ notification: ClientNotification) async {
-    logger.debug("notification: \(notification.method)")
 
     switch notification {
     case let .initialized(params):
