@@ -45,27 +45,27 @@ public extension Server {
         try await sendNotification(.protocolSetTrace(params))
     }
 
-    func textDocumentDidOpen(params: TextDocumentDidOpenParams) async throws {
+    func textDocumentDidOpen(params: DidOpenTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidOpen(params))
     }
 
-    func textDocumentDidChange(params: TextDocumentDidChangeParams) async throws {
+    func textDocumentDidChange(params: DidChangeTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidChange(params))
     }
 
-    func textDocumentDidClose(params: TextDocumentDidCloseParams) async throws {
+    func textDocumentDidClose(params: DidCloseTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidClose(params))
     }
 
-    func textDocumentWillSave(params: TextDocumentWillSaveParams) async throws {
+    func textDocumentWillSave(params: WillSaveTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentWillSave(params))
     }
 
-	func textDocumentWillSaveWaitUntil(params: TextDocumentWillSaveParams) async throws -> WillSaveWaitUntilResponse {
+	func textDocumentWillSaveWaitUntil(params: WillSaveTextDocumentParams) async throws -> WillSaveWaitUntilResponse {
 		try await sendRequest(.textDocumentWillSaveWaitUntil(params))
 	}
 
-    func textDocumentDidSave(params: TextDocumentDidSaveParams) async throws {
+    func textDocumentDidSave(params: DidSaveTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidSave(params))
     }
 
