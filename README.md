@@ -37,7 +37,7 @@ For the most part, this library strives to be a straightforward version of the s
 
 ## Supported Features
 
-The LSP [specification](https://microsoft.github.io/language-server-protocol/specification) is large, and this library currently does not implement it all. The intention is to support the 3.x specification, but be as backwards-compatible as possible with pre-3.0 servers. 
+The LSP [specification](https://microsoft.github.io/language-server-protocol/specification) is large, and this library currently does not implement it all. The intention is to support the 3.x specification, but be as backwards-compatible as possible with pre-3.0 servers.
 
 | Message | Supported |
 | ----------|:---------:|

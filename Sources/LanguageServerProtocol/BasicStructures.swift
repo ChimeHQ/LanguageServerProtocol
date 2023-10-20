@@ -2,7 +2,7 @@ import Foundation
 import JSONRPC
 
 public struct Position: Codable, Hashable, Sendable {
-    static let zero = Position(line: 0, character: 0)
+    public static let zero = Position(line: 0, character: 0)
 
     public let line: Int
     public let character: Int
@@ -111,6 +111,11 @@ extension VersionedTextDocumentIdentifier: CustomStringConvertible {
 public struct Location: Codable, Hashable, Sendable {
     public let uri: DocumentUri
     public let range: LSPRange
+
+	public init(uri: DocumentUri, range: LSPRange) {
+		self.uri = uri
+		self.range = range
+	}
 }
 
 public struct Command: Codable, Hashable, Sendable {
@@ -193,6 +198,13 @@ public struct MarkupContent: Codable, Hashable, Sendable {
 }
 
 public struct LocationLink: Codable, Hashable, Sendable {
+	public init(originSelectionRange: LSPRange? = nil, targetUri: String, targetRange: LSPRange, targetSelectionRange: LSPRange) {
+		self.originSelectionRange = originSelectionRange
+		self.targetUri = targetUri
+		self.targetRange = targetRange
+		self.targetSelectionRange = targetSelectionRange
+	}
+
     public let originSelectionRange: LSPRange?
     public let targetUri: String
     public let targetRange: LSPRange
