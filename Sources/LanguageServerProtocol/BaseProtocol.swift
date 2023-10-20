@@ -138,6 +138,12 @@ public struct DocumentFilter: Codable, Hashable, Sendable {
     public let language: LanguageIdentifier?
     public let scheme: String?
     public let pattern: String?
+
+	public init(language: LanguageIdentifier? = nil, scheme: String? = nil, pattern: String? = nil) {
+		self.language = language
+		self.scheme = scheme
+		self.pattern = pattern
+	}
 }
 
 public typealias DocumentSelector = [DocumentFilter]
