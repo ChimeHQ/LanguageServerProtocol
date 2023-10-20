@@ -37,7 +37,7 @@ For the most part, this library strives to be a straightforward version of the s
 
 ## Supported Features
 
-The LSP [specification](https://microsoft.github.io/language-server-protocol/specification) is large, and this library currently does not implement it all. The intention is to support the 3.x specification, but be as backwards-compatible as possible with pre-3.0 servers. 
+The LSP [specification](https://microsoft.github.io/language-server-protocol/specification) is large, and this library currently does not implement it all. The intention is to support the 3.x specification, but be as backwards-compatible as possible with pre-3.0 servers.
 
 | Message | Supported |
 | ----------|:---------:|
@@ -138,6 +138,14 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 I prefer collaboration, and would love to find ways to work together if you have a similar project.
 
 I prefer indentation with tabs for improved accessibility. But, I'd rather you use the system you want and make a PR than hesitate because of whitespace.
+
+## Swift format usage
+
+Using `swift-format` tool to format all source files, in-place:
+
+```sh
+swift-format --configuration .swift-format.json -r Sources -i
+```
 
 ## Suggestions or Feedback
 
