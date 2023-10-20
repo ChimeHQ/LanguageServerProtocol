@@ -1,6 +1,6 @@
 import Foundation
 
-public struct DidOpenTextDocumentParams: Codable, Hashable, Sendable {
+public struct TextDocumentDidOpenParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentItem
 
     public init(textDocument: TextDocumentItem) {
@@ -20,7 +20,7 @@ public struct TextDocumentContentChangeEvent: Codable, Hashable, Sendable {
     }
 }
 
-public struct DidChangeTextDocumentParams: Codable, Hashable, Sendable {
+public struct TextDocumentDidChangeParams: Codable, Hashable, Sendable {
     public let textDocument: VersionedTextDocumentIdentifier
     public let contentChanges: [TextDocumentContentChangeEvent]
 
@@ -45,7 +45,7 @@ public struct TextDocumentChangeRegistrationOptions: Codable, Hashable, Sendable
     public let syncKind: TextDocumentSyncKind
 }
 
-public struct DidSaveTextDocumentParams: Codable, Hashable, Sendable {
+public struct TextDocumentDidSaveParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let text: String?
 
@@ -67,7 +67,7 @@ public struct TextDocumentSaveRegistrationOptions: Codable, Hashable, Sendable {
     public let includeText: Bool?
 }
 
-public struct DidCloseTextDocumentParams: Codable, Hashable, Sendable {
+public struct TextDocumentDidCloseParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
 
     public init(textDocument: TextDocumentIdentifier) {
@@ -87,7 +87,7 @@ public enum TextDocumentSaveReason: Int, Codable, Hashable, Sendable {
     case focusOut = 3
 }
 
-public struct WillSaveTextDocumentParams: Codable, Hashable, Sendable {
+public struct TextDocumentWillSaveParams: Codable, Hashable, Sendable {
     public let textDocument: TextDocumentIdentifier
     public let reason: TextDocumentSaveReason
 
