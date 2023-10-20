@@ -1,9 +1,9 @@
 import Foundation
 
 public enum Tracing: String, Codable, Hashable, Sendable {
-    case off
-    case messages
-    case verbose
+	case off
+	case messages
+	case verbose
 }
 
 public struct InitializeParams: Codable, Hashable, Sendable {
@@ -17,38 +17,40 @@ public struct InitializeParams: Codable, Hashable, Sendable {
 		}
 	}
 
-    public let processId: Int?
+	public let processId: Int?
 	public let clientInfo: ClientInfo?
 	public let locale: String?
-    public let rootPath: String?
-    public let rootUri: DocumentUri?
-    public let initializationOptions: LSPAny?
-    public let capabilities: ClientCapabilities
-    public let trace: Tracing?
-    public let workspaceFolders: [WorkspaceFolder]?
+	public let rootPath: String?
+	public let rootUri: DocumentUri?
+	public let initializationOptions: LSPAny?
+	public let capabilities: ClientCapabilities
+	public let trace: Tracing?
+	public let workspaceFolders: [WorkspaceFolder]?
 
-    public init(processId: Int,
-				clientInfo: ClientInfo? = nil,
-				locale: String?,
-				rootPath: String?,
-				rootUri: DocumentUri?,
-				initializationOptions: LSPAny?,
-				capabilities: ClientCapabilities,
-				trace: Tracing?,
-				workspaceFolders: [WorkspaceFolder]?) {
-        self.processId = processId
+	public init(
+		processId: Int,
+		clientInfo: ClientInfo? = nil,
+		locale: String?,
+		rootPath: String?,
+		rootUri: DocumentUri?,
+		initializationOptions: LSPAny?,
+		capabilities: ClientCapabilities,
+		trace: Tracing?,
+		workspaceFolders: [WorkspaceFolder]?
+	) {
+		self.processId = processId
 		self.clientInfo = clientInfo
 		self.locale = locale
-        self.rootPath = rootPath
-        self.rootUri = rootUri
-        self.initializationOptions = initializationOptions
-        self.capabilities = capabilities
-        self.trace = trace
-        self.workspaceFolders = workspaceFolders
-    }
+		self.rootPath = rootPath
+		self.rootUri = rootUri
+		self.initializationOptions = initializationOptions
+		self.capabilities = capabilities
+		self.trace = trace
+		self.workspaceFolders = workspaceFolders
+	}
 }
 
-public struct ServerInfo : Codable, Hashable, Sendable {
+public struct ServerInfo: Codable, Hashable, Sendable {
 	/**
 	 * The name of the server as defined by the server.
 	 */
@@ -65,8 +67,8 @@ public struct ServerInfo : Codable, Hashable, Sendable {
 	}
 }
 
-public struct InitializationResponse : Codable, Hashable, Sendable {
-    public let capabilities: ServerCapabilities
+public struct InitializationResponse: Codable, Hashable, Sendable {
+	public let capabilities: ServerCapabilities
 	public let serverInfo: ServerInfo?
 
 	public init(capabilities: ServerCapabilities, serverInfo: ServerInfo?) {
@@ -75,8 +77,7 @@ public struct InitializationResponse : Codable, Hashable, Sendable {
 	}
 }
 
-
 public struct InitializedParams: Codable, Hashable, Sendable {
-    public init() {
-    }
+	public init() {
+	}
 }

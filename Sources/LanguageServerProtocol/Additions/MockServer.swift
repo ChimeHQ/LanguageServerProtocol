@@ -29,26 +29,28 @@ public actor MockServer: Server {
 
 	public init() {
 		// this is annoying, but temporary
-#if compiler(>=5.9)
-		(self.notificationSequence, self.notificationContinuation) = NotificationSequence.makeStream()
-		(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
-		(self.sentMessageSequence, self.sentMessageContinuation) = ClientMessageSequence.makeStream()
-#else
-		var escapedNoteContinuation: NotificationSequence.Continuation?
+		#if compiler(>=5.9)
+			(self.notificationSequence, self.notificationContinuation) =
+				NotificationSequence.makeStream()
+			(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
+			(self.sentMessageSequence, self.sentMessageContinuation) =
+				ClientMessageSequence.makeStream()
+		#else
+			var escapedNoteContinuation: NotificationSequence.Continuation?
 
-		self.notificationSequence = NotificationSequence { escapedNoteContinuation = $0 }
-		self.notificationContinuation = escapedNoteContinuation!
+			self.notificationSequence = NotificationSequence { escapedNoteContinuation = $0 }
+			self.notificationContinuation = escapedNoteContinuation!
 
-		var escapedRequestContinuation: RequestSequence.Continuation?
+			var escapedRequestContinuation: RequestSequence.Continuation?
 
-		self.requestSequence = RequestSequence { escapedRequestContinuation = $0 }
-		self.requestContinuation = escapedRequestContinuation!
+			self.requestSequence = RequestSequence { escapedRequestContinuation = $0 }
+			self.requestContinuation = escapedRequestContinuation!
 
-		var escapedSentContinuation: ClientMessageSequence.Continuation?
+			var escapedSentContinuation: ClientMessageSequence.Continuation?
 
-		self.sentMessageSequence = ClientMessageSequence { escapedSentContinuation = $0 }
-		self.sentMessageContinuation = escapedSentContinuation!
-#endif
+			self.sentMessageSequence = ClientMessageSequence { escapedSentContinuation = $0 }
+			self.sentMessageContinuation = escapedSentContinuation!
+		#endif
 	}
 
 	deinit {
@@ -61,7 +63,8 @@ public actor MockServer: Server {
 		sentMessageContinuation.yield(.notification(notif))
 	}
 
-	public func sendRequest<Response>(_ request: ClientRequest) async throws -> Response where Response : Decodable, Response : Sendable {
+	public func sendRequest<Response>(_ request: ClientRequest) async throws -> Response
+	where Response: Decodable, Response: Sendable {
 		sentMessageContinuation.yield(.request(request))
 
 		if mockResponses.isEmpty {
@@ -95,7 +98,8 @@ extension MockServer {
 	}
 
 	/// Simulate a server response.
-	public func sendMockResponse<Response>(_ response: Response) throws where Response : Encodable, Response : Sendable {
+	public func sendMockResponse<Response>(_ response: Response) throws
+	where Response: Encodable, Response: Sendable {
 		let data = try JSONEncoder().encode(response)
 
 		sendMockResponse(data)

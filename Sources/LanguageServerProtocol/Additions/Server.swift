@@ -11,7 +11,8 @@ public protocol Server {
 	var requestSequence: RequestSequence { get }
 
 	func sendNotification(_ notif: ClientNotification) async throws
-	func sendRequest<Response: Decodable & Sendable>(_ request: ClientRequest) async throws -> Response
+	func sendRequest<Response: Decodable & Sendable>(_ request: ClientRequest) async throws
+		-> Response
 }
 
 extension Server {
@@ -20,242 +21,287 @@ extension Server {
 	}
 }
 
-public extension Server {
-	func initialize(params: InitializeParams) async throws -> InitializationResponse {
+extension Server {
+	public func initialize(params: InitializeParams) async throws -> InitializationResponse {
 		return try await sendRequest(.initialize(params))
 	}
 
-	func initialized(params: InitializedParams) async throws {
+	public func initialized(params: InitializedParams) async throws {
 		try await sendNotification(.initialized(params))
 	}
 
-	func shutdown() async throws {
+	public func shutdown() async throws {
 		try await sendRequestWithErrorOnlyResult(.shutdown)
 	}
 
-	func exit() async throws {
+	public func exit() async throws {
 		try await sendNotification(.exit)
 	}
 
-    func cancelRequest(params: CancelParams) async throws {
-        try await sendNotification(.protocolCancelRequest(params))
-    }
+	public func cancelRequest(params: CancelParams) async throws {
+		try await sendNotification(.protocolCancelRequest(params))
+	}
 
-    func setTrace(params: SetTraceParams) async throws {
-        try await sendNotification(.protocolSetTrace(params))
-    }
+	public func setTrace(params: SetTraceParams) async throws {
+		try await sendNotification(.protocolSetTrace(params))
+	}
 
-    func didOpenTextDocument(params: DidOpenTextDocumentParams) async throws {
+	public func didOpenTextDocument(params: DidOpenTextDocumentParams) async throws {
 		try await sendNotification(.didOpenTextDocument(params))
-    }
+	}
 
-    func didChangeTextDocument(params: DidChangeTextDocumentParams) async throws {
+	public func didChangeTextDocument(params: DidChangeTextDocumentParams) async throws {
 		try await sendNotification(.didChangeTextDocument(params))
-    }
+	}
 
-    func didCloseTextDocument(params: DidCloseTextDocumentParams) async throws {
+	public func didCloseTextDocument(params: DidCloseTextDocumentParams) async throws {
 		try await sendNotification(.didCloseTextDocument(params))
-    }
+	}
 
-    func willSaveTextDocument(params: WillSaveTextDocumentParams) async throws {
+	public func willSaveTextDocument(params: WillSaveTextDocumentParams) async throws {
 		try await sendNotification(.willSaveTextDocument(params))
-    }
+	}
 
-	func willSaveWaitUntilTextDocument(params: WillSaveTextDocumentParams) async throws -> WillSaveWaitUntilResponse {
+	public func willSaveWaitUntilTextDocument(params: WillSaveTextDocumentParams) async throws
+		-> WillSaveWaitUntilResponse
+	{
 		try await sendRequest(.willSaveWaitUntilTextDocument(params))
 	}
 
-    func didSaveTextDocument(params: DidSaveTextDocumentParams) async throws {
+	public func didSaveTextDocument(params: DidSaveTextDocumentParams) async throws {
 		try await sendNotification(.didSaveTextDocument(params))
-    }
+	}
 
-    func didChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
-        try await sendNotification(.didChangeWatchedFiles(params))
-    }
+	public func didChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
+		try await sendNotification(.didChangeWatchedFiles(params))
+	}
 
-	func callHierarchyIncomingCalls(params: CallHierarchyIncomingCallsParams) async throws -> CallHierarchyIncomingCallsResponse {
+	public func callHierarchyIncomingCalls(params: CallHierarchyIncomingCallsParams) async throws
+		-> CallHierarchyIncomingCallsResponse
+	{
 		try await sendRequest(.callHierarchyIncomingCalls(params))
 	}
 
-	func callHierarchyOutgoingCalls(params: CallHierarchyOutgoingCallsParams) async throws -> CallHierarchyOutgoingCallsResponse {
+	public func callHierarchyOutgoingCalls(params: CallHierarchyOutgoingCallsParams) async throws
+		-> CallHierarchyOutgoingCallsResponse
+	{
 		try await sendRequest(.callHierarchyOutgoingCalls(params))
 	}
 
-    func completion(params: CompletionParams) async throws -> CompletionResponse {
-        try await sendRequest(.completion(params))
-    }
+	public func completion(params: CompletionParams) async throws -> CompletionResponse {
+		try await sendRequest(.completion(params))
+	}
 
-    func hover(params: TextDocumentPositionParams) async throws -> HoverResponse {
-        try await sendRequest(.hover(params))
-    }
+	public func hover(params: TextDocumentPositionParams) async throws -> HoverResponse {
+		try await sendRequest(.hover(params))
+	}
 
-    func signatureHelp(params: TextDocumentPositionParams) async throws -> SignatureHelpResponse {
-        try await sendRequest(.signatureHelp(params))
-    }
+	public func signatureHelp(params: TextDocumentPositionParams) async throws
+		-> SignatureHelpResponse
+	{
+		try await sendRequest(.signatureHelp(params))
+	}
 
-    func declaration(params: TextDocumentPositionParams) async throws -> DeclarationResponse {
-        try await sendRequest(.declaration(params))
-    }
+	public func declaration(params: TextDocumentPositionParams) async throws -> DeclarationResponse
+	{
+		try await sendRequest(.declaration(params))
+	}
 
-    func definition(params: TextDocumentPositionParams) async throws -> DefinitionResponse {
-        try await sendRequest(.definition(params))
-    }
+	public func definition(params: TextDocumentPositionParams) async throws -> DefinitionResponse {
+		try await sendRequest(.definition(params))
+	}
 
-    func typeDefinition(params: TextDocumentPositionParams) async throws -> TypeDefinitionResponse {
-        try await sendRequest(.typeDefinition(params))
-    }
+	public func typeDefinition(params: TextDocumentPositionParams) async throws
+		-> TypeDefinitionResponse
+	{
+		try await sendRequest(.typeDefinition(params))
+	}
 
-    func implementation(params: TextDocumentPositionParams) async throws -> ImplementationResponse {
-        try await sendRequest(.implementation(params))
-    }
+	public func implementation(params: TextDocumentPositionParams) async throws
+		-> ImplementationResponse
+	{
+		try await sendRequest(.implementation(params))
+	}
 
-    func documentSymbol(params: DocumentSymbolParams) async throws -> DocumentSymbolResponse {
-        try await sendRequest(.documentSymbol(params))
-    }
+	public func documentSymbol(params: DocumentSymbolParams) async throws -> DocumentSymbolResponse
+	{
+		try await sendRequest(.documentSymbol(params))
+	}
 
-    func prepareCallHierarchy(params: CallHierarchyPrepareParams) async throws -> CallHierarchyPrepareResponse {
-        try await sendRequest(.prepareCallHierarchy(params))
-    }
+	public func prepareCallHierarchy(params: CallHierarchyPrepareParams) async throws
+		-> CallHierarchyPrepareResponse
+	{
+		try await sendRequest(.prepareCallHierarchy(params))
+	}
 
-    func prepareRename(params: PrepareRenameParams) async throws -> PrepareRenameResponse {
-        try await sendRequest(.prepareRename(params))
-    }
+	public func prepareRename(params: PrepareRenameParams) async throws -> PrepareRenameResponse {
+		try await sendRequest(.prepareRename(params))
+	}
 
-    func rename(params: RenameParams) async throws -> RenameResponse {
-        try await sendRequest(.rename(params))
-    }
+	public func rename(params: RenameParams) async throws -> RenameResponse {
+		try await sendRequest(.rename(params))
+	}
 
-    func formatting(params: DocumentFormattingParams) async throws -> FormattingResult {
-        try await sendRequest(.formatting(params))
-    }
+	public func formatting(params: DocumentFormattingParams) async throws -> FormattingResult {
+		try await sendRequest(.formatting(params))
+	}
 
-    func rangeFormatting(params: DocumentRangeFormattingParams) async throws -> FormattingResult {
-        try await sendRequest(.rangeFormatting(params))
-    }
+	public func rangeFormatting(params: DocumentRangeFormattingParams) async throws
+		-> FormattingResult
+	{
+		try await sendRequest(.rangeFormatting(params))
+	}
 
-    func onTypeFormatting(params: DocumentOnTypeFormattingParams) async throws -> FormattingResult {
-        try await sendRequest(.onTypeFormatting(params))
-    }
+	public func onTypeFormatting(params: DocumentOnTypeFormattingParams) async throws
+		-> FormattingResult
+	{
+		try await sendRequest(.onTypeFormatting(params))
+	}
 
-    func references(params: ReferenceParams) async throws -> ReferenceResponse {
-        try await sendRequest(.references(params))
-    }
+	public func references(params: ReferenceParams) async throws -> ReferenceResponse {
+		try await sendRequest(.references(params))
+	}
 
-    func foldingRange(params: FoldingRangeParams) async throws -> FoldingRangeResponse {
-        try await sendRequest(.foldingRange(params))
-    }
+	public func foldingRange(params: FoldingRangeParams) async throws -> FoldingRangeResponse {
+		try await sendRequest(.foldingRange(params))
+	}
 
-    func semanticTokensFull(params: SemanticTokensParams) async throws -> SemanticTokensResponse {
-        try await sendRequest(.semanticTokensFull(params))
-    }
+	public func semanticTokensFull(params: SemanticTokensParams) async throws
+		-> SemanticTokensResponse
+	{
+		try await sendRequest(.semanticTokensFull(params))
+	}
 
-    func semanticTokensFullDelta(params: SemanticTokensDeltaParams) async throws -> SemanticTokensDeltaResponse {
-        try await sendRequest(.semanticTokensFullDelta(params))
-    }
+	public func semanticTokensFullDelta(params: SemanticTokensDeltaParams) async throws
+		-> SemanticTokensDeltaResponse
+	{
+		try await sendRequest(.semanticTokensFullDelta(params))
+	}
 
-    func semanticTokensRange(params: SemanticTokensRangeParams) async throws -> SemanticTokensResponse {
-        try await sendRequest(.semanticTokensRange(params))
-    }
+	public func semanticTokensRange(params: SemanticTokensRangeParams) async throws
+		-> SemanticTokensResponse
+	{
+		try await sendRequest(.semanticTokensRange(params))
+	}
 
-
-    func customRequest<Response: Decodable & Sendable>(method: String, params: LSPAny) async throws -> Response {
-        try await sendRequest(.custom(method, params))
-    }
+	public func customRequest<Response: Decodable & Sendable>(method: String, params: LSPAny)
+		async throws -> Response
+	{
+		try await sendRequest(.custom(method, params))
+	}
 }
 
 // Workspace notifications
-public extension Server {
-    func didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams) async throws {
-        try await sendNotification(.workspaceDidChangeWorkspaceFolders(params))
-    }
+extension Server {
+	public func didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams) async throws {
+		try await sendNotification(.workspaceDidChangeWorkspaceFolders(params))
+	}
 
-    func didChangeConfiguration(params: DidChangeConfigurationParams) async throws {
+	public func didChangeConfiguration(params: DidChangeConfigurationParams) async throws {
 		try await sendNotification(.workspaceDidChangeConfiguration(params))
-    }
+	}
 
-    func didCreateFiles(params: CreateFilesParams) async throws {
+	public func didCreateFiles(params: CreateFilesParams) async throws {
 		try await sendNotification(.workspaceDidCreateFiles(params))
-    }
+	}
 
-    func didRenameFiles(params: RenameFilesParams) async throws {
+	public func didRenameFiles(params: RenameFilesParams) async throws {
 		try await sendNotification(.workspaceDidRenameFiles(params))
-    }
+	}
 
-    func didDeleteFiles(params: DeleteFilesParams) async throws {
+	public func didDeleteFiles(params: DeleteFilesParams) async throws {
 		try await sendNotification(.workspaceDidDeleteFiles(params))
-    }
+	}
 }
 
 // Workspace Requests
-public extension Server {
-    func willCreateFiles(params: CreateFilesParams) async throws -> WorkspaceWillCreateFilesResponse {
-        try await sendRequest(.workspaceWillCreateFiles(params))
-    }
+extension Server {
+	public func willCreateFiles(params: CreateFilesParams) async throws
+		-> WorkspaceWillCreateFilesResponse
+	{
+		try await sendRequest(.workspaceWillCreateFiles(params))
+	}
 
-    func willRenameFiles(params: RenameFilesParams) async throws -> WorkspaceWillRenameFilesResponse {
-        try await sendRequest(.workspaceWillRenameFiles(params))
-    }
+	public func willRenameFiles(params: RenameFilesParams) async throws
+		-> WorkspaceWillRenameFilesResponse
+	{
+		try await sendRequest(.workspaceWillRenameFiles(params))
+	}
 
-    func willDeleteFiles(params: DeleteFilesParams) async throws -> WorkspaceWillDeleteFilesResponse {
-        try await sendRequest(.workspaceWillDeleteFiles(params))
-    }
+	public func willDeleteFiles(params: DeleteFilesParams) async throws
+		-> WorkspaceWillDeleteFilesResponse
+	{
+		try await sendRequest(.workspaceWillDeleteFiles(params))
+	}
 
-    func executeCommand(params: ExecuteCommandParams) async throws -> ExecuteCommandResponse {
-        try await sendRequest(.workspaceExecuteCommand(params))
-    }
+	public func executeCommand(params: ExecuteCommandParams) async throws -> ExecuteCommandResponse
+	{
+		try await sendRequest(.workspaceExecuteCommand(params))
+	}
 
-    func workspaceSymbol(params: WorkspaceSymbolParams) async throws -> WorkspaceSymbolResponse {
-        try await sendRequest(.workspaceSymbol(params))
-    }
+	public func workspaceSymbol(params: WorkspaceSymbolParams) async throws
+		-> WorkspaceSymbolResponse
+	{
+		try await sendRequest(.workspaceSymbol(params))
+	}
 
-    func workspaceSymbolResolve(params: WorkspaceSymbol) async throws -> WorkspaceSymbolResponse {
-        try await sendRequest(.workspaceSymbolResolve(params))
-    }
+	public func workspaceSymbolResolve(params: WorkspaceSymbol) async throws
+		-> WorkspaceSymbolResponse
+	{
+		try await sendRequest(.workspaceSymbolResolve(params))
+	}
 }
 
 // Language Features
-public extension Server {
-    func documentHighlight(params: DocumentHighlightParams) async throws -> DocumentHighlightResponse {
-        try await sendRequest(.documentHighlight(params))
-    }
+extension Server {
+	public func documentHighlight(params: DocumentHighlightParams) async throws
+		-> DocumentHighlightResponse
+	{
+		try await sendRequest(.documentHighlight(params))
+	}
 
-	func codeAction(params: CodeActionParams) async throws -> CodeActionResponse {
+	public func codeAction(params: CodeActionParams) async throws -> CodeActionResponse {
 		try await sendRequest(.codeAction(params))
 	}
 
-	func codeActionResolve(params: CodeAction) async throws -> CodeAction {
+	public func codeActionResolve(params: CodeAction) async throws -> CodeAction {
 		try await sendRequest(.codeActionResolve(params))
 	}
 
-    func codeLens(params: CodeLensParams) async throws -> CodeLensResponse {
-        try await sendRequest(.codeLens(params))
-    }
+	public func codeLens(params: CodeLensParams) async throws -> CodeLensResponse {
+		try await sendRequest(.codeLens(params))
+	}
 
-    func codeLensResolve(params: CodeLens) async throws -> CodeLensResolveResponse {
-        try await sendRequest(.codeLensResolve(params))
-    }
+	public func codeLensResolve(params: CodeLens) async throws -> CodeLensResolveResponse {
+		try await sendRequest(.codeLensResolve(params))
+	}
 
-	func diagnostics(params: DocumentDiagnosticParams) async throws -> DocumentDiagnosticReport {
+	public func diagnostics(params: DocumentDiagnosticParams) async throws
+		-> DocumentDiagnosticReport
+	{
 		try await sendRequest(.diagnostics(params))
 	}
-	
-    func selectionRange(params: SelectionRangeParams) async throws -> SelectionRangeResponse {
-        try await sendRequest(.selectionRange(params))
-    }
 
-    func documentLink(params: DocumentLinkParams) async throws -> DocumentLinkResponse {
-        try await sendRequest(.documentLink(params))
-    }
+	public func selectionRange(params: SelectionRangeParams) async throws -> SelectionRangeResponse
+	{
+		try await sendRequest(.selectionRange(params))
+	}
 
-    func documentLinkResolve(params: DocumentLink) async throws -> DocumentLink {
-        try await sendRequest(.documentLinkResolve(params))
-    }
+	public func documentLink(params: DocumentLinkParams) async throws -> DocumentLinkResponse {
+		try await sendRequest(.documentLink(params))
+	}
 
-    func documentColor(params: DocumentColorParams) async throws -> DocumentColorResponse {
-        try await sendRequest(.documentColor(params))
-    }
+	public func documentLinkResolve(params: DocumentLink) async throws -> DocumentLink {
+		try await sendRequest(.documentLinkResolve(params))
+	}
 
-    func colorPresentation(params: ColorPresentationParams) async throws -> ColorPresentationResponse {
-        try await sendRequest(.colorPresentation(params))
-    }
+	public func documentColor(params: DocumentColorParams) async throws -> DocumentColorResponse {
+		try await sendRequest(.documentColor(params))
+	}
+
+	public func colorPresentation(params: ColorPresentationParams) async throws
+		-> ColorPresentationResponse
+	{
+		try await sendRequest(.colorPresentation(params))
+	}
 }

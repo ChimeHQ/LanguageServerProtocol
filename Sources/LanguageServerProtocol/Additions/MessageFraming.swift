@@ -25,7 +25,9 @@ public struct MessageFraming {
 		return (name, value)
 	}
 
-	public static func dataChannel(stdin: FileHandle, stdout: FileHandle, stderr: FileHandle, object: AnyObject?) -> DataChannel {
+	public static func dataChannel(
+		stdin: FileHandle, stdout: FileHandle, stderr: FileHandle, object: AnyObject?
+	) -> DataChannel {
 		DataChannel(writeHandler: { _ in }, dataSequence: AsyncStream<Data>(unfolding: { nil }))
 	}
 }

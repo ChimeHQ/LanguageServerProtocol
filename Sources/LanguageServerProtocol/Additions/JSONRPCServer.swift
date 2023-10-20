@@ -23,20 +23,21 @@ public actor JSONRPCServer: Server {
 		self.session = JSONRPCSession(channel: dataChannel)
 
 		// this is annoying, but temporary
-#if compiler(>=5.9)
-		(self.notificationSequence, self.notificationContinuation) = NotificationSequence.makeStream()
-		(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
-#else
-		var escapedNoteContinuation: NotificationSequence.Continuation?
+		#if compiler(>=5.9)
+			(self.notificationSequence, self.notificationContinuation) =
+				NotificationSequence.makeStream()
+			(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
+		#else
+			var escapedNoteContinuation: NotificationSequence.Continuation?
 
-		self.notificationSequence = NotificationSequence { escapedNoteContinuation = $0 }
-		self.notificationContinuation = escapedNoteContinuation!
+			self.notificationSequence = NotificationSequence { escapedNoteContinuation = $0 }
+			self.notificationContinuation = escapedNoteContinuation!
 
-		var escapedRequestContinuation: RequestSequence.Continuation?
+			var escapedRequestContinuation: RequestSequence.Continuation?
 
-		self.requestSequence = RequestSequence { escapedRequestContinuation = $0 }
-		self.requestContinuation = escapedRequestContinuation!
-#endif
+			self.requestSequence = RequestSequence { escapedRequestContinuation = $0 }
+			self.requestContinuation = escapedRequestContinuation!
+		#endif
 		Task {
 			await startMonitoringSession()
 		}
@@ -78,7 +79,7 @@ public actor JSONRPCServer: Server {
 
 	public func sendNotification(_ notif: ClientNotification) async throws {
 		let method = notif.method.rawValue
-		
+
 		switch notif {
 		case .initialized(let params):
 			try await session.sendNotification(params, method: method)
@@ -117,7 +118,8 @@ public actor JSONRPCServer: Server {
 		}
 	}
 
-	public func sendRequest<Response>(_ request: ClientRequest) async throws -> Response where Response : Decodable & Sendable {
+	public func sendRequest<Response>(_ request: ClientRequest) async throws -> Response
+	where Response: Decodable & Sendable {
 		let method = request.method.rawValue
 
 		switch request {
@@ -210,7 +212,9 @@ public actor JSONRPCServer: Server {
 		}
 	}
 
-	private func decodeNotificationParams<Params>(_ type: Params.Type, from data: Data) throws -> Params where Params : Decodable {
+	private func decodeNotificationParams<Params>(_ type: Params.Type, from data: Data) throws
+		-> Params where Params: Decodable
+	{
 		let note = try JSONDecoder().decode(JSONRPCNotification<Params>.self, from: data)
 
 		guard let params = note.params else {
@@ -231,7 +235,7 @@ public actor JSONRPCServer: Server {
 			switch method {
 			case .windowLogMessage:
 				let params = try decodeNotificationParams(LogMessageParams.self, from: data)
-				
+
 				notificationContinuation.yield(.windowLogMessage(params))
 			case .windowShowMessage:
 				let params = try decodeNotificationParams(ShowMessageParams.self, from: data)
@@ -264,7 +268,8 @@ public actor JSONRPCServer: Server {
 		}
 	}
 
-	private func decodeRequestParams<Params>(_ type: Params.Type, from data: Data) throws -> Params where Params : Decodable {
+	private func decodeRequestParams<Params>(_ type: Params.Type, from data: Data) throws -> Params
+	where Params: Decodable {
 		let req = try JSONDecoder().decode(JSONRPCRequest<Params>.self, from: data)
 
 		guard let params = req.params else {
@@ -274,7 +279,9 @@ public actor JSONRPCServer: Server {
 		return params
 	}
 
-	private nonisolated func makeErrorOnlyHandler(_ handler: @escaping JSONRPCSession.RequestHandler) -> ServerRequest.ErrorOnlyHandler {
+	private nonisolated func makeErrorOnlyHandler(
+		_ handler: @escaping JSONRPCSession.RequestHandler
+	) -> ServerRequest.ErrorOnlyHandler {
 		return {
 			if let error = $0 {
 				await handler(.failure(error))
@@ -284,7 +291,9 @@ public actor JSONRPCServer: Server {
 		}
 	}
 
-	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCSession.RequestHandler) -> ServerRequest.Handler<T> {
+	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCSession.RequestHandler)
+		-> ServerRequest.Handler<T>
+	{
 		return {
 			let loweredResult = $0.map({ $0 as Encodable & Sendable })
 
@@ -292,7 +301,10 @@ public actor JSONRPCServer: Server {
 		}
 	}
 
-	private func handleRequest(_ anyRequest: AnyJSONRPCRequest, data: Data, handler: @escaping JSONRPCSession.RequestHandler) {
+	private func handleRequest(
+		_ anyRequest: AnyJSONRPCRequest, data: Data,
+		handler: @escaping JSONRPCSession.RequestHandler
+	) {
 		let methodName = anyRequest.method
 
 		do {
@@ -307,24 +319,28 @@ public actor JSONRPCServer: Server {
 
 				requestContinuation.yield(ServerRequest.workspaceConfiguration(params, reqHandler))
 			case .workspaceFolders:
-				let reqHandler: ServerRequest.Handler<WorkspaceFoldersResponse> = makeHandler(handler)
+				let reqHandler: ServerRequest.Handler<WorkspaceFoldersResponse> = makeHandler(
+					handler)
 
 				requestContinuation.yield(ServerRequest.workspaceFolders(reqHandler))
 			case .workspaceApplyEdit:
 				let params = try decodeRequestParams(ApplyWorkspaceEditParams.self, from: data)
-				let reqHandler: ServerRequest.Handler<ApplyWorkspaceEditResult> = makeHandler(handler)
+				let reqHandler: ServerRequest.Handler<ApplyWorkspaceEditResult> = makeHandler(
+					handler)
 
 				requestContinuation.yield(ServerRequest.workspaceApplyEdit(params, reqHandler))
 			case .clientRegisterCapability:
 				let params = try decodeRequestParams(RegistrationParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.clientRegisterCapability(params, reqHandler))
+				requestContinuation.yield(
+					ServerRequest.clientRegisterCapability(params, reqHandler))
 			case .clientUnregisterCapability:
 				let params = try decodeRequestParams(UnregistrationParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.clientUnregisterCapability(params, reqHandler))
+				requestContinuation.yield(
+					ServerRequest.clientUnregisterCapability(params, reqHandler))
 			case .workspaceCodeLensRefresh:
 				let reqHandler = makeErrorOnlyHandler(handler)
 
@@ -335,9 +351,11 @@ public actor JSONRPCServer: Server {
 				requestContinuation.yield(ServerRequest.workspaceSemanticTokenRefresh(reqHandler))
 			case .windowShowMessageRequest:
 				let params = try decodeRequestParams(ShowMessageRequestParams.self, from: data)
-				let reqHandler: ServerRequest.Handler<ShowMessageRequestResponse> = makeHandler(handler)
+				let reqHandler: ServerRequest.Handler<ShowMessageRequestResponse> = makeHandler(
+					handler)
 
-				requestContinuation.yield(ServerRequest.windowShowMessageRequest(params, reqHandler))
+				requestContinuation.yield(
+					ServerRequest.windowShowMessageRequest(params, reqHandler))
 			case .windowShowDocument:
 				let params = try decodeRequestParams(ShowDocumentParams.self, from: data)
 				let reqHandler: ServerRequest.Handler<ShowDocumentResult> = makeHandler(handler)
@@ -347,7 +365,8 @@ public actor JSONRPCServer: Server {
 				let params = try decodeRequestParams(WorkDoneProgressCreateParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.windowWorkDoneProgressCreate(params, reqHandler))
+				requestContinuation.yield(
+					ServerRequest.windowWorkDoneProgressCreate(params, reqHandler))
 
 			}
 
