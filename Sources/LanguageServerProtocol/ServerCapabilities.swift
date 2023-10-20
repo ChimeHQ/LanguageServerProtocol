@@ -31,14 +31,6 @@ public enum TextDocumentSyncKind: Int, Codable, Hashable, Sendable {
 }
 
 public struct TextDocumentSyncOptions: Codable, Hashable, Sendable {
-    public init(openClose: Bool? = nil, change: TextDocumentSyncKind? = nil, willSave: Bool? = nil, willSaveWaitUntil: Bool? = nil, save: TwoTypeOption<Bool, SaveOptions>? = nil) {
-        self.openClose = openClose
-        self.change = change
-        self.willSave = willSave
-        self.willSaveWaitUntil = willSaveWaitUntil
-        self.save = save
-    }
-
     public var openClose: Bool?
     public var change: TextDocumentSyncKind?
     public var willSave: Bool?
@@ -55,6 +47,15 @@ public struct TextDocumentSyncOptions: Codable, Hashable, Sendable {
             return options
         }
     }
+
+	public init(openClose: Bool? = nil, change: TextDocumentSyncKind? = nil, willSave: Bool? = nil, willSaveWaitUntil: Bool? = nil, save: TwoTypeOption<Bool, SaveOptions>? = nil) {
+        self.openClose = openClose
+        self.change = change
+        self.willSave = willSave
+        self.willSaveWaitUntil = willSaveWaitUntil
+        self.save = save
+    }
+
 }
 
 public struct CompletionOptions: Codable, Hashable, Sendable {
