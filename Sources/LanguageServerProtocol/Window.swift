@@ -25,6 +25,11 @@ extension MessageType: CustomStringConvertible {
 public struct LogMessageParams: Codable, Hashable, Sendable {
     public let type: MessageType
     public let message: String
+
+	public init(type: MessageType, message: String) {
+		self.type = type
+		self.message = message
+	}
 }
 
 extension LogMessageParams: CustomStringConvertible {
