@@ -2,10 +2,6 @@
 
 import PackageDescription
 
-let settings: [SwiftSetting] = [
-//	.unsafeFlags(["-Xfrontend", "-strict-concurrency=complete"])
-]
-
 let package = Package(
 	name: "LanguageServerProtocol",
 	platforms: [.macOS(.v10_15), .iOS(.v13), .tvOS(.v13), .watchOS(.v6)],
@@ -20,11 +16,19 @@ let package = Package(
 	targets: [
 		.target(
 			name: "LanguageServerProtocol",
-			dependencies: ["JSONRPC"],
-			swiftSettings: settings),
+			dependencies: ["JSONRPC"]),
 		.testTarget(
 			name: "LanguageServerProtocolTests",
-			dependencies: ["LanguageServerProtocol"],
-			swiftSettings: settings),
+			dependencies: ["LanguageServerProtocol"]),
 	]
 )
+
+let swiftSettings: [SwiftSetting] = [
+	.enableExperimentalFeature("StrictConcurrency")
+]
+
+for target in package.targets {
+	var settings = target.swiftSettings ?? []
+	settings.append(contentsOf: swiftSettings)
+	target.swiftSettings = settings
+}
