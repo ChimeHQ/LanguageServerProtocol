@@ -127,6 +127,8 @@ public actor JSONRPCServer: Server {
 			return try await session.response(to: method)
 		case .workspaceExecuteCommand(let params):
 			return try await session.response(to: method, params: params)
+		case .workspaceInlayHintRefresh:
+			return try await session.response(to: method)
 		case .workspaceWillCreateFiles(let params):
 			return try await session.response(to: method, params: params)
 		case .workspaceWillRenameFiles(let params):
@@ -174,6 +176,10 @@ public actor JSONRPCServer: Server {
 		case .prepareRename(let params):
 			return try await session.response(to: method, params: params)
 		case .rename(let params):
+			return try await session.response(to: method, params: params)
+		case .inlayHint(let params):
+			return try await session.response(to: method, params: params)
+		case .inlayHintResolve(let params):
 			return try await session.response(to: method, params: params)
 		case .diagnostics(let params):
 			return try await session.response(to: method, params: params)

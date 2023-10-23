@@ -188,6 +188,10 @@ public extension Server {
 
 // Workspace Requests
 public extension Server {
+	func inlayHintRefresh() async throws {
+		try await sendRequestWithErrorOnlyResult(.workspaceInlayHintRefresh)
+	}
+
     func willCreateFiles(params: CreateFilesParams) async throws -> WorkspaceWillCreateFilesResponse {
         try await sendRequest(.workspaceWillCreateFiles(params))
     }
@@ -258,4 +262,12 @@ public extension Server {
     func colorPresentation(params: ColorPresentationParams) async throws -> ColorPresentationResponse {
         try await sendRequest(.colorPresentation(params))
     }
+
+	func inlayHint(params: InlayHintParams) async throws -> InlayHintResponse {
+		try await sendRequest(.inlayHint(params))
+	}
+
+	func inlayHintResolve(params: InlayHint) async throws -> InlayHint {
+		try await sendRequest(.inlayHintResolve(params))
+	}
 }

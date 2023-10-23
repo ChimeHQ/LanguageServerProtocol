@@ -86,6 +86,7 @@ public enum ClientRequest: Sendable, Hashable {
         case initialize
         case shutdown
         case workspaceExecuteCommand = "workspace/executeCommand"
+		case workspaceInlayHintRefresh = "workspace/inlayHint/refresh"
         case workspaceWillCreateFiles = "workspace/willCreateFiles"
         case workspaceWillRenameFiles = "workspace/willRenameFiles"
         case workspaceWillDeleteFiles = "workspace/willDeleteFiles"
@@ -116,6 +117,8 @@ public enum ClientRequest: Sendable, Hashable {
         case textDocumentRangeFormatting = "textDocument/rangeFormatting"
         case textDocumentOnTypeFormatting = "textDocument/onTypeFormatting"
         case textDocumentRename = "textDocument/rename"
+		case textDocumentInlayHint = "textDocument/inlayHint"
+		case inlayHintResolve = "inlayHint/resolve"
         case textDocumentPrepareRename = "textDocument/prepareRename"
 		case textDocumentPrepareCallHierarchy = "textDocument/prepareCallHierarchy"
         case textDocumentFoldingRange = "textDocument/foldingRange"
@@ -134,6 +137,7 @@ public enum ClientRequest: Sendable, Hashable {
 	case initialize(InitializeParams)
 	case shutdown
 	case workspaceExecuteCommand(ExecuteCommandParams)
+	case workspaceInlayHintRefresh
 	case workspaceWillCreateFiles(CreateFilesParams)
 	case workspaceWillRenameFiles(RenameFilesParams)
 	case workspaceWillDeleteFiles(DeleteFilesParams)
@@ -159,6 +163,8 @@ public enum ClientRequest: Sendable, Hashable {
 	case prepareCallHierarchy(CallHierarchyPrepareParams)
 	case prepareRename(PrepareRenameParams)
 	case rename(RenameParams)
+	case inlayHint(InlayHintParams)
+	case inlayHintResolve(InlayHint)
 	case documentLink(DocumentLinkParams)
 	case documentLinkResolve(DocumentLink)
 	case documentColor(DocumentColorParams)
@@ -183,6 +189,8 @@ public enum ClientRequest: Sendable, Hashable {
             return .shutdown
         case .workspaceExecuteCommand:
             return .workspaceExecuteCommand
+		case .workspaceInlayHintRefresh:
+			return .workspaceInlayHintRefresh
         case .workspaceWillCreateFiles:
             return .workspaceWillCreateFiles
         case .workspaceWillRenameFiles:
@@ -231,6 +239,10 @@ public enum ClientRequest: Sendable, Hashable {
             return .textDocumentPrepareRename
         case .rename:
             return .textDocumentRename
+		case .inlayHint:
+			return .textDocumentInlayHint
+		case .inlayHintResolve:
+			return .inlayHintResolve
         case .documentLink:
             return .textDocumentDocumentLink
         case .documentLinkResolve:

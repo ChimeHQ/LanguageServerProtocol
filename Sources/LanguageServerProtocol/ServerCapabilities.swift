@@ -241,6 +241,7 @@ public struct ServerCapabilities: Codable, Hashable, Sendable {
     public var callHierarchyProvider: ThreeTypeOption<Bool, CallHierarchyOptions, CallHierarchyRegistrationOptions>?
     public var semanticTokensProvider: TwoTypeOption<SemanticTokensOptions, SemanticTokensRegistrationOptions>?
     public var monikerProvider: ThreeTypeOption<Bool, MonikerOptions, MonikerRegistrationOptions>?
+	public var inlayHintProvider: ThreeTypeOption<Bool, InlayHintOptions, InlayHintRegistrationOptions>?
 	public var diagnosticProvider: TwoTypeOption<DiagnosticOptions, DiagnosticRegistrationOptions>?
     public var workspaceSymbolProvider: TwoTypeOption<Bool, WorkspaceSymbolOptions>?
     public var workspace: Workspace?

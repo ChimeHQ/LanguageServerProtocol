@@ -55,7 +55,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | exit | ✅ |
 | initialize | ✅ |
 | initialized | ✅ |
-| inlayHint/resolve | - |
+| inlayHint/resolve | ✅ |
 | notebookDocument/didChange | - |
 | notebookDocument/didClose | - |
 | notebookDocument/didOpen | - |
@@ -82,7 +82,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/formatting | ✅ |
 | textDocument/hover | ✅ |
 | textDocument/implementation | ✅ |
-| textDocument/inlayHint | - |
+| textDocument/inlayHint | ✅ |
 | textDocument/inlineValue | - |
 | textDocument/linkedEditingRange | - |
 | textDocument/moniker | - |
@@ -122,7 +122,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | workspace/didDeleteFiles | ✅ |
 | workspace/didRenameFiles | ✅ |
 | workspace/executeCommand | ✅ |
-| workspace/inlayHint/refresh | - |
+| workspace/inlayHint/refresh | ✅ |
 | workspace/inlineValue/refresh | - |
 | workspace/semanticTokens/refresh | ✅ |
 | workspace/symbol | ✅ |

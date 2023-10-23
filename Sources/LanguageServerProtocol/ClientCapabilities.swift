@@ -148,6 +148,7 @@ public struct TextDocumentClientCapabilities: Codable, Hashable, Sendable {
     public var callHierarchy: CallHierarchyClientCapabilities?
     public var semanticTokens: SemanticTokensClientCapabilities?
     public var moniker: MonikerClientCapabilities?
+	public var inlayHint: InlayHintClientCapabilities?
 	public var diagnostic: DiagnosticClientCapabilities?
 
     public init(synchronization: TextDocumentSyncClientCapabilities? = nil,
@@ -176,6 +177,7 @@ public struct TextDocumentClientCapabilities: Codable, Hashable, Sendable {
                 callHierarchy: CallHierarchyClientCapabilities? = nil,
                 semanticTokens: SemanticTokensClientCapabilities? = nil,
                 moniker: MonikerClientCapabilities? = nil,
+				inlayHint: InlayHintClientCapabilities? = nil,
 				diagnostic: DiagnosticClientCapabilities? = nil) {
         self.synchronization = synchronization
         self.completion = completion
