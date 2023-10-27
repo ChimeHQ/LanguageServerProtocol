@@ -19,7 +19,7 @@ extension ClientRequest {
 			return true
 		case .workspaceWillDeleteFiles:
 			return true
-		case .willSaveWaitUntilTextDocument:
+		case .textDocumentWillSaveWaitUntil:
 			return true
 		case .custom:
 			return true
