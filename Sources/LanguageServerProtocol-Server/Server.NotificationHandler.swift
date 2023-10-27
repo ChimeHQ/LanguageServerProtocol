@@ -73,10 +73,9 @@ public extension NotificationHandler {
 public extension NotificationHandler {
 	private func _logNotImplemented(_ message: String) async {
 		do {
-			try await lsp.sendNotification(.windowLogMessage(LogMessageParams(type: .warning, message: message)))
+			try await connection.sendNotification(.windowLogMessage(LogMessageParams(type: .warning, message: message)))
 		}
 		catch {
-			logger.debug(Logger.Message(stringLiteral: message))
 		}
 	}
 
