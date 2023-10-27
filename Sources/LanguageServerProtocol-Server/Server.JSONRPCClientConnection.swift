@@ -267,8 +267,7 @@ public actor JSONRPCClientConnection : ClientConnection {
 			}
 
 		} catch {
-			// should we backchannel this to the client somehow?
-			print("failed to relay request: \(error)")
+			eventContinuation.yield(.error(error))
 		}
 	}
 
