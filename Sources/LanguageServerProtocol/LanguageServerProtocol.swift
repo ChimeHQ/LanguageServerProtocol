@@ -26,15 +26,14 @@ public enum ClientNotification: Sendable, Hashable {
     case initialized(InitializedParams)
     case exit
     case textDocumentDidChange(DidChangeTextDocumentParams)
-    case didOpenTextDocument(DidOpenTextDocumentParams)
-    case didChangeTextDocument(DidChangeTextDocumentParams)
-    case didCloseTextDocument(DidCloseTextDocumentParams)
-    case willSaveTextDocument(WillSaveTextDocumentParams)
-    case didSaveTextDocument(DidSaveTextDocumentParams)
-    case didChangeWatchedFiles(DidChangeWatchedFilesParams)
+    case textDocumentDidOpen(DidOpenTextDocumentParams)
+    case textDocumentDidClose(DidCloseTextDocumentParams)
+    case textDocumentWillSave(WillSaveTextDocumentParams)
+    case textDocumentDidSave(DidSaveTextDocumentParams)
     case protocolCancelRequest(CancelParams)
     case protocolSetTrace(SetTraceParams)
 	case windowWorkDoneProgressCancel(WorkDoneProgressCancelParams)
+    case workspaceDidChangeWatchedFiles(DidChangeWatchedFilesParams)
     case workspaceDidChangeWorkspaceFolders(DidChangeWorkspaceFoldersParams)
     case workspaceDidChangeConfiguration(DidChangeConfigurationParams)
     case workspaceDidCreateFiles(CreateFilesParams)
@@ -49,17 +48,15 @@ public enum ClientNotification: Sendable, Hashable {
             return .exit
         case .textDocumentDidChange:
             return .textDocumentDidChange
-        case .didOpenTextDocument:
+        case .textDocumentDidOpen:
             return .textDocumentDidOpen
-        case .didCloseTextDocument:
+        case .textDocumentDidClose:
             return .textDocumentDidClose
-        case .willSaveTextDocument:
+        case .textDocumentWillSave:
             return .textDocumentWillSave
-        case .didChangeTextDocument:
-            return .textDocumentDidChange
-        case .didSaveTextDocument:
+        case .textDocumentDidSave:
             return .textDocumentDidSave
-        case .didChangeWatchedFiles:
+        case .workspaceDidChangeWatchedFiles:
             return .workspaceDidChangeWatchedFiles
         case .protocolCancelRequest:
             return .protocolCancelRequest
@@ -143,7 +140,7 @@ public enum ClientRequest: Sendable, Hashable {
 	case workspaceWillDeleteFiles(DeleteFilesParams)
 	case workspaceSymbol(WorkspaceSymbolParams)
 	case workspaceSymbolResolve(WorkspaceSymbol)
-	case willSaveWaitUntilTextDocument(WillSaveTextDocumentParams)
+	case textDocumentWillSaveWaitUntil(WillSaveTextDocumentParams)
 	case completion(CompletionParams)
 	case completionItemResolve(CompletionItem)
 	case hover(TextDocumentPositionParams)
@@ -160,6 +157,8 @@ public enum ClientRequest: Sendable, Hashable {
 	case codeLens(CodeLensParams)
 	case codeLensResolve(CodeLens)
 	case selectionRange(SelectionRangeParams)
+	case linkedEditingRange(LinkedEditingRangeParams)
+	case moniker(MonikerParams)
 	case prepareCallHierarchy(CallHierarchyPrepareParams)
 	case prepareRename(PrepareRenameParams)
 	case rename(RenameParams)
@@ -201,7 +200,7 @@ public enum ClientRequest: Sendable, Hashable {
             return .workspaceSymbol
         case .workspaceSymbolResolve:
             return .workspaceSymbolResolve
-        case .willSaveWaitUntilTextDocument:
+        case .textDocumentWillSaveWaitUntil:
             return .textDocumentWillSaveWaitUntil
         case .completion:
             return .textDocumentCompletion
@@ -233,6 +232,10 @@ public enum ClientRequest: Sendable, Hashable {
             return .codeLensResolve
         case .selectionRange:
             return .textDocumentSelectionRange
+		case .linkedEditingRange:
+			return .textDocumentLinkedEditingRange
+		case .moniker:
+            return .textDocumentMoniker
 		case .prepareCallHierarchy:
 			return .textDocumentPrepareCallHierarchy
         case .prepareRename:

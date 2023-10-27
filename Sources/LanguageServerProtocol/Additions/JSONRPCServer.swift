@@ -78,7 +78,7 @@ public actor JSONRPCServer: Server {
 
 	public func sendNotification(_ notif: ClientNotification) async throws {
 		let method = notif.method.rawValue
-		
+
 		switch notif {
 		case .initialized(let params):
 			try await session.sendNotification(params, method: method)
@@ -86,17 +86,15 @@ public actor JSONRPCServer: Server {
 			try await session.sendNotification(method: method)
 		case .textDocumentDidChange(let params):
 			try await session.sendNotification(params, method: method)
-		case .didOpenTextDocument(let params):
+		case .textDocumentDidOpen(let params):
 			try await session.sendNotification(params, method: method)
-		case .didChangeTextDocument(let params):
+		case .textDocumentDidClose(let params):
 			try await session.sendNotification(params, method: method)
-		case .didCloseTextDocument(let params):
+		case .textDocumentWillSave(let params):
 			try await session.sendNotification(params, method: method)
-		case .willSaveTextDocument(let params):
+		case .textDocumentDidSave(let params):
 			try await session.sendNotification(params, method: method)
-		case .didSaveTextDocument(let params):
-			try await session.sendNotification(params, method: method)
-		case .didChangeWatchedFiles(let params):
+		case .workspaceDidChangeWatchedFiles(let params):
 			try await session.sendNotification(params, method: method)
 		case .protocolCancelRequest(let params):
 			try await session.sendNotification(params, method: method)
@@ -139,7 +137,7 @@ public actor JSONRPCServer: Server {
 			return try await session.response(to: method, params: params)
 		case .workspaceSymbolResolve(let params):
 			return try await session.response(to: method, params: params)
-		case .willSaveWaitUntilTextDocument(let params):
+		case .textDocumentWillSaveWaitUntil(let params):
 			return try await session.response(to: method, params: params)
 		case .completion(let params):
 			return try await session.response(to: method, params: params)
@@ -170,6 +168,10 @@ public actor JSONRPCServer: Server {
 		case .codeLensResolve(let params):
 			return try await session.response(to: method, params: params)
 		case .selectionRange(let params):
+			return try await session.response(to: method, params: params)
+		case .linkedEditingRange(let params):
+			return try await session.response(to: method, params: params)
+		case .moniker(let params):
 			return try await session.response(to: method, params: params)
 		case .prepareCallHierarchy(let params):
 			return try await session.response(to: method, params: params)
@@ -237,7 +239,7 @@ public actor JSONRPCServer: Server {
 			switch method {
 			case .windowLogMessage:
 				let params = try decodeNotificationParams(LogMessageParams.self, from: data)
-				
+
 				notificationContinuation.yield(.windowLogMessage(params))
 			case .windowShowMessage:
 				let params = try decodeNotificationParams(ShowMessageParams.self, from: data)

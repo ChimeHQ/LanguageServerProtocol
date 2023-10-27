@@ -45,32 +45,32 @@ public extension Server {
         try await sendNotification(.protocolSetTrace(params))
     }
 
-    func didOpenTextDocument(params: DidOpenTextDocumentParams) async throws {
-		try await sendNotification(.didOpenTextDocument(params))
+    func textDocumentDidOpen(params: DidOpenTextDocumentParams) async throws {
+		try await sendNotification(.textDocumentDidOpen(params))
     }
 
-    func didChangeTextDocument(params: DidChangeTextDocumentParams) async throws {
-		try await sendNotification(.didChangeTextDocument(params))
+    func textDocumentDidChange(params: DidChangeTextDocumentParams) async throws {
+		try await sendNotification(.textDocumentDidChange(params))
     }
 
-    func didCloseTextDocument(params: DidCloseTextDocumentParams) async throws {
-		try await sendNotification(.didCloseTextDocument(params))
+    func textDocumentDidClose(params: DidCloseTextDocumentParams) async throws {
+		try await sendNotification(.textDocumentDidClose(params))
     }
 
-    func willSaveTextDocument(params: WillSaveTextDocumentParams) async throws {
-		try await sendNotification(.willSaveTextDocument(params))
+    func textDocumentWillSave(params: WillSaveTextDocumentParams) async throws {
+		try await sendNotification(.textDocumentWillSave(params))
     }
 
-	func willSaveWaitUntilTextDocument(params: WillSaveTextDocumentParams) async throws -> WillSaveWaitUntilResponse {
-		try await sendRequest(.willSaveWaitUntilTextDocument(params))
+	func textDocumentWillSaveWaitUntil(params: WillSaveTextDocumentParams) async throws -> WillSaveWaitUntilResponse {
+		try await sendRequest(.textDocumentWillSaveWaitUntil(params))
 	}
 
-    func didSaveTextDocument(params: DidSaveTextDocumentParams) async throws {
-		try await sendNotification(.didSaveTextDocument(params))
+    func textDocumentDidSave(params: DidSaveTextDocumentParams) async throws {
+		try await sendNotification(.textDocumentDidSave(params))
     }
 
-    func didChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
-        try await sendNotification(.didChangeWatchedFiles(params))
+    func workspaceDidChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
+        try await sendNotification(.workspaceDidChangeWatchedFiles(params))
     }
 
 	func callHierarchyIncomingCalls(params: CallHierarchyIncomingCallsParams) async throws -> CallHierarchyIncomingCallsResponse {
@@ -242,7 +242,7 @@ public extension Server {
 	func diagnostics(params: DocumentDiagnosticParams) async throws -> DocumentDiagnosticReport {
 		try await sendRequest(.diagnostics(params))
 	}
-	
+
     func selectionRange(params: SelectionRangeParams) async throws -> SelectionRangeResponse {
         try await sendRequest(.selectionRange(params))
     }
