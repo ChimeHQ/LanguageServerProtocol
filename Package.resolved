@@ -1,16 +1,23 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "JSONRPC",
-        "repositoryURL": "https://github.com/ChimeHQ/JSONRPC",
-        "state": {
-          "branch": null,
-          "revision": "1ae27fceaec3208f62b3ef23d2d565d4222c3ac6",
-          "version": "0.8.1"
-        }
+  "pins" : [
+    {
+      "identity" : "jsonrpc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/JSONRPC",
+      "state" : {
+        "revision" : "c6ec759d41a76ac88fe7327c41a77d9033943374",
+        "version" : "0.9.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log.git",
+      "state" : {
+        "revision" : "532d8b529501fb73a2455b179e0bbb6d49b652ed",
+        "version" : "1.5.3"
+      }
+    }
+  ],
+  "version" : 2
 }

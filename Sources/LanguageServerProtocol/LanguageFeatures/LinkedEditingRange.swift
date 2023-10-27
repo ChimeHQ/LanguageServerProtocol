@@ -20,11 +20,6 @@ public struct LinkedEditingRangeParams: Codable, Hashable, Sendable {
 public struct LinkedEditingRanges : Codable, Sendable {
 	public let ranges: [LSPRange]
 	public let wordPattern: String?
-
-	public init(ranges: [LSPRange], wordPattern: String? = nil) {
-		self.ranges = ranges
-		self.wordPattern = wordPattern
-	}
 }
 
 

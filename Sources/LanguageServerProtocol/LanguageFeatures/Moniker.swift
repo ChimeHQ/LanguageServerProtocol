@@ -2,7 +2,7 @@ import Foundation
 
 public typealias MonikerClientCapabilities = DynamicRegistrationClientCapabilities
 
-public struct MonikerParams: Codable, Hashable, Sendable {
+public struct MonkierParams: Codable, Hashable, Sendable {
 	public let workDoneToken: ProgressToken?
     public let partialResultToken: ProgressToken?
 

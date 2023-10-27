@@ -1,79 +1,49 @@
 import Foundation
 import JSONRPC
+import LanguageServerProtocol
 
-enum ServerError: Error {
-	case unrecognizedMethod(String)
-	case missingParams
-	case unhandledRegisterationMethod(String)
-	case missingReply
-}
 
-public actor JSONRPCServer: Server {
-	public let notificationSequence: NotificationSequence
-	public let requestSequence: RequestSequence
-
-	private let notificationContinuation: NotificationSequence.Continuation
-	private let requestContinuation: RequestSequence.Continuation
+public actor JSONRPCServerConnection: ServerConnection {
+	public let eventSequence: EventSequence
+	private let eventContinuation: EventSequence.Continuation
+	private var eventTask: Task<Void, Never>?
 
 	private let session: JSONRPCSession
-	private var notificationTask: Task<Void, Never>?
-	private var requestTask: Task<Void, Never>?
 
+	/// NOTE: The channel will wrapped with message framing
 	public init(dataChannel: DataChannel) {
-		self.session = JSONRPCSession(channel: dataChannel)
+		self.session = JSONRPCSession(channel: dataChannel.withMessageFraming())
 
-		// this is annoying, but temporary
-#if compiler(>=5.9)
-		(self.notificationSequence, self.notificationContinuation) = NotificationSequence.makeStream()
-		(self.requestSequence, self.requestContinuation) = RequestSequence.makeStream()
-#else
-		var escapedNoteContinuation: NotificationSequence.Continuation?
+		(self.eventSequence, self.eventContinuation) = EventSequence.makeStream()
 
-		self.notificationSequence = NotificationSequence { escapedNoteContinuation = $0 }
-		self.notificationContinuation = escapedNoteContinuation!
-
-		var escapedRequestContinuation: RequestSequence.Continuation?
-
-		self.requestSequence = RequestSequence { escapedRequestContinuation = $0 }
-		self.requestContinuation = escapedRequestContinuation!
-#endif
 		Task {
 			await startMonitoringSession()
 		}
 	}
 
 	deinit {
-		notificationTask?.cancel()
-		notificationContinuation.finish()
-
-		requestTask?.cancel()
-		requestContinuation.finish()
+		eventTask?.cancel()
+		eventContinuation.finish()
 	}
 
 	private func startMonitoringSession() async {
-		let noteSequence = await session.notificationSequence
+		let seq = await session.eventSequence
 
-		self.notificationTask = Task { [weak self] in
-			for await (notification, data) in noteSequence {
-				guard let self = self else { break }
+		for await event in seq {
 
-				await self.handleNotification(notification, data: data)
+
+			switch event {
+			case let .notification(notification, data):
+				self.handleNotification(notification, data: data)
+			case let .request(request, handler, data):
+				self.handleRequest(request, data: data, handler: handler)
+			case .error:
+				break // TODO?
 			}
 
-			self?.notificationContinuation.finish()
 		}
 
-		let reqSequence = await session.requestSequence
-
-		self.requestTask = Task { [weak self] in
-			for await (request, handler, data) in reqSequence {
-				guard let self = self else { break }
-
-				await self.handleRequest(request, data: data, handler: handler)
-			}
-
-			self?.requestContinuation.finish()
-		}
+		eventContinuation.finish()
 	}
 
 	public func sendNotification(_ notif: ClientNotification) async throws {
@@ -119,101 +89,101 @@ public actor JSONRPCServer: Server {
 		let method = request.method.rawValue
 
 		switch request {
-		case .initialize(let params):
+		case .initialize(let params, _):
 			return try await session.response(to: method, params: params)
 		case .shutdown:
 			return try await session.response(to: method)
-		case .workspaceExecuteCommand(let params):
+		case .workspaceExecuteCommand(let params, _):
 			return try await session.response(to: method, params: params)
 		case .workspaceInlayHintRefresh:
 			return try await session.response(to: method)
-		case .workspaceWillCreateFiles(let params):
+		case .workspaceWillCreateFiles(let params, _):
 			return try await session.response(to: method, params: params)
-		case .workspaceWillRenameFiles(let params):
+		case .workspaceWillRenameFiles(let params, _):
 			return try await session.response(to: method, params: params)
-		case .workspaceWillDeleteFiles(let params):
+		case .workspaceWillDeleteFiles(let params, _):
 			return try await session.response(to: method, params: params)
-		case .workspaceSymbol(let params):
+		case .workspaceSymbol(let params, _):
 			return try await session.response(to: method, params: params)
-		case .workspaceSymbolResolve(let params):
+		case .workspaceSymbolResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .textDocumentWillSaveWaitUntil(let params):
+		case .textDocumentWillSaveWaitUntil(let params, _):
 			return try await session.response(to: method, params: params)
-		case .completion(let params):
+		case .completion(let params, _):
 			return try await session.response(to: method, params: params)
-		case .completionItemResolve(let params):
+		case .completionItemResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .hover(let params):
+		case .hover(let params, _):
 			return try await session.response(to: method, params: params)
-		case .signatureHelp(let params):
+		case .signatureHelp(let params, _):
 			return try await session.response(to: method, params: params)
-		case .declaration(let params):
+		case .declaration(let params, _):
 			return try await session.response(to: method, params: params)
-		case .definition(let params):
+		case .definition(let params, _):
 			return try await session.response(to: method, params: params)
-		case .typeDefinition(let params):
+		case .typeDefinition(let params, _):
 			return try await session.response(to: method, params: params)
-		case .implementation(let params):
+		case .implementation(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentHighlight(let params):
+		case .documentHighlight(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentSymbol(let params):
+		case .documentSymbol(let params, _):
 			return try await session.response(to: method, params: params)
-		case .codeAction(let params):
+		case .codeAction(let params, _):
 			return try await session.response(to: method, params: params)
-		case .codeActionResolve(let params):
+		case .codeActionResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .codeLens(let params):
+		case .codeLens(let params, _):
 			return try await session.response(to: method, params: params)
-		case .codeLensResolve(let params):
+		case .codeLensResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .selectionRange(let params):
+		case .selectionRange(let params, _):
 			return try await session.response(to: method, params: params)
-		case .linkedEditingRange(let params):
+		case .linkedEditingRange(let params, _):
 			return try await session.response(to: method, params: params)
-		case .moniker(let params):
+		case .prepareCallHierarchy(let params, _):
 			return try await session.response(to: method, params: params)
-		case .prepareCallHierarchy(let params):
+		case .prepareRename(let params, _):
 			return try await session.response(to: method, params: params)
-		case .prepareRename(let params):
+		case .rename(let params, _):
 			return try await session.response(to: method, params: params)
-		case .rename(let params):
+		case .inlayHint(let params, _):
 			return try await session.response(to: method, params: params)
-		case .inlayHint(let params):
+		case .inlayHintResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .inlayHintResolve(let params):
+		case .diagnostics(let params, _):
 			return try await session.response(to: method, params: params)
-		case .diagnostics(let params):
+		case .documentLink(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentLink(let params):
+		case .documentLinkResolve(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentLinkResolve(let params):
+		case .documentColor(let params, _):
 			return try await session.response(to: method, params: params)
-		case .documentColor(let params):
+		case .colorPresentation(let params, _):
 			return try await session.response(to: method, params: params)
-		case .colorPresentation(let params):
+		case .formatting(let params, _):
 			return try await session.response(to: method, params: params)
-		case .formatting(let params):
+		case .rangeFormatting(let params, _):
 			return try await session.response(to: method, params: params)
-		case .rangeFormatting(let params):
+		case .onTypeFormatting(let params, _):
 			return try await session.response(to: method, params: params)
-		case .onTypeFormatting(let params):
+		case .references(let params, _):
 			return try await session.response(to: method, params: params)
-		case .references(let params):
+		case .foldingRange(let params, _):
 			return try await session.response(to: method, params: params)
-		case .foldingRange(let params):
+		case .moniker(let params, _):
 			return try await session.response(to: method, params: params)
-		case .semanticTokensFull(let params):
+		case .semanticTokensFull(let params, _):
 			return try await session.response(to: method, params: params)
-		case .semanticTokensFullDelta(let params):
+		case .semanticTokensFullDelta(let params, _):
 			return try await session.response(to: method, params: params)
-		case .semanticTokensRange(let params):
+		case .semanticTokensRange(let params, _):
 			return try await session.response(to: method, params: params)
-		case .callHierarchyIncomingCalls(let params):
+		case .callHierarchyIncomingCalls(let params, _):
 			return try await session.response(to: method, params: params)
-		case .callHierarchyOutgoingCalls(let params):
+		case .callHierarchyOutgoingCalls(let params, _):
 			return try await session.response(to: method, params: params)
-		case let .custom(method, params):
+		case let .custom(method, params, _):
 			return try await session.response(to: method, params: params)
 		}
 	}
@@ -228,6 +198,14 @@ public actor JSONRPCServer: Server {
 		return params
 	}
 
+	private func yield(_ notification: ServerNotification) {
+		eventContinuation.yield(.notification(notification))
+	}
+
+	private func yield(id: JSONId, request: ServerRequest) {
+		eventContinuation.yield(.request(id: id, request: request))
+	}
+
 	private func handleNotification(_ anyNotification: AnyJSONRPCNotification, data: Data) {
 		let methodName = anyNotification.method
 
@@ -240,31 +218,31 @@ public actor JSONRPCServer: Server {
 			case .windowLogMessage:
 				let params = try decodeNotificationParams(LogMessageParams.self, from: data)
 
-				notificationContinuation.yield(.windowLogMessage(params))
+				yield(.windowLogMessage(params))
 			case .windowShowMessage:
 				let params = try decodeNotificationParams(ShowMessageParams.self, from: data)
 
-				notificationContinuation.yield(.windowShowMessage(params))
+				yield(.windowShowMessage(params))
 			case .textDocumentPublishDiagnostics:
 				let params = try decodeNotificationParams(PublishDiagnosticsParams.self, from: data)
 
-				notificationContinuation.yield(.textDocumentPublishDiagnostics(params))
+				yield(.textDocumentPublishDiagnostics(params))
 			case .telemetryEvent:
 				let params = anyNotification.params ?? .null
 
-				notificationContinuation.yield(.telemetryEvent(params))
+				yield(.telemetryEvent(params))
 			case .protocolCancelRequest:
 				let params = try decodeNotificationParams(CancelParams.self, from: data)
 
-				notificationContinuation.yield(.protocolCancelRequest(params))
+				yield(.protocolCancelRequest(params))
 			case .protocolProgress:
 				let params = try decodeNotificationParams(ProgressParams.self, from: data)
 
-				notificationContinuation.yield(.protocolProgress(params))
+				yield(.protocolProgress(params))
 			case .protocolLogTrace:
 				let params = try decodeNotificationParams(LogTraceParams.self, from: data)
 
-				notificationContinuation.yield(.protocolLogTrace(params))
+				yield(.protocolLogTrace(params))
 			}
 		} catch {
 			// should we backchannel this to the client somehow?
@@ -282,7 +260,7 @@ public actor JSONRPCServer: Server {
 		return params
 	}
 
-	private nonisolated func makeErrorOnlyHandler(_ handler: @escaping JSONRPCSession.RequestHandler) -> ServerRequest.ErrorOnlyHandler {
+	private nonisolated func makeErrorOnlyHandler(_ handler: @escaping JSONRPCEvent.RequestHandler) -> ServerRequest.ErrorOnlyHandler {
 		return {
 			if let error = $0 {
 				await handler(.failure(error))
@@ -292,7 +270,7 @@ public actor JSONRPCServer: Server {
 		}
 	}
 
-	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCSession.RequestHandler) -> ServerRequest.Handler<T> {
+	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCEvent.RequestHandler) -> ServerRequest.Handler<T> {
 		return {
 			let loweredResult = $0.map({ $0 as Encodable & Sendable })
 
@@ -300,8 +278,9 @@ public actor JSONRPCServer: Server {
 		}
 	}
 
-	private func handleRequest(_ anyRequest: AnyJSONRPCRequest, data: Data, handler: @escaping JSONRPCSession.RequestHandler) {
+	private func handleRequest(_ anyRequest: AnyJSONRPCRequest, data: Data, handler: @escaping JSONRPCEvent.RequestHandler) {
 		let methodName = anyRequest.method
+		let id = anyRequest.id
 
 		do {
 			guard let method = ServerRequest.Method(rawValue: methodName) else {
@@ -313,49 +292,49 @@ public actor JSONRPCServer: Server {
 				let params = try decodeRequestParams(ConfigurationParams.self, from: data)
 				let reqHandler: ServerRequest.Handler<[LSPAny]> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceConfiguration(params, reqHandler))
+				yield(id: id, request: ServerRequest.workspaceConfiguration(params, reqHandler))
 			case .workspaceFolders:
 				let reqHandler: ServerRequest.Handler<WorkspaceFoldersResponse> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceFolders(reqHandler))
+				yield(id: id, request: ServerRequest.workspaceFolders(reqHandler))
 			case .workspaceApplyEdit:
 				let params = try decodeRequestParams(ApplyWorkspaceEditParams.self, from: data)
 				let reqHandler: ServerRequest.Handler<ApplyWorkspaceEditResult> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceApplyEdit(params, reqHandler))
+				yield(id: id, request: ServerRequest.workspaceApplyEdit(params, reqHandler))
 			case .clientRegisterCapability:
 				let params = try decodeRequestParams(RegistrationParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.clientRegisterCapability(params, reqHandler))
+				yield(id: id, request: ServerRequest.clientRegisterCapability(params, reqHandler))
 			case .clientUnregisterCapability:
 				let params = try decodeRequestParams(UnregistrationParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.clientUnregisterCapability(params, reqHandler))
+				yield(id: id, request: ServerRequest.clientUnregisterCapability(params, reqHandler))
 			case .workspaceCodeLensRefresh:
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceCodeLensRefresh(reqHandler))
+				yield(id: id, request: ServerRequest.workspaceCodeLensRefresh(reqHandler))
 			case .workspaceSemanticTokenRefresh:
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.workspaceSemanticTokenRefresh(reqHandler))
+				yield(id: id, request: ServerRequest.workspaceSemanticTokenRefresh(reqHandler))
 			case .windowShowMessageRequest:
 				let params = try decodeRequestParams(ShowMessageRequestParams.self, from: data)
 				let reqHandler: ServerRequest.Handler<ShowMessageRequestResponse> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.windowShowMessageRequest(params, reqHandler))
+				yield(id: id, request: ServerRequest.windowShowMessageRequest(params, reqHandler))
 			case .windowShowDocument:
 				let params = try decodeRequestParams(ShowDocumentParams.self, from: data)
 				let reqHandler: ServerRequest.Handler<ShowDocumentResult> = makeHandler(handler)
 
-				requestContinuation.yield(ServerRequest.windowShowDocument(params, reqHandler))
+				yield(id: id, request: ServerRequest.windowShowDocument(params, reqHandler))
 			case .windowWorkDoneProgressCreate:
 				let params = try decodeRequestParams(WorkDoneProgressCreateParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				requestContinuation.yield(ServerRequest.windowWorkDoneProgressCreate(params, reqHandler))
+				yield(id: id, request: ServerRequest.windowWorkDoneProgressCreate(params, reqHandler))
 
 			}
 

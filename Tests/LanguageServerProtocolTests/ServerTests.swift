@@ -1,5 +1,6 @@
 import XCTest
 import LanguageServerProtocol
+import LanguageServerProtocol_Client
 
 final class ServerTests: XCTestCase {
     func testNonOptionalSend() async throws {
