@@ -11,12 +11,12 @@ let package = Package(
 			targets: ["LanguageServerProtocol"]),
 
 		.library(
-			name: "LanguageServerProtocol-Client",
-			targets: ["LanguageServerProtocol-Client"]),
+			name: "LSPClient",
+			targets: ["LSPClient"]),
 
 		.library(
-			name: "LanguageServerProtocol-Server",
-			targets: ["LanguageServerProtocol-Server"]),
+			name: "LSPServer",
+			targets: ["LSPServer"]),
 	],
 	dependencies: [
 		.package(url: "https://github.com/ChimeHQ/JSONRPC", from: "0.9.0"),
@@ -27,15 +27,15 @@ let package = Package(
 			name: "LanguageServerProtocol",
 			dependencies: ["JSONRPC"]),
 		.target(
-			name: "LanguageServerProtocol-Client",
+			name: "LSPClient",
 			dependencies: ["LanguageServerProtocol"]),
 		.target(
-			name: "LanguageServerProtocol-Server",
+			name: "LSPServer",
 			dependencies: ["LanguageServerProtocol"]),
 
 		.testTarget(
 			name: "LanguageServerProtocolTests",
-			dependencies: ["LanguageServerProtocol", "LanguageServerProtocol-Client"]),
+			dependencies: ["LanguageServerProtocol", "LSPClient"]),
 	]
 )
 
