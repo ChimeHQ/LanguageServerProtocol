@@ -2,7 +2,7 @@ import Foundation
 import JSONRPC
 import LanguageServerProtocol
 
-public protocol NotificationHandler : ProtocolHandler {
+public protocol NotificationHandler : ErrorHandler {
 	func handleNotification(_ notification: ClientNotification) async
 
 	func initialized(_ params: InitializedParams) async
@@ -70,76 +70,69 @@ public extension NotificationHandler {
 /// Provide default implementations for all protocol methods
 /// We do this since the handler only need to support a subset, based on dynamically registered capabilities
 public extension NotificationHandler {
-	private func _logNotImplemented(_ message: String) async {
-		do {
-			try await connection.sendNotification(.windowLogMessage(LogMessageParams(type: .warning, message: message)))
-		}
-		catch {
-		}
-	}
 
 	func initialized(_ params: InitializedParams) async {
-		await _logNotImplemented("NotificationHandler.initialized not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func exit() async {
-		await _logNotImplemented("NotificationHandler.exit not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func textDocumentDidOpen(_ params: DidOpenTextDocumentParams) async {
-		await _logNotImplemented("NotificationHandler.textDocumentDidOpen not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func textDocumentDidChange(_ params: DidChangeTextDocumentParams) async {
-		await _logNotImplemented("NotificationHandler.textDocumentDidChange not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func textDocumentDidClose(_ params: DidCloseTextDocumentParams) async {
-		await _logNotImplemented("NotificationHandler.textDocumentDidClose not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func textDocumentWillSave(_ params: WillSaveTextDocumentParams) async {
-		await _logNotImplemented("NotificationHandler.textDocumentWillSave not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func textDocumentDidSave(_ params: DidSaveTextDocumentParams) async {
-		await _logNotImplemented("NotificationHandler.textDocumentDidSave not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func protocolCancelRequest(_ params: CancelParams) async {
-		await _logNotImplemented("NotificationHandler.protocolCancelRequest not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func protocolSetTrace(_ params: SetTraceParams) async {
-		await _logNotImplemented("NotificationHandler.protocolSetTrace not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func workspaceDidChangeWatchedFiles(_ params: DidChangeWatchedFilesParams) async {
-		await _logNotImplemented("NotificationHandler.workspaceDidChangeWatchedFiles not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func windowWorkDoneProgressCancel(_ params: WorkDoneProgressCancelParams) async {
-		await _logNotImplemented("NotificationHandler.windowWorkDoneProgressCancel not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func workspaceDidChangeWorkspaceFolders(_ params: DidChangeWorkspaceFoldersParams) async {
-		await _logNotImplemented("NotificationHandler.workspaceDidChangeWorkspaceFolders not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func workspaceDidChangeConfiguration(_ params: DidChangeConfigurationParams) async {
-		await _logNotImplemented("NotificationHandler.workspaceDidChangeConfiguration not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func workspaceDidCreateFiles(_ params: CreateFilesParams) async {
-		await _logNotImplemented("NotificationHandler.workspaceDidCreateFiles not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func workspaceDidRenameFiles(_ params: RenameFilesParams) async {
-		await _logNotImplemented("NotificationHandler.workspaceDidRenameFiles not implemented")
+		await internalError(NotImplementedError)
 	}
 
 	func workspaceDidDeleteFiles(_ params: DeleteFilesParams) async {
-		await _logNotImplemented("NotificationHandler.workspaceDidDeleteFiles not implemented")
+		await internalError(NotImplementedError)
 	}
 
 }
