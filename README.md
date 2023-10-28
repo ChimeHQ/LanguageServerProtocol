@@ -84,8 +84,8 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/implementation | ✅ |
 | textDocument/inlayHint | ✅ |
 | textDocument/inlineValue | - |
-| textDocument/linkedEditingRange | - |
-| textDocument/moniker | - |
+| textDocument/linkedEditingRange | ✅ |
+| textDocument/moniker | ✅ |
 | textDocument/onTypeFormatting | ✅ |
 | textDocument/prepareCallHierarchy | ✅ |
 | textDocument/prepareRename | ✅ |
