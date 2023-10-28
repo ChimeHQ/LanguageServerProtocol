@@ -1,7 +1,6 @@
 import Foundation
 import JSONRPC
 import LanguageServerProtocol
-import Logging
 
 public protocol NotificationHandler : ProtocolHandler {
 	func handleNotification(_ notification: ClientNotification) async
