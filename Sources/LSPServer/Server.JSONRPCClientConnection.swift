@@ -5,7 +5,6 @@ import LanguageServerProtocol
 public actor JSONRPCClientConnection : ClientConnection {
 	public let eventSequence: EventSequence
 	private let eventContinuation: EventSequence.Continuation
-	private var eventTask: Task<Void, Never>?
 
 	private let session: JSONRPCSession
 
@@ -21,7 +20,6 @@ public actor JSONRPCClientConnection : ClientConnection {
 	}
 
 	deinit {
-		eventTask?.cancel()
 		eventContinuation.finish()
 	}
 
