@@ -42,6 +42,10 @@ public actor JSONRPCClientConnection : ClientConnection {
 		eventContinuation.finish()
 	}
 
+	public func stop() {
+		eventContinuation.finish()
+	}
+
 
 	private func decodeNotificationParams<Params>(_ type: Params.Type, from data: Data) throws -> Params where Params : Decodable {
 		let note = try JSONDecoder().decode(JSONRPCNotification<Params>.self, from: data)
@@ -167,9 +171,9 @@ public actor JSONRPCClientConnection : ClientConnection {
 			case .initialize:
 				yield(id: id, request: ClientRequest.initialize(try decodeRequestParams(data), makeHandler(handler)))
 			case .shutdown:
-				yield(id: id, request: ClientRequest.shutdown)
+				yield(id: id, request: ClientRequest.shutdown(makeHandler(handler)))
 			case .workspaceInlayHintRefresh:
-				yield(id: id, request: ClientRequest.workspaceInlayHintRefresh)
+				yield(id: id, request: ClientRequest.workspaceInlayHintRefresh(makeHandler(handler)))
 			case .workspaceExecuteCommand:
 				yield(id: id, request: ClientRequest.workspaceExecuteCommand(try decodeRequestParams(data), makeHandler(handler)))
 			case .workspaceWillCreateFiles:

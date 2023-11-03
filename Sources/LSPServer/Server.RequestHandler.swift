@@ -67,10 +67,12 @@ public extension RequestHandler {
 		switch request {
 		case let .initialize(params, handler):
 			await handler(await initialize(id: id, params: params))
-		case .shutdown:
+		case let .shutdown(handler):
 			await shutdown(id: id)
-		case .workspaceInlayHintRefresh:
+			await handler(.success(nil))
+		case let .workspaceInlayHintRefresh(handler):
 			await workspaceInlayHintRefresh(id: id)
+			await handler(.success(nil))
 		case let .workspaceExecuteCommand(params, handler):
 			await handler(await workspaceExecuteCommand(id: id, params: params))
 		case let .workspaceWillCreateFiles(params, handler):

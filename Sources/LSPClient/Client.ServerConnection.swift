@@ -29,7 +29,7 @@ public extension ServerConnection {
 	}
 
 	func shutdown() async throws {
-		try await sendRequestWithErrorOnlyResult(.shutdown)
+		try await sendRequestWithErrorOnlyResult(.shutdown(ClientRequest.NullHandler))
 	}
 
 	func exit() async throws {
@@ -188,7 +188,7 @@ public extension ServerConnection {
 // Workspace Requests
 public extension ServerConnection {
 	func inlayHintRefresh() async throws {
-		try await sendRequestWithErrorOnlyResult(.workspaceInlayHintRefresh)
+		try await sendRequestWithErrorOnlyResult(.workspaceInlayHintRefresh(ClientRequest.NullHandler))
 	}
 
     func willCreateFiles(params: CreateFilesParams) async throws -> WorkspaceWillCreateFilesResponse {

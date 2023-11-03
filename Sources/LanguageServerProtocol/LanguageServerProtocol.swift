@@ -122,6 +122,7 @@ public enum ClientRequest: Sendable {
 		// throw NullHandlerError.notImplemented(result)
 	}
 
+
 	public enum Method: String {
         case initialize
         case shutdown
@@ -175,9 +176,9 @@ public enum ClientRequest: Sendable {
     }
 
 	case initialize(InitializeParams, Handler<InitializationResponse>)
-	case shutdown
+	case shutdown(Handler<LSPAny?>)
 	case workspaceExecuteCommand(ExecuteCommandParams, Handler<LSPAny?>)
-	case workspaceInlayHintRefresh
+	case workspaceInlayHintRefresh(Handler<LSPAny?>)
 	case workspaceWillCreateFiles(CreateFilesParams, Handler<WorkspaceEdit?>)
 	case workspaceWillRenameFiles(RenameFilesParams, Handler<WorkspaceEdit?>)
 	case workspaceWillDeleteFiles(DeleteFilesParams, Handler<WorkspaceEdit?>)
@@ -367,6 +368,7 @@ public enum ServerNotification: Sendable, Hashable {
 
 public enum ServerRequest: Sendable {
 	public typealias Handler<T: Sendable & Encodable> = @Sendable (Result<T, AnyJSONRPCResponseError>) async -> Void
+	public typealias VoidHandler = @Sendable () async -> Void
 	public typealias ErrorOnlyHandler = @Sendable (AnyJSONRPCResponseError?) async -> Void
 
     public enum Method: String {
