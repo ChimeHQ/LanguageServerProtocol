@@ -42,7 +42,7 @@ public enum ClientNotification: Sendable, Hashable {
         case initialized
         case exit
 		case windowWorkDoneProgressCancel = "window/workDoneProgress/cancel"
-        case workspaceDidChangeWatchedFiles = "workspace/workspaceDidChangeWatchedFiles"
+        case workspaceDidChangeWatchedFiles = "workspace/didChangeWatchedFiles"
         case workspaceDidChangeConfiguration = "workspace/didChangeConfiguration"
         case workspaceDidChangeWorkspaceFolders = "workspace/didChangeWorkspaceFolders"
         case workspaceDidCreateFiles = "workspace/didCreateFiles"
