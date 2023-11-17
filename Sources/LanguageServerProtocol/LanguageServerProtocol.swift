@@ -6,7 +6,7 @@ public typealias UnusedParam = String?
 public enum ProtocolError: Error {
 	case unrecognizedMethod(String)
 	case missingParams
-	case unhandleRegistrationMethod(String)
+	case unhandledRegistrationMethod(String)
 	case missingReply
 }
 
