@@ -25,7 +25,7 @@ extension Registration {
 
     func decodeServerRegistration() throws -> ServerRegistration {
         guard let regMethod = ServerRegistration.Method(rawValue: method) else {
-            throw ServerError.unhandledRegisterationMethod(method)
+            throw ServerError.unhandleRegistrationMethod(method)
         }
 
         switch regMethod {

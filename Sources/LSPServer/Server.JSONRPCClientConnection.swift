@@ -253,7 +253,7 @@ public actor JSONRPCClientConnection : ClientConnection {
 			case .textDocumentMoniker:
 				yield(id: id, request: ClientRequest.moniker(try decodeRequestParams(data), makeHandler(handler)))
 			case .textDocumentSemanticTokens:
-				throw ClientError.unhandledRegisterationMethod(methodName)
+				throw ClientError.unhandleRegistrationMethod(methodName)
 			case .textDocumentSemanticTokensFull:
 				yield(id: id, request: ClientRequest.semanticTokensFull(try decodeRequestParams(data), makeHandler(handler)))
 			case .textDocumentSemanticTokensFullDelta:
