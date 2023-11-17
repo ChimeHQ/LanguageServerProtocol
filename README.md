@@ -17,6 +17,12 @@ This library models these cases using nested structures and/or the `TwoTypeOptio
 
 ## Integration
 
+This library comes with 3 distinct parts:
+
+- `LanguageServerProtocol`: Core types and behaviors.
+- `LSPClient` client functionality (for talking to servers)
+- `LSPServer` server functionality (for implementing servers)
+
 ```swift
 dependencies: [
     .package(url: "https://github.com/ChimeHQ/LanguageServerProtocol")
