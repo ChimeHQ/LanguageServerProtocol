@@ -47,7 +47,7 @@ public protocol RequestHandler : ErrorHandler {
 	func onTypeFormatting(id: JSONId, params: DocumentOnTypeFormattingParams) async -> Result<FormattingResult, AnyJSONRPCResponseError>
 	func references(id: JSONId, params: ReferenceParams) async -> Result<ReferenceResponse, AnyJSONRPCResponseError>
 	func foldingRange(id: JSONId, params: FoldingRangeParams) async -> Result<FoldingRangeResponse, AnyJSONRPCResponseError>
-	func moniker(id: JSONId, params: MonkierParams) async -> Result<MonikerResponse, AnyJSONRPCResponseError>
+	func moniker(id: JSONId, params: MonikerParams) async -> Result<MonikerResponse, AnyJSONRPCResponseError>
 	func semanticTokensFull(id: JSONId, params: SemanticTokensParams) async -> Result<SemanticTokensResponse, AnyJSONRPCResponseError>
 	func semanticTokensFullDelta(id: JSONId, params: SemanticTokensDeltaParams) async -> Result<SemanticTokensDeltaResponse, AnyJSONRPCResponseError>
 	func semanticTokensRange(id: JSONId, params: SemanticTokensRangeParams) async -> Result<SemanticTokensResponse, AnyJSONRPCResponseError>
@@ -215,7 +215,7 @@ public extension RequestHandler {
 	func onTypeFormatting(id: JSONId, params: DocumentOnTypeFormattingParams) async -> Result<FormattingResult, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func references(id: JSONId, params: ReferenceParams) async -> Result<ReferenceResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func foldingRange(id: JSONId, params: FoldingRangeParams) async -> Result<FoldingRangeResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func moniker(id: JSONId, params: MonkierParams) async -> Result<MonikerResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
+	func moniker(id: JSONId, params: MonikerParams) async -> Result<MonikerResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func semanticTokensFull(id: JSONId, params: SemanticTokensParams) async -> Result<SemanticTokensResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func semanticTokensFullDelta(id: JSONId, params: SemanticTokensDeltaParams) async -> Result<SemanticTokensDeltaResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func semanticTokensRange(id: JSONId, params: SemanticTokensRangeParams) async -> Result<SemanticTokensResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }

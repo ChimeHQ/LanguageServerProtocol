@@ -217,7 +217,7 @@ public enum ClientRequest: Sendable {
 	case references(ReferenceParams, Handler<ReferenceResponse>)
 	case foldingRange(FoldingRangeParams, Handler<FoldingRangeResponse>)
 	// case semanticTokens(SemanticTokensParams, Handler<SemanticTokensResponse>)
-	case moniker(MonkierParams, Handler<MonikerResponse>)
+	case moniker(MonikerParams, Handler<MonikerResponse>)
 	case semanticTokensFull(SemanticTokensParams, Handler<SemanticTokensResponse>)
 	case semanticTokensFullDelta(SemanticTokensDeltaParams, Handler<SemanticTokensDeltaResponse>)
 	case semanticTokensRange(SemanticTokensRangeParams, Handler<SemanticTokensResponse>)
