@@ -123,7 +123,7 @@ public enum ClientRequest: Sendable {
 	}
 
 
-	public enum Method: String {
+	public enum Method: String, Hashable, Sendable {
         case initialize
         case shutdown
         case workspaceExecuteCommand = "workspace/executeCommand"
@@ -216,7 +216,6 @@ public enum ClientRequest: Sendable {
 	case onTypeFormatting(DocumentOnTypeFormattingParams, Handler<FormattingResult>)
 	case references(ReferenceParams, Handler<ReferenceResponse>)
 	case foldingRange(FoldingRangeParams, Handler<FoldingRangeResponse>)
-	// case semanticTokens(SemanticTokensParams, Handler<SemanticTokensResponse>)
 	case moniker(MonikerParams, Handler<MonikerResponse>)
 	case semanticTokensFull(SemanticTokensParams, Handler<SemanticTokensResponse>)
 	case semanticTokensFullDelta(SemanticTokensDeltaParams, Handler<SemanticTokensDeltaResponse>)
@@ -325,6 +324,114 @@ public enum ClientRequest: Sendable {
             return .custom
         }
     }
+}
+
+extension ClientRequest: Equatable {
+	/// Check for equality
+	///
+	/// This really stinks. But, the handler parameter was a big win for server-side development, and this is a one-time cost. Still, error-prone. Please take care when adding/modifying.
+	public static func == (lhs: ClientRequest, rhs: ClientRequest) -> Bool {
+		switch (lhs, rhs) {
+		case let (.callHierarchyIncomingCalls(lhsParam, _), .callHierarchyIncomingCalls(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.callHierarchyOutgoingCalls(lhsParam, _), .callHierarchyOutgoingCalls(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.codeAction(lhsParam, _), .codeAction(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.codeActionResolve(lhsParam, _), .codeActionResolve(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.codeLens(lhsParam, _), .codeLens(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.codeLensResolve(lhsParam, _), .codeLensResolve(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.colorPresentation(lhsParam, _), .colorPresentation(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.completion(lhsParam, _), .completion(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.completionItemResolve(lhsParam, _), .completionItemResolve(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.custom(lhsMethod, lhsParam, _), .custom(rhsMethod, rhsParam, _)):
+			lhsMethod == rhsMethod && lhsParam == rhsParam
+		case let (.declaration(lhsParam, _), .declaration(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.definition(lhsParam, _), .definition(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.diagnostics(lhsParam, _), .diagnostics(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.documentColor(lhsParam, _), .documentColor(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.documentHighlight(lhsParam, _), .documentHighlight(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.documentLink(lhsParam, _), .documentLink(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.documentLinkResolve(lhsParam, _), .documentLinkResolve(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.documentSymbol(lhsParam, _), .documentSymbol(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.foldingRange(lhsParam, _), .foldingRange(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.formatting(lhsParam, _), .formatting(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.hover(lhsParam, _), .hover(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.implementation(lhsParam, _), .implementation(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.initialize(lhsParam, _), .initialize(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.inlayHint(lhsParam, _), .inlayHint(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.inlayHintResolve(lhsParam, _), .inlayHintResolve(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.linkedEditingRange(lhsParam, _), .linkedEditingRange(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.moniker(lhsParam, _), .moniker(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.onTypeFormatting(lhsParam, _), .onTypeFormatting(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.prepareCallHierarchy(lhsParam, _), .prepareCallHierarchy(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.prepareRename(lhsParam, _), .prepareRename(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.rangeFormatting(lhsParam, _), .rangeFormatting(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.references(lhsParam, _), .references(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.rename(lhsParam, _), .rename(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.selectionRange(lhsParam, _), .selectionRange(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.semanticTokensFull(lhsParam, _), .semanticTokensFull(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.semanticTokensFullDelta(lhsParam, _), .semanticTokensFullDelta(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.semanticTokensRange(lhsParam, _), .semanticTokensRange(rhsParam, _)):
+			lhsParam == rhsParam
+		case (.shutdown, .shutdown):
+			true
+		case let (.signatureHelp(lhsParam, _), .signatureHelp(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.textDocumentWillSaveWaitUntil(lhsParam, _), .textDocumentWillSaveWaitUntil(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.typeDefinition(lhsParam, _), .typeDefinition(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.workspaceExecuteCommand(lhsParam, _), .workspaceExecuteCommand(rhsParam, _)):
+			lhsParam == rhsParam
+		case (.workspaceInlayHintRefresh, .workspaceInlayHintRefresh):
+			true
+		case let (.workspaceSymbol(lhsParam, _), .workspaceSymbol(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.workspaceSymbolResolve(lhsParam, _), .workspaceSymbolResolve(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.workspaceWillCreateFiles(lhsParam, _), .workspaceWillCreateFiles(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.workspaceWillDeleteFiles(lhsParam, _), .workspaceWillDeleteFiles(rhsParam, _)):
+			lhsParam == rhsParam
+		case let (.workspaceWillRenameFiles(lhsParam, _), .workspaceWillRenameFiles(rhsParam, _)):
+			lhsParam == rhsParam
+		default:
+			false
+		}
+	}
 }
 
 public enum ServerNotification: Sendable, Hashable {
