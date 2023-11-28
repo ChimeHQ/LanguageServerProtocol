@@ -82,7 +82,13 @@ public enum DiagnosticTag: Int, CaseIterable, Codable, Hashable, Sendable {
     case deprecated = 2
 }
 
-public typealias CodeDescription = String
+public struct CodeDescription: Codable, Hashable, Sendable {
+	public let href: URI
+
+	public init(href: URI) {
+		self.href = href
+	}
+}
 
 public struct Diagnostic: Codable, Hashable, Sendable {
     public let range: LSPRange
