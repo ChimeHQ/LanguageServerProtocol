@@ -145,7 +145,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 
 ## Contributing and Collaboration
 
-I would love to hear from you! Issues or pull requests work great. A Discord server is also available for live help, but I have a strong bias towards asnwering in the form of documenation.
+I would love to hear from you! Issues or pull requests work great. A [Discord server][discord] is also available for live help, but I have a strong bias towards answering in the form of documenation.
 
 I prefer collaboration, and would love to find ways to work together if you have a similar project.
 
