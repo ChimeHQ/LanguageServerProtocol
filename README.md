@@ -2,7 +2,6 @@
 	
 [![Build Status][build status badge]][build status]
 [![Platforms][platforms badge]][platforms]
-[![Documentation][documentation badge]][documentation]
 [![Discord][discord badge]][discord]
 
 </div>
