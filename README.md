@@ -1,5 +1,11 @@
+<div align="center">
+	
 [![Build Status][build status badge]][build status]
 [![Platforms][platforms badge]][platforms]
+[![Documentation][documentation badge]][documentation]
+[![Discord][discord badge]][discord]
+
+</div>
 
 # LanguageServerProtocol
 
@@ -140,7 +146,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 
 ## Contributing and Collaboration
 
-I'd love to hear from you! Get in touch via [mastodon](https://mastodon.social/@mattiem), an issue, or a pull request.
+I would love to hear from you! Issues or pull requests work great. A Discord server is also available for live help, but I have a strong bias towards asnwering in the form of documenation.
 
 I prefer collaboration, and would love to find ways to work together if you have a similar project.
 
@@ -152,3 +158,7 @@ By participating in this project you agree to abide by the [Contributor Code of 
 [build status badge]: https://github.com/ChimeHQ/LanguageServerProtocol/workflows/CI/badge.svg
 [platforms]: https://swiftpackageindex.com/ChimeHQ/LanguageServerProtocol
 [platforms badge]: https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FChimeHQ%2FLanguageServerProtocol%2Fbadge%3Ftype%3Dplatforms
+[documentation]: https://swiftpackageindex.com/ChimeHQ/LanguageServerProtocol/main/documentation
+[documentation badge]: https://img.shields.io/badge/Documentation-DocC-blue
+[discord]: https://discord.gg/esFpX6sErJ
+[discord badge]: https://img.shields.io/badge/Discord-purple?logo=Discord&label=Chat&color=%235A64EC
