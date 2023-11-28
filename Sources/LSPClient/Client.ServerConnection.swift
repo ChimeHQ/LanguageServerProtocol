@@ -48,17 +48,37 @@ public extension ServerConnection {
 		try await sendNotification(.textDocumentDidOpen(params))
     }
 
+	@available(*, deprecated, renamed: "textDocumentDidOpen", message: "This method has been renamed to better match the spec.")
+	func didOpenTextDocument(params: DidOpenTextDocumentParams) async throws {
+		try await textDocumentDidOpen(params: params)
+	}
+
     func textDocumentDidChange(params: DidChangeTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidChange(params))
     }
+
+	@available(*, deprecated, renamed: "textDocumentDidChange", message: "This method has been renamed to better match the spec.")
+	func didChangeTextDocument(params: DidChangeTextDocumentParams) async throws {
+		try await textDocumentDidChange(params: params)
+	}
 
     func textDocumentDidClose(params: DidCloseTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidClose(params))
     }
 
+	@available(*, deprecated, renamed: "didCloseTextDocument", message: "This method has been renamed to better match the spec.")
+	func didCloseTextDocument(params: DidCloseTextDocumentParams) async throws {
+		try await textDocumentDidClose(params: params)
+	}
+
     func textDocumentWillSave(params: WillSaveTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentWillSave(params))
     }
+
+	@available(*, deprecated, renamed: "textDocumentWillSave", message: "This method has been renamed to better match the spec.")
+	func willSaveTextDocument(params: WillSaveTextDocumentParams) async throws {
+		try await textDocumentWillSave(params: params)
+	}
 
 	func textDocumentWillSaveWaitUntil(params: WillSaveTextDocumentParams) async throws -> WillSaveWaitUntilResponse {
 		try await sendRequest(.textDocumentWillSaveWaitUntil(params, ClientRequest.NullHandler))
@@ -71,6 +91,11 @@ public extension ServerConnection {
     func workspaceDidChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
         try await sendNotification(.workspaceDidChangeWatchedFiles(params))
     }
+
+	@available(*, deprecated, renamed: "workspaceDidChangeWatchedFiles", message: "This method has been renamed to better match the spec.")
+	func didChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
+		try await workspaceDidChangeWatchedFiles(params: params)
+	}
 
 	func callHierarchyIncomingCalls(params: CallHierarchyIncomingCallsParams) async throws -> CallHierarchyIncomingCallsResponse {
 		try await sendRequest(.callHierarchyIncomingCalls(params, ClientRequest.NullHandler))
