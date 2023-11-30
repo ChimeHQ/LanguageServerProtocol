@@ -2,59 +2,59 @@ import Foundation
 import JSONRPC
 import LanguageServerProtocol
 
-
 public protocol RequestHandler : ErrorHandler {
 	typealias Handler = ClientRequest.Handler
+	typealias Response<T> = Result<T, AnyJSONRPCResponseError>
 
 	func handleRequest(id: JSONId, request: ClientRequest) async
 
-	func initialize(id: JSONId, params: InitializeParams) async -> Result<InitializationResponse, AnyJSONRPCResponseError>
+	func initialize(id: JSONId, params: InitializeParams) async -> Response<InitializationResponse>
 	func shutdown(id: JSONId) async
 	func workspaceInlayHintRefresh(id: JSONId) async
-	func workspaceExecuteCommand(id: JSONId, params: ExecuteCommandParams) async -> Result<LSPAny?, AnyJSONRPCResponseError>
-	func workspaceWillCreateFiles(id: JSONId, params: CreateFilesParams) async -> Result<WorkspaceEdit?, AnyJSONRPCResponseError>
-	func workspaceWillRenameFiles(id: JSONId, params: RenameFilesParams) async -> Result<WorkspaceEdit?, AnyJSONRPCResponseError>
-	func workspaceWillDeleteFiles(id: JSONId, params: DeleteFilesParams) async -> Result<WorkspaceEdit?, AnyJSONRPCResponseError>
-	func workspaceSymbol(id: JSONId, params: WorkspaceSymbolParams) async -> Result<WorkspaceSymbolResponse, AnyJSONRPCResponseError>
-	func workspaceSymbolResolve(id: JSONId, params: WorkspaceSymbol) async -> Result<WorkspaceSymbol, AnyJSONRPCResponseError>
-	func textDocumentWillSaveWaitUntil(id: JSONId, params: WillSaveTextDocumentParams) async -> Result<[TextEdit]?, AnyJSONRPCResponseError>
-	func completion(id: JSONId, params: CompletionParams) async -> Result<CompletionResponse, AnyJSONRPCResponseError>
-	func completionItemResolve(id: JSONId, params: CompletionItem) async -> Result<CompletionItem, AnyJSONRPCResponseError>
-	func hover(id: JSONId, params: TextDocumentPositionParams) async -> Result<HoverResponse, AnyJSONRPCResponseError>
-	func signatureHelp(id: JSONId, params: TextDocumentPositionParams) async -> Result<SignatureHelpResponse, AnyJSONRPCResponseError>
-	func declaration(id: JSONId, params: TextDocumentPositionParams) async -> Result<DeclarationResponse, AnyJSONRPCResponseError>
-	func definition(id: JSONId, params: TextDocumentPositionParams) async -> Result<DefinitionResponse, AnyJSONRPCResponseError>
-	func typeDefinition(id: JSONId, params: TextDocumentPositionParams) async -> Result<TypeDefinitionResponse, AnyJSONRPCResponseError>
-	func implementation(id: JSONId, params: TextDocumentPositionParams) async -> Result<ImplementationResponse, AnyJSONRPCResponseError>
-	func diagnostics(id: JSONId, params: DocumentDiagnosticParams) async -> Result<DocumentDiagnosticReport, AnyJSONRPCResponseError>
-	func documentHighlight(id: JSONId, params: DocumentHighlightParams) async -> Result<DocumentHighlightResponse, AnyJSONRPCResponseError>
-	func documentSymbol(id: JSONId, params: DocumentSymbolParams) async -> Result<DocumentSymbolResponse, AnyJSONRPCResponseError>
-	func codeAction(id: JSONId, params: CodeActionParams) async -> Result<CodeActionResponse, AnyJSONRPCResponseError>
-	func codeActionResolve(id: JSONId, params: CodeAction) async -> Result<CodeAction, AnyJSONRPCResponseError>
-	func codeLens(id: JSONId, params: CodeLensParams) async -> Result<CodeLensResponse, AnyJSONRPCResponseError>
-	func codeLensResolve(id: JSONId, params: CodeLens) async -> Result<CodeLens, AnyJSONRPCResponseError>
-	func selectionRange(id: JSONId, params: SelectionRangeParams) async -> Result<SelectionRangeResponse, AnyJSONRPCResponseError>
-	func linkedEditingRange(id: JSONId, params: LinkedEditingRangeParams) async -> Result<LinkedEditingRangeResponse, AnyJSONRPCResponseError>
-	func prepareCallHierarchy(id: JSONId, params: CallHierarchyPrepareParams) async -> Result<CallHierarchyPrepareResponse, AnyJSONRPCResponseError>
-	func prepareRename(id: JSONId, params: PrepareRenameParams) async -> Result<PrepareRenameResponse, AnyJSONRPCResponseError>
-	func prepareTypeHeirarchy(id: JSONId, params: TypeHierarchyPrepareParams) async -> Result<PrepareTypeHeirarchyResponse, AnyJSONRPCResponseError>
-	func rename(id: JSONId, params: RenameParams) async -> Result<RenameResponse, AnyJSONRPCResponseError>
-	func documentLink(id: JSONId, params: DocumentLinkParams) async -> Result<DocumentLinkResponse, AnyJSONRPCResponseError>
-	func documentLinkResolve(id: JSONId, params: DocumentLink) async -> Result<DocumentLink, AnyJSONRPCResponseError>
-	func documentColor(id: JSONId, params: DocumentColorParams) async -> Result<DocumentColorResponse, AnyJSONRPCResponseError>
-	func colorPresentation(id: JSONId, params: ColorPresentationParams) async -> Result<ColorPresentationResponse, AnyJSONRPCResponseError>
-	func formatting(id: JSONId, params: DocumentFormattingParams) async -> Result<FormattingResult, AnyJSONRPCResponseError>
-	func rangeFormatting(id: JSONId, params: DocumentRangeFormattingParams) async -> Result<FormattingResult, AnyJSONRPCResponseError>
-	func onTypeFormatting(id: JSONId, params: DocumentOnTypeFormattingParams) async -> Result<FormattingResult, AnyJSONRPCResponseError>
-	func references(id: JSONId, params: ReferenceParams) async -> Result<ReferenceResponse, AnyJSONRPCResponseError>
-	func foldingRange(id: JSONId, params: FoldingRangeParams) async -> Result<FoldingRangeResponse, AnyJSONRPCResponseError>
-	func moniker(id: JSONId, params: MonikerParams) async -> Result<MonikerResponse, AnyJSONRPCResponseError>
-	func semanticTokensFull(id: JSONId, params: SemanticTokensParams) async -> Result<SemanticTokensResponse, AnyJSONRPCResponseError>
-	func semanticTokensFullDelta(id: JSONId, params: SemanticTokensDeltaParams) async -> Result<SemanticTokensDeltaResponse, AnyJSONRPCResponseError>
-	func semanticTokensRange(id: JSONId, params: SemanticTokensRangeParams) async -> Result<SemanticTokensResponse, AnyJSONRPCResponseError>
-	func callHierarchyIncomingCalls(id: JSONId, params: CallHierarchyIncomingCallsParams) async -> Result<CallHierarchyIncomingCallsResponse, AnyJSONRPCResponseError>
-	func callHierarchyOutgoingCalls(id: JSONId, params: CallHierarchyOutgoingCallsParams) async -> Result<CallHierarchyOutgoingCallsResponse, AnyJSONRPCResponseError>
-	func custom(id: JSONId, method: String, params: LSPAny) async -> Result<LSPAny, AnyJSONRPCResponseError>
+	func workspaceExecuteCommand(id: JSONId, params: ExecuteCommandParams) async -> Response<LSPAny?>
+	func workspaceWillCreateFiles(id: JSONId, params: CreateFilesParams) async -> Response<WorkspaceEdit?>
+	func workspaceWillRenameFiles(id: JSONId, params: RenameFilesParams) async -> Response<WorkspaceEdit?>
+	func workspaceWillDeleteFiles(id: JSONId, params: DeleteFilesParams) async -> Response<WorkspaceEdit?>
+	func workspaceSymbol(id: JSONId, params: WorkspaceSymbolParams) async -> Response<WorkspaceSymbolResponse>
+	func workspaceSymbolResolve(id: JSONId, params: WorkspaceSymbol) async -> Response<WorkspaceSymbol>
+	func textDocumentWillSaveWaitUntil(id: JSONId, params: WillSaveTextDocumentParams) async -> Response<[TextEdit]?>
+	func completion(id: JSONId, params: CompletionParams) async -> Response<CompletionResponse>
+	func completionItemResolve(id: JSONId, params: CompletionItem) async -> Response<CompletionItem>
+	func hover(id: JSONId, params: TextDocumentPositionParams) async -> Response<HoverResponse>
+	func signatureHelp(id: JSONId, params: TextDocumentPositionParams) async -> Response<SignatureHelpResponse>
+	func declaration(id: JSONId, params: TextDocumentPositionParams) async -> Response<DeclarationResponse>
+	func definition(id: JSONId, params: TextDocumentPositionParams) async -> Response<DefinitionResponse>
+	func typeDefinition(id: JSONId, params: TextDocumentPositionParams) async -> Response<TypeDefinitionResponse>
+	func implementation(id: JSONId, params: TextDocumentPositionParams) async -> Response<ImplementationResponse>
+	func diagnostics(id: JSONId, params: DocumentDiagnosticParams) async -> Response<DocumentDiagnosticReport>
+	func documentHighlight(id: JSONId, params: DocumentHighlightParams) async -> Response<DocumentHighlightResponse>
+	func documentSymbol(id: JSONId, params: DocumentSymbolParams) async -> Response<DocumentSymbolResponse>
+	func codeAction(id: JSONId, params: CodeActionParams) async -> Response<CodeActionResponse>
+	func codeActionResolve(id: JSONId, params: CodeAction) async -> Response<CodeAction>
+	func codeLens(id: JSONId, params: CodeLensParams) async -> Response<CodeLensResponse>
+	func codeLensResolve(id: JSONId, params: CodeLens) async -> Response<CodeLens>
+	func selectionRange(id: JSONId, params: SelectionRangeParams) async -> Response<SelectionRangeResponse>
+	func linkedEditingRange(id: JSONId, params: LinkedEditingRangeParams) async -> Response<LinkedEditingRangeResponse>
+	func prepareCallHierarchy(id: JSONId, params: CallHierarchyPrepareParams) async -> Response<CallHierarchyPrepareResponse>
+	func prepareRename(id: JSONId, params: PrepareRenameParams) async -> Response<PrepareRenameResponse>
+	func prepareTypeHeirarchy(id: JSONId, params: TypeHierarchyPrepareParams) async -> Response<PrepareTypeHeirarchyResponse>
+	func rename(id: JSONId, params: RenameParams) async -> Response<RenameResponse>
+	func documentLink(id: JSONId, params: DocumentLinkParams) async -> Response<DocumentLinkResponse>
+	func documentLinkResolve(id: JSONId, params: DocumentLink) async -> Response<DocumentLink>
+	func documentColor(id: JSONId, params: DocumentColorParams) async -> Response<DocumentColorResponse>
+	func colorPresentation(id: JSONId, params: ColorPresentationParams) async -> Response<ColorPresentationResponse>
+	func formatting(id: JSONId, params: DocumentFormattingParams) async -> Response<FormattingResult>
+	func rangeFormatting(id: JSONId, params: DocumentRangeFormattingParams) async -> Response<FormattingResult>
+	func onTypeFormatting(id: JSONId, params: DocumentOnTypeFormattingParams) async -> Response<FormattingResult>
+	func references(id: JSONId, params: ReferenceParams) async -> Response<ReferenceResponse>
+	func foldingRange(id: JSONId, params: FoldingRangeParams) async -> Response<FoldingRangeResponse>
+	func moniker(id: JSONId, params: MonikerParams) async -> Response<MonikerResponse>
+	func semanticTokensFull(id: JSONId, params: SemanticTokensParams) async -> Response<SemanticTokensResponse>
+	func semanticTokensFullDelta(id: JSONId, params: SemanticTokensDeltaParams) async -> Response<SemanticTokensDeltaResponse>
+	func semanticTokensRange(id: JSONId, params: SemanticTokensRangeParams) async -> Response<SemanticTokensResponse>
+	func callHierarchyIncomingCalls(id: JSONId, params: CallHierarchyIncomingCallsParams) async -> Response<CallHierarchyIncomingCallsResponse>
+	func callHierarchyOutgoingCalls(id: JSONId, params: CallHierarchyOutgoingCallsParams) async -> Response<CallHierarchyOutgoingCallsResponse>
+	func custom(id: JSONId, method: String, params: LSPAny) async -> Response<LSPAny>
 }
 
 
@@ -177,53 +177,53 @@ let NotImplementedError = AnyJSONRPCResponseError(code: ErrorCodes.InternalError
 /// We do this since the handler only need to support a subset, based on dynamically registered capabilities
 public extension RequestHandler {
 
-	func initialize(id: JSONId, params: InitializeParams) async -> Result<InitializationResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
+	func initialize(id: JSONId, params: InitializeParams) async -> Response<InitializationResponse> { .failure(NotImplementedError) }
 	func shutdown(id: JSONId) async { }
 	func workspaceInlayHintRefresh(id: JSONId) async { }
-	func workspaceExecuteCommand(id: JSONId, params: ExecuteCommandParams) async -> Result<LSPAny?, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func workspaceWillCreateFiles(id: JSONId, params: CreateFilesParams) async -> Result<WorkspaceEdit?, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func workspaceWillRenameFiles(id: JSONId, params: RenameFilesParams) async -> Result<WorkspaceEdit?, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func workspaceWillDeleteFiles(id: JSONId, params: DeleteFilesParams) async -> Result<WorkspaceEdit?, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func workspaceSymbol(id: JSONId, params: WorkspaceSymbolParams) async -> Result<WorkspaceSymbolResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func workspaceSymbolResolve(id: JSONId, params: WorkspaceSymbol) async -> Result<WorkspaceSymbol, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func textDocumentWillSaveWaitUntil(id: JSONId, params: WillSaveTextDocumentParams) async -> Result<[TextEdit]?, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func completion(id: JSONId, params: CompletionParams) async -> Result<CompletionResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func completionItemResolve(id: JSONId, params: CompletionItem) async -> Result<CompletionItem, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func hover(id: JSONId, params: TextDocumentPositionParams) async -> Result<HoverResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func signatureHelp(id: JSONId, params: TextDocumentPositionParams) async -> Result<SignatureHelpResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func declaration(id: JSONId, params: TextDocumentPositionParams) async -> Result<DeclarationResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func definition(id: JSONId, params: TextDocumentPositionParams) async -> Result<DefinitionResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func typeDefinition(id: JSONId, params: TextDocumentPositionParams) async -> Result<TypeDefinitionResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func implementation(id: JSONId, params: TextDocumentPositionParams) async -> Result<ImplementationResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func diagnostics(id: JSONId, params: DocumentDiagnosticParams) async -> Result<DocumentDiagnosticReport, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func documentHighlight(id: JSONId, params: DocumentHighlightParams) async -> Result<DocumentHighlightResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func documentSymbol(id: JSONId, params: DocumentSymbolParams) async -> Result<DocumentSymbolResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func codeAction(id: JSONId, params: CodeActionParams) async -> Result<CodeActionResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func codeActionResolve(id: JSONId, params: CodeAction) async -> Result<CodeAction, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func codeLens(id: JSONId, params: CodeLensParams) async -> Result<CodeLensResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func codeLensResolve(id: JSONId, params: CodeLens) async -> Result<CodeLens, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func selectionRange(id: JSONId, params: SelectionRangeParams) async -> Result<SelectionRangeResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func linkedEditingRange(id: JSONId, params: LinkedEditingRangeParams) async -> Result<LinkedEditingRangeResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func prepareCallHierarchy(id: JSONId, params: CallHierarchyPrepareParams) async -> Result<CallHierarchyPrepareResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func prepareRename(id: JSONId, params: PrepareRenameParams) async -> Result<PrepareRenameResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func prepareTypeHeirarchy(id: JSONId, params: TypeHierarchyPrepareParams) async -> Result<PrepareTypeHeirarchyResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func rename(id: JSONId, params: RenameParams) async -> Result<RenameResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func inlayHint(id: JSONId, params: InlayHintParams) async -> Result<InlayHintResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func inlayHintResolve(id: JSONId, params: InlayHint) async -> Result<InlayHintResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func documentLink(id: JSONId, params: DocumentLinkParams) async -> Result<DocumentLinkResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func documentLinkResolve(id: JSONId, params: DocumentLink) async -> Result<DocumentLink, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func documentColor(id: JSONId, params: DocumentColorParams) async -> Result<DocumentColorResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func colorPresentation(id: JSONId, params: ColorPresentationParams) async -> Result<ColorPresentationResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func formatting(id: JSONId, params: DocumentFormattingParams) async -> Result<FormattingResult, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func rangeFormatting(id: JSONId, params: DocumentRangeFormattingParams) async -> Result<FormattingResult, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func onTypeFormatting(id: JSONId, params: DocumentOnTypeFormattingParams) async -> Result<FormattingResult, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func references(id: JSONId, params: ReferenceParams) async -> Result<ReferenceResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func foldingRange(id: JSONId, params: FoldingRangeParams) async -> Result<FoldingRangeResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func moniker(id: JSONId, params: MonikerParams) async -> Result<MonikerResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func semanticTokensFull(id: JSONId, params: SemanticTokensParams) async -> Result<SemanticTokensResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func semanticTokensFullDelta(id: JSONId, params: SemanticTokensDeltaParams) async -> Result<SemanticTokensDeltaResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func semanticTokensRange(id: JSONId, params: SemanticTokensRangeParams) async -> Result<SemanticTokensResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func callHierarchyIncomingCalls(id: JSONId, params: CallHierarchyIncomingCallsParams) async -> Result<CallHierarchyIncomingCallsResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func callHierarchyOutgoingCalls(id: JSONId, params: CallHierarchyOutgoingCallsParams) async -> Result<CallHierarchyOutgoingCallsResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
-	func custom(id: JSONId, method: String, params: LSPAny) async -> Result<LSPAny, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
+	func workspaceExecuteCommand(id: JSONId, params: ExecuteCommandParams) async -> Response<LSPAny?> { .failure(NotImplementedError) }
+	func workspaceWillCreateFiles(id: JSONId, params: CreateFilesParams) async -> Response<WorkspaceEdit?> { .failure(NotImplementedError) }
+	func workspaceWillRenameFiles(id: JSONId, params: RenameFilesParams) async -> Response<WorkspaceEdit?> { .failure(NotImplementedError) }
+	func workspaceWillDeleteFiles(id: JSONId, params: DeleteFilesParams) async -> Response<WorkspaceEdit?> { .failure(NotImplementedError) }
+	func workspaceSymbol(id: JSONId, params: WorkspaceSymbolParams) async -> Response<WorkspaceSymbolResponse> { .failure(NotImplementedError) }
+	func workspaceSymbolResolve(id: JSONId, params: WorkspaceSymbol) async -> Response<WorkspaceSymbol> { .failure(NotImplementedError) }
+	func textDocumentWillSaveWaitUntil(id: JSONId, params: WillSaveTextDocumentParams) async -> Response<[TextEdit]?> { .failure(NotImplementedError) }
+	func completion(id: JSONId, params: CompletionParams) async -> Response<CompletionResponse> { .failure(NotImplementedError) }
+	func completionItemResolve(id: JSONId, params: CompletionItem) async -> Response<CompletionItem> { .failure(NotImplementedError) }
+	func hover(id: JSONId, params: TextDocumentPositionParams) async -> Response<HoverResponse> { .failure(NotImplementedError) }
+	func signatureHelp(id: JSONId, params: TextDocumentPositionParams) async -> Response<SignatureHelpResponse> { .failure(NotImplementedError) }
+	func declaration(id: JSONId, params: TextDocumentPositionParams) async -> Response<DeclarationResponse> { .failure(NotImplementedError) }
+	func definition(id: JSONId, params: TextDocumentPositionParams) async -> Response<DefinitionResponse> { .failure(NotImplementedError) }
+	func typeDefinition(id: JSONId, params: TextDocumentPositionParams) async -> Response<TypeDefinitionResponse> { .failure(NotImplementedError) }
+	func implementation(id: JSONId, params: TextDocumentPositionParams) async -> Response<ImplementationResponse> { .failure(NotImplementedError) }
+	func diagnostics(id: JSONId, params: DocumentDiagnosticParams) async -> Response<DocumentDiagnosticReport> { .failure(NotImplementedError) }
+	func documentHighlight(id: JSONId, params: DocumentHighlightParams) async -> Response<DocumentHighlightResponse> { .failure(NotImplementedError) }
+	func documentSymbol(id: JSONId, params: DocumentSymbolParams) async -> Response<DocumentSymbolResponse> { .failure(NotImplementedError) }
+	func codeAction(id: JSONId, params: CodeActionParams) async -> Response<CodeActionResponse> { .failure(NotImplementedError) }
+	func codeActionResolve(id: JSONId, params: CodeAction) async -> Response<CodeAction> { .failure(NotImplementedError) }
+	func codeLens(id: JSONId, params: CodeLensParams) async -> Response<CodeLensResponse> { .failure(NotImplementedError) }
+	func codeLensResolve(id: JSONId, params: CodeLens) async -> Response<CodeLens> { .failure(NotImplementedError) }
+	func selectionRange(id: JSONId, params: SelectionRangeParams) async -> Response<SelectionRangeResponse> { .failure(NotImplementedError) }
+	func linkedEditingRange(id: JSONId, params: LinkedEditingRangeParams) async -> Response<LinkedEditingRangeResponse> { .failure(NotImplementedError) }
+	func prepareCallHierarchy(id: JSONId, params: CallHierarchyPrepareParams) async -> Response<CallHierarchyPrepareResponse> { .failure(NotImplementedError) }
+	func prepareRename(id: JSONId, params: PrepareRenameParams) async -> Response<PrepareRenameResponse> { .failure(NotImplementedError) }
+	func prepareTypeHeirarchy(id: JSONId, params: TypeHierarchyPrepareParams) async -> Response<PrepareTypeHeirarchyResponse> { .failure(NotImplementedError) }
+	func rename(id: JSONId, params: RenameParams) async -> Response<RenameResponse> { .failure(NotImplementedError) }
+	func inlayHint(id: JSONId, params: InlayHintParams) async -> Response<InlayHintResponse> { .failure(NotImplementedError) }
+	func inlayHintResolve(id: JSONId, params: InlayHint) async -> Response<InlayHintResponse> { .failure(NotImplementedError) }
+	func documentLink(id: JSONId, params: DocumentLinkParams) async -> Response<DocumentLinkResponse> { .failure(NotImplementedError) }
+	func documentLinkResolve(id: JSONId, params: DocumentLink) async -> Response<DocumentLink> { .failure(NotImplementedError) }
+	func documentColor(id: JSONId, params: DocumentColorParams) async -> Response<DocumentColorResponse> { .failure(NotImplementedError) }
+	func colorPresentation(id: JSONId, params: ColorPresentationParams) async -> Response<ColorPresentationResponse> { .failure(NotImplementedError) }
+	func formatting(id: JSONId, params: DocumentFormattingParams) async -> Response<FormattingResult> { .failure(NotImplementedError) }
+	func rangeFormatting(id: JSONId, params: DocumentRangeFormattingParams) async -> Response<FormattingResult> { .failure(NotImplementedError) }
+	func onTypeFormatting(id: JSONId, params: DocumentOnTypeFormattingParams) async -> Response<FormattingResult> { .failure(NotImplementedError) }
+	func references(id: JSONId, params: ReferenceParams) async -> Response<ReferenceResponse> { .failure(NotImplementedError) }
+	func foldingRange(id: JSONId, params: FoldingRangeParams) async -> Response<FoldingRangeResponse> { .failure(NotImplementedError) }
+	func moniker(id: JSONId, params: MonikerParams) async -> Response<MonikerResponse> { .failure(NotImplementedError) }
+	func semanticTokensFull(id: JSONId, params: SemanticTokensParams) async -> Response<SemanticTokensResponse> { .failure(NotImplementedError) }
+	func semanticTokensFullDelta(id: JSONId, params: SemanticTokensDeltaParams) async -> Response<SemanticTokensDeltaResponse> { .failure(NotImplementedError) }
+	func semanticTokensRange(id: JSONId, params: SemanticTokensRangeParams) async -> Response<SemanticTokensResponse> { .failure(NotImplementedError) }
+	func callHierarchyIncomingCalls(id: JSONId, params: CallHierarchyIncomingCallsParams) async -> Response<CallHierarchyIncomingCallsResponse> { .failure(NotImplementedError) }
+	func callHierarchyOutgoingCalls(id: JSONId, params: CallHierarchyOutgoingCallsParams) async -> Response<CallHierarchyOutgoingCallsResponse> { .failure(NotImplementedError) }
+	func custom(id: JSONId, method: String, params: LSPAny) async -> Response<LSPAny> { .failure(NotImplementedError) }
 }
