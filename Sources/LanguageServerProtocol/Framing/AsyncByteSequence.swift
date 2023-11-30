@@ -1,7 +1,7 @@
 import Foundation
 
 /// Converts a sequence of Data objects into a sequence of bytes.
-public struct AsyncByteSequence<Base> : AsyncSequence where Base : AsyncSequence, Base.Element == Data {
+struct AsyncByteSequence<Base> : AsyncSequence where Base : AsyncSequence, Base.Element == Data {
 	public typealias Element = UInt8
 
 	public struct AsyncIterator : AsyncIteratorProtocol {

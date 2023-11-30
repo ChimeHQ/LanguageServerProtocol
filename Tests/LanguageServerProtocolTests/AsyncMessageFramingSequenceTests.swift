@@ -1,7 +1,7 @@
 import XCTest
-import LanguageServerProtocol
+@testable import LanguageServerProtocol
 
-struct AsyncByteSequence : AsyncSequence {
+struct AsyncDataSequence : AsyncSequence {
 	typealias Element = UInt8
 
 	struct AsyncIterator : AsyncIteratorProtocol {
@@ -44,7 +44,7 @@ final class AsyncMessageFramingSequenceTests: XCTestCase {
 	func testBasicMessageDecode() async throws {
 		let content = "{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"
 		let message = "Content-Length: \(content.utf8.count)\r\n\r\n\(content)"
-		let sequence = AsyncByteSequence(data: Data(message.utf8))
+		let sequence = AsyncDataSequence(data: Data(message.utf8))
 
 		let contentSequence = AsyncMessageFramingSequence(base: sequence)
 		var iterator = contentSequence.makeAsyncIterator()
@@ -64,7 +64,7 @@ final class AsyncMessageFramingSequenceTests: XCTestCase {
 		let header2 = "Another-Header: Something\r\n"
 		let header3 = "And-Another: third\r\n"
 		let message = header1 + header2 + header3 + "\r\n" + content
-		let sequence = AsyncByteSequence(data: Data(message.utf8))
+		let sequence = AsyncDataSequence(data: Data(message.utf8))
 
 		let contentSequence = AsyncMessageFramingSequence(base: sequence)
 		var iterator = contentSequence.makeAsyncIterator()

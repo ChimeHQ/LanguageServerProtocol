@@ -7,7 +7,7 @@ enum MessageFramingError: Error {
 	case contentLengthMissing
 }
 
-public struct MessageFraming {
+struct MessageFraming {
 	public static func frame(_ data: Data) -> Data {
 		let length = data.count
 
@@ -23,9 +23,5 @@ public struct MessageFraming {
 		let value = components[1].trimmingCharacters(in: .whitespaces)
 
 		return (name, value)
-	}
-
-	public static func dataChannel(stdin: FileHandle, stdout: FileHandle, stderr: FileHandle, object: AnyObject?) -> DataChannel {
-		DataChannel(writeHandler: { _ in }, dataSequence: AsyncStream<Data>(unfolding: { nil }))
 	}
 }

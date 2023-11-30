@@ -1,7 +1,7 @@
 import Foundation
 
 /// Sequence that reads data framed by the LSP base protocol specification.
-public struct AsyncMessageFramingSequence<Base> : AsyncSequence where Base : AsyncSequence, Base.Element == UInt8 {
+struct AsyncMessageFramingSequence<Base> : AsyncSequence where Base : AsyncSequence, Base.Element == UInt8 {
 	public typealias Element = Data
 
 	public struct AsyncIterator : AsyncIteratorProtocol {
