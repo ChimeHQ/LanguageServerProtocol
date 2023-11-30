@@ -11,8 +11,6 @@
 
 This is a Swift library for interacting with [Language Server Protocol](https://microsoft.github.io/language-server-protocol/). It contains type definitions and utilities useful for both server- and client-side projects.
 
-This project was derived from [SwiftLSPClient](https://github.com/ChimeHQ/SwiftLSPClient). That library mixes both the underlying protocol handling with a client-level abstraction. It is no longer officially supported.
-
 If you are looking for a way to interact with servers, you probably want to use the higher-level [LanguageClient](https://github.com/ChimeHQ/LanguageClient).
 
 ## Typing Approach
@@ -23,15 +21,14 @@ This library models these cases using nested structures and/or the `TwoTypeOptio
 
 ## Integration
 
-This library comes with 3 distinct parts:
+This library comes with 2 distinct parts:
 
 - `LanguageServerProtocol`: Core types and behaviors.
-- `LSPClient` client functionality (for talking to servers)
 - `LSPServer` server functionality (for implementing servers)
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/ChimeHQ/LanguageServerProtocol")
+    .package(url: "https://github.com/ChimeHQ/LanguageServerProtocol", from: "0.11.0")
 ]
 ```
 
