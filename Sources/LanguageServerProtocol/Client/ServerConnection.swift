@@ -1,5 +1,4 @@
 import Foundation
-import LanguageServerProtocol
 
 /// Handles the communication between an LSP client and server.
 ///

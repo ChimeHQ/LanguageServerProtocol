@@ -1,5 +1,4 @@
 import Foundation
-import LanguageServerProtocol
 
 extension AsyncSequence {
 	func collect() async rethrows -> [Element] {

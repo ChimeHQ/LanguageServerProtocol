@@ -1,7 +1,5 @@
 import Foundation
 import JSONRPC
-import LanguageServerProtocol
-
 
 public actor JSONRPCServerConnection: ServerConnection {
 	public let eventSequence: EventSequence
