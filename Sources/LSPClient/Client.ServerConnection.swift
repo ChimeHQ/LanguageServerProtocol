@@ -145,6 +145,10 @@ public extension ServerConnection {
         try await sendRequest(.prepareRename(params, ClientRequest.NullHandler))
     }
 
+	func prepareTypeHeirarchy(params: TypeHierarchyPrepareParams) async throws -> PrepareTypeHeirarchyResponse {
+		try await sendRequest(.prepareTypeHierarchy(params, ClientRequest.NullHandler))
+	}
+
     func rename(params: RenameParams) async throws -> RenameResponse {
         try await sendRequest(.rename(params, ClientRequest.NullHandler))
     }

@@ -37,6 +37,7 @@ public protocol RequestHandler : ErrorHandler {
 	func linkedEditingRange(id: JSONId, params: LinkedEditingRangeParams) async -> Result<LinkedEditingRangeResponse, AnyJSONRPCResponseError>
 	func prepareCallHierarchy(id: JSONId, params: CallHierarchyPrepareParams) async -> Result<CallHierarchyPrepareResponse, AnyJSONRPCResponseError>
 	func prepareRename(id: JSONId, params: PrepareRenameParams) async -> Result<PrepareRenameResponse, AnyJSONRPCResponseError>
+	func prepareTypeHeirarchy(id: JSONId, params: TypeHierarchyPrepareParams) async -> Result<PrepareTypeHeirarchyResponse, AnyJSONRPCResponseError>
 	func rename(id: JSONId, params: RenameParams) async -> Result<RenameResponse, AnyJSONRPCResponseError>
 	func documentLink(id: JSONId, params: DocumentLinkParams) async -> Result<DocumentLinkResponse, AnyJSONRPCResponseError>
 	func documentLinkResolve(id: JSONId, params: DocumentLink) async -> Result<DocumentLink, AnyJSONRPCResponseError>
@@ -125,6 +126,8 @@ public extension RequestHandler {
 			await handler(await prepareCallHierarchy(id: id, params: params))
 		case let .prepareRename(params, handler):
 			await handler(await prepareRename(id: id, params: params))
+		case let .prepareTypeHierarchy(params, handler):
+			await handler(await prepareTypeHeirarchy(id: id, params: params))
 		case let .rename(params, handler):
 			await handler(await rename(id: id, params: params))
 		case let .inlayHint(params, handler):
@@ -203,6 +206,7 @@ public extension RequestHandler {
 	func linkedEditingRange(id: JSONId, params: LinkedEditingRangeParams) async -> Result<LinkedEditingRangeResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func prepareCallHierarchy(id: JSONId, params: CallHierarchyPrepareParams) async -> Result<CallHierarchyPrepareResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func prepareRename(id: JSONId, params: PrepareRenameParams) async -> Result<PrepareRenameResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
+	func prepareTypeHeirarchy(id: JSONId, params: TypeHierarchyPrepareParams) async -> Result<PrepareTypeHeirarchyResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func rename(id: JSONId, params: RenameParams) async -> Result<RenameResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func inlayHint(id: JSONId, params: InlayHintParams) async -> Result<InlayHintResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }
 	func inlayHintResolve(id: JSONId, params: InlayHint) async -> Result<InlayHintResponse, AnyJSONRPCResponseError> { .failure(NotImplementedError) }

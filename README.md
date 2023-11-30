@@ -100,7 +100,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/onTypeFormatting | ✅ |
 | textDocument/prepareCallHierarchy | ✅ |
 | textDocument/prepareRename | ✅ |
-| textDocument/prepareTypeHierarchy | - |
+| textDocument/prepareTypeHierarchy | ✅ |
 | textDocument/publishDiagnostics | ✅ |
 | textDocument/rangeFormatting | ✅ |
 | textDocument/references | ✅  |

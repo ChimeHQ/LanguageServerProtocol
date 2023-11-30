@@ -140,6 +140,7 @@ public enum ClientRequest: Sendable {
         case textDocumentSignatureHelp = "textDocument/signatureHelp"
         case textDocumentDeclaration = "textDocument/declaration"
         case textDocumentDefinition = "textDocument/definition"
+		case textDocumentPrepareTypeHierarchy = "textDocument/prepareTypeHierarchy"
         case textDocumentTypeDefinition = "textDocument/typeDefinition"
         case textDocumentImplementation = "textDocument/implementation"
         case textDocumentReferences = "textDocument/references"
@@ -204,6 +205,7 @@ public enum ClientRequest: Sendable {
 	case linkedEditingRange(LinkedEditingRangeParams, Handler<LinkedEditingRangeResponse>)
 	case prepareCallHierarchy(CallHierarchyPrepareParams, Handler<CallHierarchyPrepareResponse>)
 	case prepareRename(PrepareRenameParams, Handler<PrepareRenameResponse>)
+	case prepareTypeHierarchy(TypeHierarchyPrepareParams, Handler<PrepareTypeHeirarchyResponse>)
 	case rename(RenameParams, Handler<RenameResponse>)
 	case inlayHint(InlayHintParams, Handler<InlayHintResponse>)
 	case inlayHintResolve(InlayHint, Handler<InlayHintResponse>)
@@ -282,6 +284,8 @@ public enum ClientRequest: Sendable {
 			return .textDocumentPrepareCallHierarchy
         case .prepareRename:
             return .textDocumentPrepareRename
+		case .prepareTypeHierarchy:
+			return .textDocumentPrepareTypeHierarchy
         case .rename:
             return .textDocumentRename
 		case .inlayHint:

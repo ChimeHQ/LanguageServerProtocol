@@ -226,6 +226,8 @@ public actor JSONRPCClientConnection : ClientConnection {
 				yield(id: id, request: ClientRequest.prepareCallHierarchy(try decodeRequestParams(data), makeHandler(handler)))
 			case .textDocumentPrepareRename:
 				yield(id: id, request: ClientRequest.prepareRename(try decodeRequestParams(data), makeHandler(handler)))
+			case .textDocumentPrepareTypeHierarchy:
+				yield(id: id, request: ClientRequest.prepareTypeHierarchy(try decodeRequestParams(data), makeHandler(handler)))
 			case .textDocumentRename:
 				yield(id: id, request: ClientRequest.rename(try decodeRequestParams(data), makeHandler(handler)))
 			case .textDocumentInlayHint:

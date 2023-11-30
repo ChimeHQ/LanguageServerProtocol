@@ -145,6 +145,8 @@ public actor JSONRPCServerConnection: ServerConnection {
 			return try await session.response(to: method, params: params)
 		case .prepareRename(let params, _):
 			return try await session.response(to: method, params: params)
+		case .prepareTypeHierarchy(let params, _):
+			return try await session.response(to: method, params: params)
 		case .rename(let params, _):
 			return try await session.response(to: method, params: params)
 		case .inlayHint(let params, _):
