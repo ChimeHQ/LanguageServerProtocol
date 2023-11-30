@@ -23,7 +23,6 @@ public actor JSONRPCClientConnection : ClientConnection {
 		eventContinuation.finish()
 	}
 
-
 	private func startMonitoringSession() async {
 		let seq = await session.eventSequence
 
@@ -45,7 +44,6 @@ public actor JSONRPCClientConnection : ClientConnection {
 	public func stop() {
 		eventContinuation.finish()
 	}
-
 
 	private func decodeNotificationParams<Params>(_ type: Params.Type, from data: Data) throws -> Params where Params : Decodable {
 		let note = try JSONDecoder().decode(JSONRPCNotification<Params>.self, from: data)
@@ -74,60 +72,59 @@ public actor JSONRPCClientConnection : ClientConnection {
 			}
 
 			switch method {
-        case .initialized:
-          let params = try decodeNotificationParams(InitializedParams.self, from: data)
-          yield(.initialized(params))
-        case .exit:
-          yield(.exit)
-        case .textDocumentDidOpen:
-          let params = try decodeNotificationParams(DidOpenTextDocumentParams.self, from: data)
-          yield(.textDocumentDidOpen(params))
-        case .textDocumentDidChange:
-          let params = try decodeNotificationParams(DidChangeTextDocumentParams.self, from: data)
-          yield(.textDocumentDidChange(params))
-        case .textDocumentDidClose:
-          let params = try decodeNotificationParams(DidCloseTextDocumentParams.self, from: data)
-          yield(.textDocumentDidClose(params))
-        case .textDocumentWillSave:
-          let params = try decodeNotificationParams(WillSaveTextDocumentParams.self, from: data)
-          yield(.textDocumentWillSave(params))
-        case .textDocumentDidSave:
-          let params = try decodeNotificationParams(DidSaveTextDocumentParams.self, from: data)
-          yield(.textDocumentDidSave(params))
-        case .protocolCancelRequest:
-          let params = try decodeNotificationParams(CancelParams.self, from: data)
-          yield(.protocolCancelRequest(params))
-        case .protocolSetTrace:
-          let params = try decodeNotificationParams(SetTraceParams.self, from: data)
-          yield(.protocolSetTrace(params))
-        case .workspaceDidChangeWatchedFiles:
-          let params = try decodeNotificationParams(DidChangeWatchedFilesParams.self, from: data)
-          yield(.workspaceDidChangeWatchedFiles(params))
-        case .windowWorkDoneProgressCancel:
-          let params = try decodeNotificationParams(WorkDoneProgressCancelParams.self, from: data)
-          yield(.windowWorkDoneProgressCancel(params))
-        case .workspaceDidChangeWorkspaceFolders:
-          let params = try decodeNotificationParams(DidChangeWorkspaceFoldersParams.self, from: data)
-          yield(.workspaceDidChangeWorkspaceFolders(params))
-        case .workspaceDidChangeConfiguration:
-          let params = try decodeNotificationParams(DidChangeConfigurationParams.self, from: data)
-          yield(.workspaceDidChangeConfiguration(params))
-        case .workspaceDidCreateFiles:
-          let params = try decodeNotificationParams(CreateFilesParams.self, from: data)
-          yield(.workspaceDidCreateFiles(params))
-        case .workspaceDidRenameFiles:
-          let params = try decodeNotificationParams(RenameFilesParams.self, from: data)
-          yield(.workspaceDidRenameFiles(params))
-        case .workspaceDidDeleteFiles:
-          let params = try decodeNotificationParams(DeleteFilesParams.self, from: data)
-          yield(.workspaceDidDeleteFiles(params))
+			case .initialized:
+				let params = try decodeNotificationParams(InitializedParams.self, from: data)
+				yield(.initialized(params))
+			case .exit:
+				yield(.exit)
+			case .textDocumentDidOpen:
+				let params = try decodeNotificationParams(DidOpenTextDocumentParams.self, from: data)
+				yield(.textDocumentDidOpen(params))
+			case .textDocumentDidChange:
+				let params = try decodeNotificationParams(DidChangeTextDocumentParams.self, from: data)
+				yield(.textDocumentDidChange(params))
+			case .textDocumentDidClose:
+				let params = try decodeNotificationParams(DidCloseTextDocumentParams.self, from: data)
+				yield(.textDocumentDidClose(params))
+			case .textDocumentWillSave:
+				let params = try decodeNotificationParams(WillSaveTextDocumentParams.self, from: data)
+				yield(.textDocumentWillSave(params))
+			case .textDocumentDidSave:
+				let params = try decodeNotificationParams(DidSaveTextDocumentParams.self, from: data)
+				yield(.textDocumentDidSave(params))
+			case .protocolCancelRequest:
+				let params = try decodeNotificationParams(CancelParams.self, from: data)
+				yield(.protocolCancelRequest(params))
+			case .protocolSetTrace:
+				let params = try decodeNotificationParams(SetTraceParams.self, from: data)
+				yield(.protocolSetTrace(params))
+			case .workspaceDidChangeWatchedFiles:
+				let params = try decodeNotificationParams(DidChangeWatchedFilesParams.self, from: data)
+				yield(.workspaceDidChangeWatchedFiles(params))
+			case .windowWorkDoneProgressCancel:
+				let params = try decodeNotificationParams(WorkDoneProgressCancelParams.self, from: data)
+				yield(.windowWorkDoneProgressCancel(params))
+			case .workspaceDidChangeWorkspaceFolders:
+				let params = try decodeNotificationParams(DidChangeWorkspaceFoldersParams.self, from: data)
+				yield(.workspaceDidChangeWorkspaceFolders(params))
+			case .workspaceDidChangeConfiguration:
+				let params = try decodeNotificationParams(DidChangeConfigurationParams.self, from: data)
+				yield(.workspaceDidChangeConfiguration(params))
+			case .workspaceDidCreateFiles:
+				let params = try decodeNotificationParams(CreateFilesParams.self, from: data)
+				yield(.workspaceDidCreateFiles(params))
+			case .workspaceDidRenameFiles:
+				let params = try decodeNotificationParams(RenameFilesParams.self, from: data)
+				yield(.workspaceDidRenameFiles(params))
+			case .workspaceDidDeleteFiles:
+				let params = try decodeNotificationParams(DeleteFilesParams.self, from: data)
+				yield(.workspaceDidDeleteFiles(params))
 			}
 		} catch {
 			// should we backchannel this to the client somehow?
 			print("failed to relay notification: \(error)")
 		}
 	}
-
 
 	private func decodeRequestParams<Params>(_ data: Data) throws -> Params where Params : Decodable {
 		let req = try JSONDecoder().decode(JSONRPCRequest<Params>.self, from: data)
@@ -148,7 +145,6 @@ public actor JSONRPCClientConnection : ClientConnection {
 
 		return params
 	}
-
 
 	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCEvent.RequestHandler) -> ServerRequest.Handler<T> {
 		return {
@@ -280,51 +276,51 @@ public actor JSONRPCClientConnection : ClientConnection {
 	}
 
 	public func sendNotification(_ notif: ServerNotification) async throws {
-    let method = notif.method.rawValue
+		let method = notif.method.rawValue
 
 		switch notif {
-    case .windowLogMessage(let params):
-      try await session.sendNotification(params, method: method)
-    case .windowShowMessage(let params):
-      try await session.sendNotification(params, method: method)
-    case .textDocumentPublishDiagnostics(let params):
-      try await session.sendNotification(params, method: method)
-    case .telemetryEvent(let params):
-      try await session.sendNotification(params, method: method)
-    case .protocolCancelRequest(let params):
-      try await session.sendNotification(params, method: method)
-    case .protocolProgress(let params):
-      try await session.sendNotification(params, method: method)
-    case .protocolLogTrace(let params):
-      try await session.sendNotification(params, method: method)
-    }
-  }
+		case .windowLogMessage(let params):
+			try await session.sendNotification(params, method: method)
+		case .windowShowMessage(let params):
+			try await session.sendNotification(params, method: method)
+		case .textDocumentPublishDiagnostics(let params):
+			try await session.sendNotification(params, method: method)
+		case .telemetryEvent(let params):
+			try await session.sendNotification(params, method: method)
+		case .protocolCancelRequest(let params):
+			try await session.sendNotification(params, method: method)
+		case .protocolProgress(let params):
+			try await session.sendNotification(params, method: method)
+		case .protocolLogTrace(let params):
+			try await session.sendNotification(params, method: method)
+		}
+	}
 
 	public func sendRequest<Response>(_ request: ServerRequest) async throws -> Response where Response : Decodable & Sendable {
 		let method = request.method.rawValue
 
 		switch request {
 
-    case .workspaceConfiguration(let params, _):
-      return try await session.response(to: method, params: params)
-    case .workspaceFolders:
-      return try await session.response(to: method)
-    case .workspaceApplyEdit(let params, _):
-      return try await session.response(to: method, params: params)
-    case .clientRegisterCapability(let params, _):
-      return try await session.response(to: method, params: params)
-    case .clientUnregisterCapability(let params, _):
-      return try await session.response(to: method, params: params)
-    case .workspaceCodeLensRefresh:
-      return try await session.response(to: method)
-    case .workspaceSemanticTokenRefresh:
-      return try await session.response(to: method)
-    case .windowShowMessageRequest(let params, _):
-      return try await session.response(to: method, params: params)
-    case .windowShowDocument(let params, _):
-      return try await session.response(to: method, params: params)
-    case .windowWorkDoneProgressCreate(let params, _):
-      return try await session.response(to: method, params: params)
-    }
-  }
+		case .workspaceConfiguration(let params, _):
+			return try await session.response(to: method, params: params)
+		case .workspaceFolders:
+			return try await session.response(to: method)
+		case .workspaceApplyEdit(let params, _):
+			return try await session.response(to: method, params: params)
+		case .clientRegisterCapability(let params, _):
+			return try await session.response(to: method, params: params)
+		case .clientUnregisterCapability(let params, _):
+			return try await session.response(to: method, params: params)
+		case .workspaceCodeLensRefresh:
+			return try await session.response(to: method)
+		case .workspaceSemanticTokenRefresh:
+			return try await session.response(to: method)
+		case .windowShowMessageRequest(let params, _):
+			return try await session.response(to: method, params: params)
+		case .windowShowDocument(let params, _):
+			return try await session.response(to: method, params: params)
+		case .windowWorkDoneProgressCreate(let params, _):
+			return try await session.response(to: method, params: params)
+		}
+	}
 }

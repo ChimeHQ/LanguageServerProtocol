@@ -4,7 +4,7 @@ import LanguageServerProtocol
 
 
 public protocol RequestHandler : ErrorHandler {
-	typealias Handler = ClientRequest.Handler;
+	typealias Handler = ClientRequest.Handler
 
 	func handleRequest(id: JSONId, request: ClientRequest) async
 
