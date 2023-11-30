@@ -11,7 +11,8 @@
 
 This is a Swift library for interacting with [Language Server Protocol](https://microsoft.github.io/language-server-protocol/). It contains type definitions and utilities useful for both server- and client-side projects.
 
-If you are looking for a way to interact with servers, you probably want to use the higher-level [LanguageClient](https://github.com/ChimeHQ/LanguageClient).
+Need to interact with servers? You may want to take a look at [LanguageClient](https://github.com/ChimeHQ/LanguageClient).
+Want to build a server? Check out [LanguageServer](https://github.com/ChimeHQ/LanguageServer).
 
 ## Typing Approach
 
@@ -20,11 +21,6 @@ Where possible, this library matches the LSP spec. However, there are some addit
 This library models these cases using nested structures and/or the `TwoTypeOption` and `ThreeTypeOption` types.
 
 ## Integration
-
-This library comes with 2 distinct parts:
-
-- `LanguageServerProtocol`: Core types and behaviors.
-- `LSPServer` server functionality (for implementing servers)
 
 ```swift
 dependencies: [
@@ -36,11 +32,18 @@ dependencies: [
 
 For the most part, this library strives to be a straightforward version of the spec in Swift. There are a few places, however, where it just makes sense to pull in some extra functionality.
 
-- `MockServer`: a stand-in that is useful for mocking a real server
-- `Server`: a protocol that describes the essential server functionality
 - `Snippet`: makes it easier to interpret the contents of completion results
 - `TokenRepresentation`: maintains the state of a document's semantic tokens
 - `DataChannel.withMessageFraming`: wraps an existing JSONRPC DataChannel up with HTTP header-based message framing 
+
+## Client Support
+
+Right now, there are still some bits useful for client support in this library:
+
+- `MockServer`: a stand-in that is useful for mocking a real server
+- `Server`: a protocol that describes the essential server functionality
+
+The intention is to migrate all of these out into LanguageClient, leaving this library purely focused on protocol-level support.
 
 ## Supported Features
 
