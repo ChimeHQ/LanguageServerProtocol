@@ -32,6 +32,19 @@ jobs:
         run: set -o pipefail && xcodebuild -scheme LanguageServerProtocol -destination "${{ matrix.destination }}" test | xcpretty
 
   linux_test:
+    name: Test Linux 5.8.1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install swiftly
+        run: curl -L https://swift-server.github.io/swiftly/swiftly-install.sh | bash -s -- -y
+      - name: Install the latest Swift toolchain
+        run: swiftly install 5.8.1
+      - name: Test
+        run: swift test
+
+  linux_latest_test:
     name: Test Linux
     runs-on: ubuntu-latest
     steps:
