@@ -29,14 +29,13 @@ public actor JSONRPCServerConnection: ServerConnection {
 
 		for await event in seq {
 
-
 			switch event {
 			case let .notification(notification, data):
 				self.handleNotification(notification, data: data)
 			case let .request(request, handler, data):
 				self.handleRequest(request, data: data, handler: handler)
 			case .error:
-				break // TODO?
+				break  // TODO?
 			}
 
 		}
@@ -83,7 +82,8 @@ public actor JSONRPCServerConnection: ServerConnection {
 		}
 	}
 
-	public func sendRequest<Response>(_ request: ClientRequest) async throws -> Response where Response : Decodable & Sendable {
+	public func sendRequest<Response>(_ request: ClientRequest) async throws -> Response
+	where Response: Decodable & Sendable {
 		let method = request.method.rawValue
 
 		switch request {
@@ -188,7 +188,9 @@ public actor JSONRPCServerConnection: ServerConnection {
 		}
 	}
 
-	private func decodeNotificationParams<Params>(_ type: Params.Type, from data: Data) throws -> Params where Params : Decodable {
+	private func decodeNotificationParams<Params>(_ type: Params.Type, from data: Data) throws
+		-> Params where Params: Decodable
+	{
 		let note = try JSONDecoder().decode(JSONRPCNotification<Params>.self, from: data)
 
 		guard let params = note.params else {
@@ -250,7 +252,8 @@ public actor JSONRPCServerConnection: ServerConnection {
 		}
 	}
 
-	private func decodeRequestParams<Params>(_ type: Params.Type, from data: Data) throws -> Params where Params : Decodable {
+	private func decodeRequestParams<Params>(_ type: Params.Type, from data: Data) throws -> Params
+	where Params: Decodable {
 		let req = try JSONDecoder().decode(JSONRPCRequest<Params>.self, from: data)
 
 		guard let params = req.params else {
@@ -260,7 +263,9 @@ public actor JSONRPCServerConnection: ServerConnection {
 		return params
 	}
 
-	private nonisolated func makeErrorOnlyHandler(_ handler: @escaping JSONRPCEvent.RequestHandler) -> ServerRequest.ErrorOnlyHandler {
+	private nonisolated func makeErrorOnlyHandler(_ handler: @escaping JSONRPCEvent.RequestHandler)
+		-> ServerRequest.ErrorOnlyHandler
+	{
 		return {
 			if let error = $0 {
 				await handler(.failure(error))
@@ -270,7 +275,9 @@ public actor JSONRPCServerConnection: ServerConnection {
 		}
 	}
 
-	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCEvent.RequestHandler) -> ServerRequest.Handler<T> {
+	private nonisolated func makeHandler<T>(_ handler: @escaping JSONRPCEvent.RequestHandler)
+		-> ServerRequest.Handler<T>
+	{
 		return {
 			let loweredResult = $0.map({ $0 as Encodable & Sendable })
 
@@ -278,7 +285,9 @@ public actor JSONRPCServerConnection: ServerConnection {
 		}
 	}
 
-	private func handleRequest(_ anyRequest: AnyJSONRPCRequest, data: Data, handler: @escaping JSONRPCEvent.RequestHandler) {
+	private func handleRequest(
+		_ anyRequest: AnyJSONRPCRequest, data: Data, handler: @escaping JSONRPCEvent.RequestHandler
+	) {
 		let methodName = anyRequest.method
 		let id = anyRequest.id
 
@@ -294,12 +303,14 @@ public actor JSONRPCServerConnection: ServerConnection {
 
 				yield(id: id, request: ServerRequest.workspaceConfiguration(params, reqHandler))
 			case .workspaceFolders:
-				let reqHandler: ServerRequest.Handler<WorkspaceFoldersResponse> = makeHandler(handler)
+				let reqHandler: ServerRequest.Handler<WorkspaceFoldersResponse> = makeHandler(
+					handler)
 
 				yield(id: id, request: ServerRequest.workspaceFolders(reqHandler))
 			case .workspaceApplyEdit:
 				let params = try decodeRequestParams(ApplyWorkspaceEditParams.self, from: data)
-				let reqHandler: ServerRequest.Handler<ApplyWorkspaceEditResult> = makeHandler(handler)
+				let reqHandler: ServerRequest.Handler<ApplyWorkspaceEditResult> = makeHandler(
+					handler)
 
 				yield(id: id, request: ServerRequest.workspaceApplyEdit(params, reqHandler))
 			case .clientRegisterCapability:
@@ -322,7 +333,8 @@ public actor JSONRPCServerConnection: ServerConnection {
 				yield(id: id, request: ServerRequest.workspaceSemanticTokenRefresh(reqHandler))
 			case .windowShowMessageRequest:
 				let params = try decodeRequestParams(ShowMessageRequestParams.self, from: data)
-				let reqHandler: ServerRequest.Handler<ShowMessageRequestResponse> = makeHandler(handler)
+				let reqHandler: ServerRequest.Handler<ShowMessageRequestResponse> = makeHandler(
+					handler)
 
 				yield(id: id, request: ServerRequest.windowShowMessageRequest(params, reqHandler))
 			case .windowShowDocument:
@@ -334,7 +346,8 @@ public actor JSONRPCServerConnection: ServerConnection {
 				let params = try decodeRequestParams(WorkDoneProgressCreateParams.self, from: data)
 				let reqHandler = makeErrorOnlyHandler(handler)
 
-				yield(id: id, request: ServerRequest.windowWorkDoneProgressCreate(params, reqHandler))
+				yield(
+					id: id, request: ServerRequest.windowWorkDoneProgressCreate(params, reqHandler))
 
 			}
 

@@ -24,7 +24,9 @@ public struct InlayHintRegistrationOptions: Codable, Hashable, Sendable {
 	public var workDoneProgress: Bool?
 	public var id: String?
 
-	public init(documentSelector: DocumentSelector? = nil, workDoneProgress: Bool? = nil, id: String? = nil) {
+	public init(
+		documentSelector: DocumentSelector? = nil, workDoneProgress: Bool? = nil, id: String? = nil
+	) {
 		self.documentSelector = documentSelector
 		self.workDoneProgress = workDoneProgress
 		self.id = id
@@ -44,7 +46,9 @@ public struct InlayHintParams: Codable, Hashable, Sendable {
 	public var textDocument: TextDocumentIdentifier
 	public var range: LSPRange
 
-	public init(workDoneToken: ProgressToken? = nil, textDocument: TextDocumentIdentifier, range: LSPRange) {
+	public init(
+		workDoneToken: ProgressToken? = nil, textDocument: TextDocumentIdentifier, range: LSPRange
+	) {
 		self.workDoneToken = workDoneToken
 		self.textDocument = textDocument
 		self.range = range
@@ -57,7 +61,10 @@ public struct InlayHintLabelPart: Codable, Hashable, Sendable {
 	public var location: Location?
 	public var command: Command?
 
-	public init(value: String, tooltop: TwoTypeOption<String, MarkupContent>? = nil, location: Location? = nil, command: Command? = nil) {
+	public init(
+		value: String, tooltop: TwoTypeOption<String, MarkupContent>? = nil,
+		location: Location? = nil, command: Command? = nil
+	) {
 		self.value = value
 		self.tooltop = tooltop
 		self.location = location

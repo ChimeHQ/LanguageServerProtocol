@@ -4,14 +4,18 @@ public typealias CallHierarchyClientCapabilities = DynamicRegistrationClientCapa
 
 public typealias CallHierarchyOptions = WorkDoneProgressOptions
 
-public typealias CallHierarchyRegistrationOptions = StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
+public typealias CallHierarchyRegistrationOptions =
+	StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions
 
 public struct CallHierarchyPrepareParams: Codable, Hashable, Sendable {
 	public let textDocument: TextDocumentIdentifier
 	public let position: Position
 	public let workDoneToken: ProgressToken?
 
-	public init(textDocument: TextDocumentIdentifier, position: Position, workDoneToken: ProgressToken? = nil) {
+	public init(
+		textDocument: TextDocumentIdentifier, position: Position,
+		workDoneToken: ProgressToken? = nil
+	) {
 		self.textDocument = textDocument
 		self.position = position
 		self.workDoneToken = workDoneToken
@@ -28,14 +32,16 @@ public struct CallHierarchyItem: Codable, Hashable, Sendable {
 	public let selectionRange: LSPRange
 	public let data: LSPAny?
 
-	public init(name: String,
-				kind: SymbolKind,
-				tag: [SymbolTag]? = nil,
-				detail: String? = nil,
-				uri: DocumentUri,
-				range: LSPRange,
-				selectionRange: LSPRange,
-				data: LSPAny? = nil) {
+	public init(
+		name: String,
+		kind: SymbolKind,
+		tag: [SymbolTag]? = nil,
+		detail: String? = nil,
+		uri: DocumentUri,
+		range: LSPRange,
+		selectionRange: LSPRange,
+		data: LSPAny? = nil
+	) {
 		self.name = name
 		self.kind = kind
 		self.tag = tag
@@ -55,7 +61,10 @@ public struct CallHierarchyIncomingCallsParams: Codable, Hashable, Sendable {
 
 	public let item: CallHierarchyItem
 
-	public init(item: CallHierarchyItem, workDoneToken: ProgressToken? = nil, partialResultToken: ProgressToken? = nil) {
+	public init(
+		item: CallHierarchyItem, workDoneToken: ProgressToken? = nil,
+		partialResultToken: ProgressToken? = nil
+	) {
 		self.workDoneToken = workDoneToken
 		self.partialResultToken = partialResultToken
 		self.item = item
