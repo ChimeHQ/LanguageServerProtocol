@@ -4,17 +4,20 @@ public typealias MonikerClientCapabilities = DynamicRegistrationClientCapabiliti
 
 public struct MonikerParams: Codable, Hashable, Sendable {
 	public let workDoneToken: ProgressToken?
-    public let partialResultToken: ProgressToken?
+	public let partialResultToken: ProgressToken?
 
 	public let textDocument: TextDocumentIdentifier
 	public let position: Position
 
-    public init(workDoneToken: ProgressToken? = nil, partialResultToken: ProgressToken? = nil, textDocument: TextDocumentIdentifier, position: Position) {
+	public init(
+		workDoneToken: ProgressToken? = nil, partialResultToken: ProgressToken? = nil,
+		textDocument: TextDocumentIdentifier, position: Position
+	) {
 		self.workDoneToken = workDoneToken
-        self.partialResultToken = partialResultToken
-        self.textDocument = textDocument
-        self.position = position
-    }
+		self.partialResultToken = partialResultToken
+		self.textDocument = textDocument
+		self.position = position
+	}
 }
 
 public enum UniquenessLevel: Codable, Sendable {
@@ -25,18 +28,17 @@ public enum UniquenessLevel: Codable, Sendable {
 	case global
 }
 
-public enum MonikerKind : Codable, Sendable{
+public enum MonikerKind: Codable, Sendable {
 	case _import
 	case export
 	case local
 }
 
-public struct Moniker : Codable, Sendable {
+public struct Moniker: Codable, Sendable {
 	public let scheme: String
 	public let identifier: String
 	public let unique: UniquenessLevel
 	public let kind: MonikerKind?
 }
-
 
 public typealias MonikerResponse = [Moniker]?

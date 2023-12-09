@@ -23,7 +23,8 @@ extension DataChannel {
 			continuation.finish()
 		}
 
-		return DataChannel(writeHandler: writeHandler,
-						   dataSequence: stream)
+		return DataChannel(
+			writeHandler: writeHandler,
+			dataSequence: stream)
 	}
 }

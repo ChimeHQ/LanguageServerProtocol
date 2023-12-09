@@ -61,7 +61,7 @@ public final class TokenRepresentation {
 	/// - Returns: Ranges affected by the new data (currently unimplemented).
 	public func applyEdits(_ edits: [SemanticTokensEdit]) -> [LSPRange] {
 		// sort high to low
-		let descendingEdits = edits.sorted(by: {a, b in a.start > b.start })
+		let descendingEdits = edits.sorted(by: { a, b in a.start > b.start })
 
 		for edit in descendingEdits {
 			let start = Int(edit.start)
@@ -99,13 +99,13 @@ public final class TokenRepresentation {
 
 			lastLine = line
 
-			let charDelta = Int(data[i+1])
+			let charDelta = Int(data[i + 1])
 			let startingChar = lastStartChar ?? 0
 			let startChar = (lineDelta == 0 ? startingChar : 0) + charDelta
 
 			lastStartChar = startChar
 
-			let length = Int(data[i+2])
+			let length = Int(data[i + 2])
 
 			let start = Position(line: line, character: startChar)
 			if start >= range.end {
@@ -118,7 +118,7 @@ public final class TokenRepresentation {
 			}
 
 			let tokenRange = LSPRange(start: start, end: end)
-			let typeIndex = Int(data[i+3])
+			let typeIndex = Int(data[i + 3])
 
 			if let token = makeToken(range: tokenRange, typeIndex: typeIndex) {
 				tokens.append(token)

@@ -26,7 +26,8 @@ public actor MockServer: ServerConnection {
 
 	public init() {
 		(self.eventSequence, self.eventContinuation) = EventSequence.makeStream()
-		(self.sentMessageSequence, self.sentMessageContinuation) = ClientMessageSequence.makeStream()
+		(self.sentMessageSequence, self.sentMessageContinuation) =
+			ClientMessageSequence.makeStream()
 	}
 
 	deinit {
@@ -38,7 +39,8 @@ public actor MockServer: ServerConnection {
 		sentMessageContinuation.yield(.notification(notif))
 	}
 
-	public func sendRequest<Response>(_ request: ClientRequest) async throws -> Response where Response : Decodable, Response : Sendable {
+	public func sendRequest<Response>(_ request: ClientRequest) async throws -> Response
+	where Response: Decodable, Response: Sendable {
 		sentMessageContinuation.yield(.request(request))
 
 		if mockResponses.isEmpty {
@@ -71,7 +73,8 @@ extension MockServer {
 	}
 
 	/// Simulate a server response.
-	public func sendMockResponse<Response>(_ response: Response) throws where Response : Encodable, Response : Sendable {
+	public func sendMockResponse<Response>(_ response: Response) throws
+	where Response: Encodable, Response: Sendable {
 		let data = try JSONEncoder().encode(response)
 
 		sendMockResponse(data)
@@ -79,7 +82,7 @@ extension MockServer {
 
 	/// Simulate a server request.
 	public func sendMockRequest(_ request: ServerRequest) {
-		eventContinuation.yield(.request(id: .numericId(0) , request: request))
+		eventContinuation.yield(.request(id: .numericId(0), request: request))
 	}
 
 	/// Simulate a server notification.

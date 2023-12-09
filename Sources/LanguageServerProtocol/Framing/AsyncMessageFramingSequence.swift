@@ -1,17 +1,18 @@
 import Foundation
 
 /// Sequence that reads data framed by the LSP base protocol specification.
-struct AsyncMessageFramingSequence<Base> : AsyncSequence where Base : AsyncSequence, Base.Element == UInt8 {
+struct AsyncMessageFramingSequence<Base>: AsyncSequence
+where Base: AsyncSequence, Base.Element == UInt8 {
 	public typealias Element = Data
 
-	public struct AsyncIterator : AsyncIteratorProtocol {
+	public struct AsyncIterator: AsyncIteratorProtocol {
 		private enum State {
 			case buffering
 			case expectingCR
 		}
 
 		private let linefeed: UInt8 = Character("\r").asciiValue!
-		private let newline: UInt8  = Character("\n").asciiValue!
+		private let newline: UInt8 = Character("\n").asciiValue!
 
 		private var iterator: Base.AsyncIterator
 
