@@ -12,7 +12,7 @@ final class ServerTests: XCTestCase {
 
         let param = DocumentLink(range: .zero, target: nil, tooltip: nil, data: nil)
 
-		let response = try await server.documentLinkResolve(params: param)
+		let response = try await server.documentLinkResolve(param)
 
 		XCTAssertEqual(link, response)
     }
@@ -29,7 +29,7 @@ final class ServerTests: XCTestCase {
                                       context: CodeActionContext(diagnostics: [],
                                                                  only: [.SourceOrganizeImports]))
 
-		let response = try await server.codeAction(params: params)
+		let response = try await server.codeAction(params)
 
 		XCTAssertNil(response)
     }
