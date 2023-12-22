@@ -20,11 +20,11 @@ extension ServerConnection {
 }
 
 extension ServerConnection {
-	public func initialize(params: InitializeParams) async throws -> InitializationResponse {
+	public func initialize(_ params: InitializeParams) async throws -> InitializationResponse {
 		return try await sendRequest(.initialize(params, ClientRequest.NullHandler))
 	}
 
-	public func initialized(params: InitializedParams) async throws {
+	public func initialized(_ params: InitializedParams) async throws {
 		try await sendNotification(.initialized(params))
 	}
 
@@ -36,15 +36,15 @@ extension ServerConnection {
 		try await sendNotification(.exit)
 	}
 
-	public func cancelRequest(params: CancelParams) async throws {
+	public func cancelRequest(_ params: CancelParams) async throws {
 		try await sendNotification(.protocolCancelRequest(params))
 	}
 
-	public func setTrace(params: SetTraceParams) async throws {
+	public func setTrace(_ params: SetTraceParams) async throws {
 		try await sendNotification(.protocolSetTrace(params))
 	}
 
-	public func textDocumentDidOpen(params: DidOpenTextDocumentParams) async throws {
+	public func textDocumentDidOpen(_ params: DidOpenTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidOpen(params))
 	}
 
@@ -52,11 +52,11 @@ extension ServerConnection {
 		*, deprecated, renamed: "textDocumentDidOpen",
 		message: "This method has been renamed to better match the spec."
 	)
-	public func didOpenTextDocument(params: DidOpenTextDocumentParams) async throws {
-		try await textDocumentDidOpen(params: params)
+	public func didOpenTextDocument(_ params: DidOpenTextDocumentParams) async throws {
+		try await textDocumentDidOpen(params)
 	}
 
-	public func textDocumentDidChange(params: DidChangeTextDocumentParams) async throws {
+	public func textDocumentDidChange(_ params: DidChangeTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidChange(params))
 	}
 
@@ -64,11 +64,11 @@ extension ServerConnection {
 		*, deprecated, renamed: "textDocumentDidChange",
 		message: "This method has been renamed to better match the spec."
 	)
-	public func didChangeTextDocument(params: DidChangeTextDocumentParams) async throws {
-		try await textDocumentDidChange(params: params)
+	public func didChangeTextDocument(_ params: DidChangeTextDocumentParams) async throws {
+		try await textDocumentDidChange(params)
 	}
 
-	public func textDocumentDidClose(params: DidCloseTextDocumentParams) async throws {
+	public func textDocumentDidClose(_ params: DidCloseTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidClose(params))
 	}
 
@@ -76,11 +76,11 @@ extension ServerConnection {
 		*, deprecated, renamed: "didCloseTextDocument",
 		message: "This method has been renamed to better match the spec."
 	)
-	public func didCloseTextDocument(params: DidCloseTextDocumentParams) async throws {
-		try await textDocumentDidClose(params: params)
+	public func didCloseTextDocument(_ params: DidCloseTextDocumentParams) async throws {
+		try await textDocumentDidClose(params)
 	}
 
-	public func textDocumentWillSave(params: WillSaveTextDocumentParams) async throws {
+	public func textDocumentWillSave(_ params: WillSaveTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentWillSave(params))
 	}
 
@@ -88,21 +88,21 @@ extension ServerConnection {
 		*, deprecated, renamed: "textDocumentWillSave",
 		message: "This method has been renamed to better match the spec."
 	)
-	public func willSaveTextDocument(params: WillSaveTextDocumentParams) async throws {
-		try await textDocumentWillSave(params: params)
+	public func willSaveTextDocument(_ params: WillSaveTextDocumentParams) async throws {
+		try await textDocumentWillSave(params)
 	}
 
-	public func textDocumentWillSaveWaitUntil(params: WillSaveTextDocumentParams) async throws
+	public func textDocumentWillSaveWaitUntil(_ params: WillSaveTextDocumentParams) async throws
 		-> WillSaveWaitUntilResponse
 	{
 		try await sendRequest(.textDocumentWillSaveWaitUntil(params, ClientRequest.NullHandler))
 	}
 
-	public func textDocumentDidSave(params: DidSaveTextDocumentParams) async throws {
+	public func textDocumentDidSave(_ params: DidSaveTextDocumentParams) async throws {
 		try await sendNotification(.textDocumentDidSave(params))
 	}
 
-	public func workspaceDidChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
+	public func workspaceDidChangeWatchedFiles(_ params: DidChangeWatchedFilesParams) async throws {
 		try await sendNotification(.workspaceDidChangeWatchedFiles(params))
 	}
 
@@ -110,119 +110,119 @@ extension ServerConnection {
 		*, deprecated, renamed: "workspaceDidChangeWatchedFiles",
 		message: "This method has been renamed to better match the spec."
 	)
-	public func didChangeWatchedFiles(params: DidChangeWatchedFilesParams) async throws {
-		try await workspaceDidChangeWatchedFiles(params: params)
+	public func didChangeWatchedFiles(_ params: DidChangeWatchedFilesParams) async throws {
+		try await workspaceDidChangeWatchedFiles(params)
 	}
 
-	public func callHierarchyIncomingCalls(params: CallHierarchyIncomingCallsParams) async throws
+	public func callHierarchyIncomingCalls(_ params: CallHierarchyIncomingCallsParams) async throws
 		-> CallHierarchyIncomingCallsResponse
 	{
 		try await sendRequest(.callHierarchyIncomingCalls(params, ClientRequest.NullHandler))
 	}
 
-	public func callHierarchyOutgoingCalls(params: CallHierarchyOutgoingCallsParams) async throws
+	public func callHierarchyOutgoingCalls(_ params: CallHierarchyOutgoingCallsParams) async throws
 		-> CallHierarchyOutgoingCallsResponse
 	{
 		try await sendRequest(.callHierarchyOutgoingCalls(params, ClientRequest.NullHandler))
 	}
 
-	public func completion(params: CompletionParams) async throws -> CompletionResponse {
+	public func completion(_ params: CompletionParams) async throws -> CompletionResponse {
 		try await sendRequest(.completion(params, ClientRequest.NullHandler))
 	}
 
-	public func hover(params: TextDocumentPositionParams) async throws -> HoverResponse {
+	public func hover(_ params: TextDocumentPositionParams) async throws -> HoverResponse {
 		try await sendRequest(.hover(params, ClientRequest.NullHandler))
 	}
 
-	public func signatureHelp(params: TextDocumentPositionParams) async throws
+	public func signatureHelp(_ params: TextDocumentPositionParams) async throws
 		-> SignatureHelpResponse
 	{
 		try await sendRequest(.signatureHelp(params, ClientRequest.NullHandler))
 	}
 
-	public func declaration(params: TextDocumentPositionParams) async throws -> DeclarationResponse
+	public func declaration(_ params: TextDocumentPositionParams) async throws -> DeclarationResponse
 	{
 		try await sendRequest(.declaration(params, ClientRequest.NullHandler))
 	}
 
-	public func definition(params: TextDocumentPositionParams) async throws -> DefinitionResponse {
+	public func definition(_ params: TextDocumentPositionParams) async throws -> DefinitionResponse {
 		try await sendRequest(.definition(params, ClientRequest.NullHandler))
 	}
 
-	public func typeDefinition(params: TextDocumentPositionParams) async throws
+	public func typeDefinition(_ params: TextDocumentPositionParams) async throws
 		-> TypeDefinitionResponse
 	{
 		try await sendRequest(.typeDefinition(params, ClientRequest.NullHandler))
 	}
 
-	public func implementation(params: TextDocumentPositionParams) async throws
+	public func implementation(_ params: TextDocumentPositionParams) async throws
 		-> ImplementationResponse
 	{
 		try await sendRequest(.implementation(params, ClientRequest.NullHandler))
 	}
 
-	public func documentSymbol(params: DocumentSymbolParams) async throws -> DocumentSymbolResponse
+	public func documentSymbol(_ params: DocumentSymbolParams) async throws -> DocumentSymbolResponse
 	{
 		try await sendRequest(.documentSymbol(params, ClientRequest.NullHandler))
 	}
 
-	public func prepareCallHierarchy(params: CallHierarchyPrepareParams) async throws
+	public func prepareCallHierarchy(_ params: CallHierarchyPrepareParams) async throws
 		-> CallHierarchyPrepareResponse
 	{
 		try await sendRequest(.prepareCallHierarchy(params, ClientRequest.NullHandler))
 	}
 
-	public func prepareRename(params: PrepareRenameParams) async throws -> PrepareRenameResponse {
+	public func prepareRename(_ params: PrepareRenameParams) async throws -> PrepareRenameResponse {
 		try await sendRequest(.prepareRename(params, ClientRequest.NullHandler))
 	}
 
-	public func prepareTypeHeirarchy(params: TypeHierarchyPrepareParams) async throws
+	public func prepareTypeHeirarchy(_ params: TypeHierarchyPrepareParams) async throws
 		-> PrepareTypeHeirarchyResponse
 	{
 		try await sendRequest(.prepareTypeHierarchy(params, ClientRequest.NullHandler))
 	}
 
-	public func rename(params: RenameParams) async throws -> RenameResponse {
+	public func rename(_ params: RenameParams) async throws -> RenameResponse {
 		try await sendRequest(.rename(params, ClientRequest.NullHandler))
 	}
 
-	public func formatting(params: DocumentFormattingParams) async throws -> FormattingResult {
+	public func formatting(_ params: DocumentFormattingParams) async throws -> FormattingResult {
 		try await sendRequest(.formatting(params, ClientRequest.NullHandler))
 	}
 
-	public func rangeFormatting(params: DocumentRangeFormattingParams) async throws
+	public func rangeFormatting(_ params: DocumentRangeFormattingParams) async throws
 		-> FormattingResult
 	{
 		try await sendRequest(.rangeFormatting(params, ClientRequest.NullHandler))
 	}
 
-	public func onTypeFormatting(params: DocumentOnTypeFormattingParams) async throws
+	public func onTypeFormatting(_ params: DocumentOnTypeFormattingParams) async throws
 		-> FormattingResult
 	{
 		try await sendRequest(.onTypeFormatting(params, ClientRequest.NullHandler))
 	}
 
-	public func references(params: ReferenceParams) async throws -> ReferenceResponse {
+	public func references(_ params: ReferenceParams) async throws -> ReferenceResponse {
 		try await sendRequest(.references(params, ClientRequest.NullHandler))
 	}
 
-	public func foldingRange(params: FoldingRangeParams) async throws -> FoldingRangeResponse {
+	public func foldingRange(_ params: FoldingRangeParams) async throws -> FoldingRangeResponse {
 		try await sendRequest(.foldingRange(params, ClientRequest.NullHandler))
 	}
 
-	public func semanticTokensFull(params: SemanticTokensParams) async throws
+	public func semanticTokensFull(_ params: SemanticTokensParams) async throws
 		-> SemanticTokensResponse
 	{
 		try await sendRequest(.semanticTokensFull(params, ClientRequest.NullHandler))
 	}
 
-	public func semanticTokensFullDelta(params: SemanticTokensDeltaParams) async throws
+	public func semanticTokensFullDelta(_ params: SemanticTokensDeltaParams) async throws
 		-> SemanticTokensDeltaResponse
 	{
 		try await sendRequest(.semanticTokensFullDelta(params, ClientRequest.NullHandler))
 	}
 
-	public func semanticTokensRange(params: SemanticTokensRangeParams) async throws
+	public func semanticTokensRange(_ params: SemanticTokensRangeParams) async throws
 		-> SemanticTokensResponse
 	{
 		try await sendRequest(.semanticTokensRange(params, ClientRequest.NullHandler))
@@ -237,23 +237,23 @@ extension ServerConnection {
 
 // Workspace notifications
 extension ServerConnection {
-	public func didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams) async throws {
+	public func didChangeWorkspaceFolders(_ params: DidChangeWorkspaceFoldersParams) async throws {
 		try await sendNotification(.workspaceDidChangeWorkspaceFolders(params))
 	}
 
-	public func didChangeConfiguration(params: DidChangeConfigurationParams) async throws {
+	public func didChangeConfiguration(_ params: DidChangeConfigurationParams) async throws {
 		try await sendNotification(.workspaceDidChangeConfiguration(params))
 	}
 
-	public func didCreateFiles(params: CreateFilesParams) async throws {
+	public func didCreateFiles(_ params: CreateFilesParams) async throws {
 		try await sendNotification(.workspaceDidCreateFiles(params))
 	}
 
-	public func didRenameFiles(params: RenameFilesParams) async throws {
+	public func didRenameFiles(_ params: RenameFilesParams) async throws {
 		try await sendNotification(.workspaceDidRenameFiles(params))
 	}
 
-	public func didDeleteFiles(params: DeleteFilesParams) async throws {
+	public func didDeleteFiles(_ params: DeleteFilesParams) async throws {
 		try await sendNotification(.workspaceDidDeleteFiles(params))
 	}
 }
@@ -265,36 +265,36 @@ extension ServerConnection {
 			.workspaceInlayHintRefresh(ClientRequest.NullHandler))
 	}
 
-	public func willCreateFiles(params: CreateFilesParams) async throws
+	public func willCreateFiles(_ params: CreateFilesParams) async throws
 		-> WorkspaceWillCreateFilesResponse
 	{
 		try await sendRequest(.workspaceWillCreateFiles(params, ClientRequest.NullHandler))
 	}
 
-	public func willRenameFiles(params: RenameFilesParams) async throws
+	public func willRenameFiles(_ params: RenameFilesParams) async throws
 		-> WorkspaceWillRenameFilesResponse
 	{
 		try await sendRequest(.workspaceWillRenameFiles(params, ClientRequest.NullHandler))
 	}
 
-	public func willDeleteFiles(params: DeleteFilesParams) async throws
+	public func willDeleteFiles(_ params: DeleteFilesParams) async throws
 		-> WorkspaceWillDeleteFilesResponse
 	{
 		try await sendRequest(.workspaceWillDeleteFiles(params, ClientRequest.NullHandler))
 	}
 
-	public func executeCommand(params: ExecuteCommandParams) async throws -> ExecuteCommandResponse
+	public func executeCommand(_ params: ExecuteCommandParams) async throws -> ExecuteCommandResponse
 	{
 		try await sendRequest(.workspaceExecuteCommand(params, ClientRequest.NullHandler))
 	}
 
-	public func workspaceSymbol(params: WorkspaceSymbolParams) async throws
+	public func workspaceSymbol(_ params: WorkspaceSymbolParams) async throws
 		-> WorkspaceSymbolResponse
 	{
 		try await sendRequest(.workspaceSymbol(params, ClientRequest.NullHandler))
 	}
 
-	public func workspaceSymbolResolve(params: WorkspaceSymbol) async throws
+	public func workspaceSymbolResolve(_ params: WorkspaceSymbol) async throws
 		-> WorkspaceSymbolResponse
 	{
 		try await sendRequest(.workspaceSymbolResolve(params, ClientRequest.NullHandler))
@@ -303,62 +303,62 @@ extension ServerConnection {
 
 // Language Features
 extension ServerConnection {
-	public func documentHighlight(params: DocumentHighlightParams) async throws
+	public func documentHighlight(_ params: DocumentHighlightParams) async throws
 		-> DocumentHighlightResponse
 	{
 		try await sendRequest(.documentHighlight(params, ClientRequest.NullHandler))
 	}
 
-	public func codeAction(params: CodeActionParams) async throws -> CodeActionResponse {
+	public func codeAction(_ params: CodeActionParams) async throws -> CodeActionResponse {
 		try await sendRequest(.codeAction(params, ClientRequest.NullHandler))
 	}
 
-	public func codeActionResolve(params: CodeAction) async throws -> CodeAction {
+	public func codeActionResolve(_ params: CodeAction) async throws -> CodeAction {
 		try await sendRequest(.codeActionResolve(params, ClientRequest.NullHandler))
 	}
 
-	public func codeLens(params: CodeLensParams) async throws -> CodeLensResponse {
+	public func codeLens(_ params: CodeLensParams) async throws -> CodeLensResponse {
 		try await sendRequest(.codeLens(params, ClientRequest.NullHandler))
 	}
 
-	public func codeLensResolve(params: CodeLens) async throws -> CodeLensResolveResponse {
+	public func codeLensResolve(_ params: CodeLens) async throws -> CodeLensResolveResponse {
 		try await sendRequest(.codeLensResolve(params, ClientRequest.NullHandler))
 	}
 
-	public func diagnostics(params: DocumentDiagnosticParams) async throws
+	public func diagnostics(_ params: DocumentDiagnosticParams) async throws
 		-> DocumentDiagnosticReport
 	{
 		try await sendRequest(.diagnostics(params, ClientRequest.NullHandler))
 	}
 
-	public func selectionRange(params: SelectionRangeParams) async throws -> SelectionRangeResponse
+	public func selectionRange(_ params: SelectionRangeParams) async throws -> SelectionRangeResponse
 	{
 		try await sendRequest(.selectionRange(params, ClientRequest.NullHandler))
 	}
 
-	public func documentLink(params: DocumentLinkParams) async throws -> DocumentLinkResponse {
+	public func documentLink(_ params: DocumentLinkParams) async throws -> DocumentLinkResponse {
 		try await sendRequest(.documentLink(params, ClientRequest.NullHandler))
 	}
 
-	public func documentLinkResolve(params: DocumentLink) async throws -> DocumentLink {
+	public func documentLinkResolve(_ params: DocumentLink) async throws -> DocumentLink {
 		try await sendRequest(.documentLinkResolve(params, ClientRequest.NullHandler))
 	}
 
-	public func documentColor(params: DocumentColorParams) async throws -> DocumentColorResponse {
+	public func documentColor(_ params: DocumentColorParams) async throws -> DocumentColorResponse {
 		try await sendRequest(.documentColor(params, ClientRequest.NullHandler))
 	}
 
-	public func colorPresentation(params: ColorPresentationParams) async throws
+	public func colorPresentation(_ params: ColorPresentationParams) async throws
 		-> ColorPresentationResponse
 	{
 		try await sendRequest(.colorPresentation(params, ClientRequest.NullHandler))
 	}
 
-	public func inlayHint(params: InlayHintParams) async throws -> InlayHintResponse {
+	public func inlayHint(_ params: InlayHintParams) async throws -> InlayHintResponse {
 		try await sendRequest(.inlayHint(params, ClientRequest.NullHandler))
 	}
 
-	public func inlayHintResolve(params: InlayHint) async throws -> InlayHint {
+	public func inlayHintResolve(_ params: InlayHint) async throws -> InlayHint {
 		try await sendRequest(.inlayHintResolve(params, ClientRequest.NullHandler))
 	}
 }
