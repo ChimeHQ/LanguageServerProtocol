@@ -26,7 +26,7 @@ extension ServerConnection {
 	}
 
 	public func initialize(_ params: InitializeParams) async throws -> InitializationResponse {
-		return try await sendRequest(.initialize(params, ClientRequest.NullHandler))
+		try await sendRequest(.initialize(params, ClientRequest.NullHandler))
 	}
 
 	@available(*, deprecated, renamed: "initialized(_:)")
