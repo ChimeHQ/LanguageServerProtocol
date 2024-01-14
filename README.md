@@ -1,5 +1,5 @@
 <div align="center">
-	
+
 [![Build Status][build status badge]][build status]
 [![Platforms][platforms badge]][platforms]
 [![Documentation][documentation badge]][documentation]
@@ -145,7 +145,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 
 ## Contributing and Collaboration
 
-I would love to hear from you! Issues or pull requests work great. A [Discord server][discord] is also available for live help, but I have a strong bias towards answering in the form of documenation.
+I would love to hear from you! Issues or pull requests work great. A [Discord server][discord] is also available for live help, but I have a strong bias towards answering in the form of documentation.
 
 I prefer collaboration, and would love to find ways to work together if you have a similar project.
 
