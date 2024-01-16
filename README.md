@@ -36,6 +36,8 @@ For the most part, this library strives to be a straightforward version of the s
 - `TokenRepresentation`: maintains the state of a document's semantic tokens
 - `DataChannel.withMessageFraming`: wraps an existing JSONRPC DataChannel up with HTTP header-based message framing 
 
+If you need to support other communication channels, you'll have to work with the `DataChannel` type from the [JSONRPC](https://github.com/ChimeHQ/JSONRPC) package. There are a few specialized ones already defined in [LanguageClient](https://github.com/ChimeHQ/LanguageClient).
+
 ## Client Support
 
 Right now, there are still some bits useful for client support in this library:
