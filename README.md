@@ -47,6 +47,28 @@ Right now, there are still some bits useful for client support in this library:
 
 The intention is to migrate all of these out into LanguageClient, leaving this library purely focused on protocol-level support.
 
+## Usage
+
+### Responding to Events
+
+You can respond to server events using `eventSequence`. Be careful here as some servers require responses to certain requests. It is also potentially possible that not all request types have been mapped in the `ServerRequest` type. The spec is big! If you find a problem, please open an issue!
+
+```swift
+Task {
+    for await event in server.eventSequence {
+        print("receieved event:", event)
+        
+        switch event {
+        case let .request(id: id, request: request):
+            request.relyWithError(MyError.unsupported)
+        default:
+            print("dropping notification/error")
+        }
+    }
+}
+```
+
+
 ## Supported Features
 
 The LSP [specification](https://microsoft.github.io/language-server-protocol/specification) is large, and this library currently does not implement it all. The intention is to support the 3.x specification, but be as backwards-compatible as possible with pre-3.0 servers.
