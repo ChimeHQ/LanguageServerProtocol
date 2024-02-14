@@ -167,7 +167,7 @@ public struct CompletionItem: Codable, Hashable, Sendable {
 	public let filterText: String?
 	public let insertText: String?
 	public let insertTextFormat: InsertTextFormat?
-	public let textEdit: TextEdit?
+	public let textEdit: TwoTypeOption<TextEdit, InsertReplaceEdit>?
 	public let additionalTextEdits: [TextEdit]?
 	public let commitCharacters: [String]?
 	public let command: Command?
@@ -184,7 +184,7 @@ public struct CompletionItem: Codable, Hashable, Sendable {
 		filterText: String? = nil,
 		insertText: String? = nil,
 		insertTextFormat: InsertTextFormat? = nil,
-		textEdit: TextEdit? = nil,
+		textEdit: TwoTypeOption<TextEdit, InsertReplaceEdit>? = nil,
 		additionalTextEdits: [TextEdit]? = nil,
 		commitCharacters: [String]? = nil,
 		command: Command? = nil,
