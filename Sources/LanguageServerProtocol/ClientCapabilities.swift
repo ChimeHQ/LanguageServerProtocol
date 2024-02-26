@@ -52,16 +52,24 @@ public typealias DidChangeWatchedFilesClientCapabilities = GenericDynamicRegistr
 
 public struct ShowDocumentClientCapabilities: Hashable, Codable, Sendable {
 	public var support: Bool
+
+	public init(support: Bool) {
+		self.support = support
+	}
 }
 
 public struct ShowMessageRequestClientCapabilities: Hashable, Codable, Sendable {
 	public struct MessageActionItemCapabilities: Hashable, Codable, Sendable {
 		public var additionalPropertiesSupport: Bool
+
+		public init(additionalPropertiesSupport: Bool) {
+			self.additionalPropertiesSupport = additionalPropertiesSupport
+		}
 	}
 
 	public var messageActionItem: MessageActionItemCapabilities
 
-	init(messageActionItem: MessageActionItemCapabilities) {
+	public init(messageActionItem: MessageActionItemCapabilities) {
 		self.messageActionItem = messageActionItem
 	}
 }
