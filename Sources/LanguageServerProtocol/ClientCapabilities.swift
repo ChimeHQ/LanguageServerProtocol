@@ -61,7 +61,7 @@ public struct ShowMessageRequestClientCapabilities: Hashable, Codable, Sendable 
 
 	public var messageActionItem: MessageActionItemCapabilities
 
-	init(messageActionItem: MessageActionItemCapabilities) {
+	public init(messageActionItem: MessageActionItemCapabilities) {
 		self.messageActionItem = messageActionItem
 	}
 }
