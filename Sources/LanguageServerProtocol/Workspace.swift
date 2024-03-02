@@ -26,6 +26,10 @@ public struct FileSystemWatcher: Codable, Hashable, Sendable {
 
 public struct DidChangeWatchedFilesRegistrationOptions: Codable, Hashable, Sendable {
 	public var watchers: [FileSystemWatcher]
+
+	public init(watchers: [FileSystemWatcher]) {
+		self.watchers = watchers
+	}
 }
 
 public enum FileChangeType: Int, Codable, Hashable, Sendable {
@@ -122,6 +126,12 @@ public struct CreateFile: Codable, Hashable, Sendable {
 	public let kind: String
 	public let uri: DocumentUri
 	public let options: CreateFileOptions?
+
+	public init(kind: String, uri: DocumentUri, options: CreateFileOptions?) {
+		self.kind = kind
+		self.uri = uri
+		self.options = options
+	}
 }
 
 public typealias RenameFileOptions = CreateFileOptions
@@ -131,22 +141,45 @@ public struct RenameFile: Codable, Hashable, Sendable {
 	public let oldUri: DocumentUri
 	public let newUri: DocumentUri
 	public let options: RenameFileOptions
+
+	public init(kind: String, oldUri: DocumentUri, newUri: DocumentUri, options: RenameFileOptions) {
+		self.kind = kind
+		self.oldUri = oldUri
+		self.newUri = newUri
+		self.options = options
+	}
 }
 
 public struct DeleteFileOptions: Codable, Hashable, Sendable {
 	public let recursive: Bool?
 	public let ignoreIfNotExists: Bool?
+
+	public init(recursive: Bool?, ignoreIfNotExists: Bool?) {
+		self.recursive = recursive
+		self.ignoreIfNotExists = ignoreIfNotExists
+	}
 }
 
 public struct DeleteFile: Codable, Hashable, Sendable {
 	public let kind: String
 	public let uri: DocumentUri
 	public let options: DeleteFileOptions
+
+	public init(kind: String, uri: DocumentUri, options: DeleteFileOptions) {
+		self.kind = kind
+		self.uri = uri
+		self.options = options
+	}
 }
 
 public struct TextDocumentEdit: Codable, Hashable, Sendable {
 	public let textDocument: VersionedTextDocumentIdentifier
 	public let edits: [TextEdit]
+
+	public init(textDocument: VersionedTextDocumentIdentifier, edits: [TextEdit]) {
+		self.textDocument = textDocument
+		self.edits = edits
+	}
 }
 
 public enum WorkspaceEditDocumentChange: Codable, Hashable, Sendable {
@@ -189,4 +222,9 @@ public enum WorkspaceEditDocumentChange: Codable, Hashable, Sendable {
 public struct WorkspaceEdit: Codable, Hashable, Sendable {
 	public let changes: [DocumentUri: [TextEdit]]?
 	public let documentChanges: [WorkspaceEditDocumentChange]?
+
+	public init(changes: [DocumentUri: [TextEdit]]?, documentChanges: [WorkspaceEditDocumentChange]?) {
+		self.changes = changes
+		self.documentChanges = documentChanges
+	}
 }
