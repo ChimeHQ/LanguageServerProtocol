@@ -102,6 +102,15 @@ public struct WillSaveTextDocumentParams: Codable, Hashable, Sendable {
 
 public typealias WillSaveWaitUntilResponse = [TextEdit]?
 
+/// A special text edit to provide an insert and a replace operation.
+///
+/// https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#insertReplaceEdit
+public struct InsertReplaceEdit: Codable, Hashable, Sendable {
+    public let newText: String
+    public let insert: LSPRange
+    public let replace: LSPRange
+}
+
 public struct TextEdit: Codable, Hashable, Sendable {
 	public let range: LSPRange
 	public let newText: String
