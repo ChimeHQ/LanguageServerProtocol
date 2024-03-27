@@ -503,6 +503,7 @@ public enum ServerRequest: Sendable {
 		case windowShowMessageRequest = "window/showMessageRequest"
 		case windowShowDocument = "window/showDocument"
 		case windowWorkDoneProgressCreate = "window/workDoneProgress/create"
+		case custom
 	}
 
 	case workspaceConfiguration(ConfigurationParams, Handler<[LSPAny]>)
@@ -515,6 +516,7 @@ public enum ServerRequest: Sendable {
 	case windowShowMessageRequest(ShowMessageRequestParams, Handler<ShowMessageRequestResponse>)
 	case windowShowDocument(ShowDocumentParams, Handler<ShowDocumentResult>)
 	case windowWorkDoneProgressCreate(WorkDoneProgressCreateParams, ErrorOnlyHandler)
+	case custom(String, LSPAny, Handler<LSPAny>)
 
 	public var method: Method {
 		switch self {
@@ -538,6 +540,8 @@ public enum ServerRequest: Sendable {
 			return .windowShowDocument
 		case .windowWorkDoneProgressCreate:
 			return .windowWorkDoneProgressCreate
+		case .custom:
+			return .custom
 		}
 	}
 
@@ -566,6 +570,8 @@ public enum ServerRequest: Sendable {
 			await handler(.failure(protocolError))
 		case let .windowWorkDoneProgressCreate(_, handler):
 			await handler(protocolError)
+		case let .custom(_, _, handler):
+			await handler(.failure(protocolError))
 		}
 	}
 }

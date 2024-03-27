@@ -292,10 +292,8 @@ public actor JSONRPCServerConnection: ServerConnection {
 		let id = anyRequest.id
 
 		do {
-			guard let method = ServerRequest.Method(rawValue: methodName) else {
-				throw ServerError.unrecognizedMethod(methodName)
-			}
 
+			let method = ServerRequest.Method(rawValue: methodName) ?? .custom
 			switch method {
 			case .workspaceConfiguration:
 				let params = try decodeRequestParams(ConfigurationParams.self, from: data)
@@ -348,6 +346,11 @@ public actor JSONRPCServerConnection: ServerConnection {
 
 				yield(
 					id: id, request: ServerRequest.windowWorkDoneProgressCreate(params, reqHandler))
+			case .custom:
+				let params = try decodeRequestParams(LSPAny.self, from: data)
+				let reqHandler: ServerRequest.Handler<LSPAny> = makeHandler(handler)
+				
+				yield(id: id, request: ServerRequest.custom(methodName, params, reqHandler))
 
 			}
 
