@@ -231,6 +231,10 @@ extension ServerConnection {
 		try await sendRequest(.completion(params, ClientRequest.NullHandler))
 	}
 
+    public func completeItemResolve(_ params: CompletionItem) async throws -> CompletionItem {
+        try await sendRequest(.completionItemResolve(params, ClientRequest.NullHandler))
+    }
+
 	@available(*, deprecated, renamed: "hover(_:)")
 	public func hover(params: TextDocumentPositionParams) async throws -> HoverResponse {
 		try await hover(params)
