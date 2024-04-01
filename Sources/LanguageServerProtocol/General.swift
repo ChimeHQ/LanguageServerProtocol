@@ -28,7 +28,7 @@ public struct InitializeParams: Codable, Hashable, Sendable {
 	public let workspaceFolders: [WorkspaceFolder]?
 
 	public init(
-		processId: Int,
+		processId: Int?,
 		clientInfo: ClientInfo? = nil,
 		locale: String?,
 		rootPath: String?,
