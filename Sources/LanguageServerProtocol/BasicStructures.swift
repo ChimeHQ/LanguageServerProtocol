@@ -50,21 +50,6 @@ public struct LSPRange: Codable, Hashable, Sendable {
 		self.end = Position(endPair)
 	}
 
-    public init(from: Position, offsetLine: Int) {
-        self.start = from
-        self.end = Position(line: from.line + offsetLine, character: from.character)
-    }
-
-	public init(from: Position, offsetCharacter: Int) {
-		self.start = from
-		self.end = Position(line: from.line, character: from.character + offsetCharacter)
-	}
-
-	public init(from: Position, offsetLine: Int, offsetCharacter: Int) {
-		self.start = from
-		self.end = Position(line: from.line + offsetLine, character: from.character + offsetCharacter)
-	}
-
 	public func contains(_ position: Position) -> Bool {
 		return position > start && position < end
 	}
