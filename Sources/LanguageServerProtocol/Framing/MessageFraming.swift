@@ -1,5 +1,4 @@
 import Foundation
-import JSONRPC
 
 enum MessageFramingError: Error {
 	case malformedData

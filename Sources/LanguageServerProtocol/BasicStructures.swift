@@ -1,5 +1,4 @@
 import Foundation
-import JSONRPC
 
 public struct Position: Codable, Hashable, Sendable {
 	public static let zero = Position(line: 0, character: 0)

@@ -1,5 +1,4 @@
 import Foundation
-import JSONRPC
 
 public struct CompletionClientCapabilities: Codable, Hashable, Sendable {
 	public struct CompletionItem: Codable, Hashable, Sendable {
