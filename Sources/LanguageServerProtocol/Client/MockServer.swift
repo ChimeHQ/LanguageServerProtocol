@@ -44,7 +44,7 @@ public actor MockServer: ServerConnection {
 		sentMessageContinuation.yield(.request(request))
 
 		if mockResponses.isEmpty {
-			throw ServerError.missingReply
+			throw ProtocolError.missingReply
 		}
 
 		let data = mockResponses.removeFirst()

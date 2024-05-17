@@ -10,20 +10,6 @@ public enum ProtocolError: Error {
 	case missingReply
 }
 
-// NOTE: We should remove these and only use `ProtocolError`?
-public typealias ServerError = ProtocolError
-public typealias ClientError = ProtocolError
-
-public enum ClientEvent: Sendable {
-	public typealias RequestResult = Result<Encodable & Sendable, AnyJSONRPCResponseError>
-	public typealias RequestHandler = @Sendable (RequestResult) async -> Void
-
-	case request(id: JSONId, request: ClientRequest)
-	case notification(ClientNotification)
-	case error(Error)
-	// case error(ClientError)
-}
-
 public enum ServerEvent: Sendable {
 	public typealias RequestResult = Result<Encodable & Sendable, AnyJSONRPCResponseError>
 	public typealias RequestHandler = @Sendable (RequestResult) async -> Void

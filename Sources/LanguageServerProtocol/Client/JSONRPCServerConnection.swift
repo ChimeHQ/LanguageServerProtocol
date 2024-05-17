@@ -194,7 +194,7 @@ public actor JSONRPCServerConnection: ServerConnection {
 		let note = try JSONDecoder().decode(JSONRPCNotification<Params>.self, from: data)
 
 		guard let params = note.params else {
-			throw ServerError.missingParams
+			throw ProtocolError.missingParams
 		}
 
 		return params
@@ -213,7 +213,7 @@ public actor JSONRPCServerConnection: ServerConnection {
 
 		do {
 			guard let method = ServerNotification.Method(rawValue: methodName) else {
-				throw ServerError.unrecognizedMethod(methodName)
+				throw ProtocolError.unrecognizedMethod(methodName)
 			}
 
 			switch method {
@@ -257,7 +257,7 @@ public actor JSONRPCServerConnection: ServerConnection {
 		let req = try JSONDecoder().decode(JSONRPCRequest<Params>.self, from: data)
 
 		guard let params = req.params else {
-			throw ServerError.missingParams
+			throw ProtocolError.missingParams
 		}
 
 		return params
