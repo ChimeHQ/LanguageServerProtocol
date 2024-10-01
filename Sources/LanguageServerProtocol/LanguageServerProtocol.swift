@@ -1,7 +1,7 @@
 import JSONRPC
 
-public typealias UnusedResult = String?
-public typealias UnusedParam = String?
+public typealias UnusedResult = LSPAny?
+public typealias UnusedParam = LSPAny?
 
 public enum ProtocolError: Error {
 	case unrecognizedMethod(String)

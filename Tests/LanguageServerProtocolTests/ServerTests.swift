@@ -43,4 +43,24 @@ final class ServerTests: XCTestCase {
 
 		try await server.shutdown()
 	}
+
+	func testShutdownResponseWithEmptyObject() async throws {
+		let server = MockServer()
+
+		let data = Data("{}".utf8)
+
+		await server.sendMockResponse(data)
+
+		try await server.shutdown()
+	}
+
+	func testShutdownResponseWithNull() async throws {
+		let server = MockServer()
+
+		let data = Data("null".utf8)
+
+		await server.sendMockResponse(data)
+
+		try await server.shutdown()
+	}
 }
