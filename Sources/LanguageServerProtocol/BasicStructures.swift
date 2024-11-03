@@ -33,6 +33,16 @@ extension Position: Comparable {
 	}
 }
 
+extension Range where Bound == Position {
+	public init(_ start: Position, _ end: Position) {
+		self.init(uncheckedBounds: (lower: start, upper: end))
+	}
+
+	public init(_ range: LSPRange) {
+		self.init(uncheckedBounds: (lower: range.start, upper: range.end))
+	}
+}
+
 public struct LSPRange: Codable, Hashable, Sendable {
 	public static let zero = LSPRange(start: .zero, end: .zero)
 
@@ -47,6 +57,11 @@ public struct LSPRange: Codable, Hashable, Sendable {
 	public init(startPair: (Int, Int), endPair: (Int, Int)) {
 		self.start = Position(startPair)
 		self.end = Position(endPair)
+	}
+
+	public init(_ other: Range<Position>) {
+		self.start = other.lowerBound
+		self.end = other.upperBound
 	}
 
 	public func contains(_ position: Position) -> Bool {
