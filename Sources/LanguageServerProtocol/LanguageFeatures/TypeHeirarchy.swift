@@ -1,5 +1,13 @@
 import Foundation
 
+public typealias TypeHierarchyOptions = WorkDoneProgressOptions
+
+public struct TypeHierarchyRegistrationOptions: Codable, Hashable, Sendable {
+	public let textDocument: TextDocumentIdentifier
+	public let position: Position
+	public let workDoneToken: ProgressToken?
+}
+
 public struct TypeHierarchyPrepareParams: Codable, Hashable, Sendable {
 	public let textDocument: TextDocumentIdentifier
 	public let position: Position
