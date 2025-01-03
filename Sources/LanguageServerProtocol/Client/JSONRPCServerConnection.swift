@@ -183,6 +183,8 @@ public actor JSONRPCServerConnection: ServerConnection {
 			return try await session.response(to: method, params: params)
 		case .callHierarchyOutgoingCalls(let params, _):
 			return try await session.response(to: method, params: params)
+		case .typeHierarchySubtypes(let params, _):
+			return try await session.response(to: method, params: params)
 		case let .custom(method, params, _):
 			return try await session.response(to: method, params: params)
 		}

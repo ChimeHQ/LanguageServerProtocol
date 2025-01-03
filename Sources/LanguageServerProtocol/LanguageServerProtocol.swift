@@ -166,6 +166,7 @@ public enum ClientRequest: Sendable {
 		case textDocumentMoniker = "textDocument/moniker"
 		case callHierarchyIncomingCalls = "callHierarchy/incomingCalls"
 		case callHierarchyOutgoingCalls = "callHierarchy/outgoingCalls"
+		case typeHierarchySubtypes = "typeHierarchy/subtypes"
 		case custom
 	}
 
@@ -219,6 +220,7 @@ public enum ClientRequest: Sendable {
 		CallHierarchyIncomingCallsParams, Handler<CallHierarchyIncomingCallsResponse>)
 	case callHierarchyOutgoingCalls(
 		CallHierarchyOutgoingCallsParams, Handler<CallHierarchyOutgoingCallsResponse>)
+	case typeHierarchySubtypes(TypeHierarchySubtypesParams, Handler<TypeHierarchySubtypesResponse>)
 	case custom(String, LSPAny, Handler<LSPAny>)
 
 	public var method: Method {
@@ -319,6 +321,8 @@ public enum ClientRequest: Sendable {
 			return .callHierarchyIncomingCalls
 		case .callHierarchyOutgoingCalls:
 			return .callHierarchyOutgoingCalls
+		case .typeHierarchySubtypes:
+			return .typeHierarchySubtypes
 		case .custom:
 			return .custom
 		}
