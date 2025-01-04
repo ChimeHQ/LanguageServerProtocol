@@ -167,6 +167,7 @@ public enum ClientRequest: Sendable {
 		case callHierarchyIncomingCalls = "callHierarchy/incomingCalls"
 		case callHierarchyOutgoingCalls = "callHierarchy/outgoingCalls"
 		case typeHierarchySubtypes = "typeHierarchy/subtypes"
+		case typeHierarchySupertypes = "typeHierarchy/supertypes"
 		case custom
 	}
 
@@ -221,6 +222,8 @@ public enum ClientRequest: Sendable {
 	case callHierarchyOutgoingCalls(
 		CallHierarchyOutgoingCallsParams, Handler<CallHierarchyOutgoingCallsResponse>)
 	case typeHierarchySubtypes(TypeHierarchySubtypesParams, Handler<TypeHierarchySubtypesResponse>)
+	case typeHierarchySupertypes(
+		TypeHierarchySupertypesParams, Handler<TypeHierarchySupertypesResponse>)
 	case custom(String, LSPAny, Handler<LSPAny>)
 
 	public var method: Method {
@@ -323,6 +326,8 @@ public enum ClientRequest: Sendable {
 			return .callHierarchyOutgoingCalls
 		case .typeHierarchySubtypes:
 			return .typeHierarchySubtypes
+		case .typeHierarchySupertypes:
+			return .typeHierarchySupertypes
 		case .custom:
 			return .custom
 		}

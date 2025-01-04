@@ -138,7 +138,7 @@ The LSP [specification](https://microsoft.github.io/language-server-protocol/spe
 | textDocument/willSave | ✅ |
 | textDocument/willSaveWaitUntil | ✅ |
 | typeHierarchy/subtypes | ✅ |
-| typeHierarchy/supertypes | - |
+| typeHierarchy/supertypes | ✅ |
 | window/logMessage | ✅ |
 | window/showDocument | ✅ |
 | window/showMessage | ✅ |
