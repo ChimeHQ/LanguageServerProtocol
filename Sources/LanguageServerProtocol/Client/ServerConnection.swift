@@ -725,4 +725,9 @@ extension ServerConnection {
 	public func typeHierarchySubtypes(_ params: TypeHierarchySubtypesParams) async throws -> TypeHierarchySubtypesResponse {
 		try await sendRequest(.typeHierarchySubtypes(params, ClientRequest.NullHandler))
 	}
+
+	public func typeHierarchySupertypes(_ params: TypeHierarchySupertypesParams) async throws -> TypeHierarchySupertypesResponse
+	{
+		try await sendRequest(.typeHierarchySupertypes(params, ClientRequest.NullHandler))
+	}
 }
