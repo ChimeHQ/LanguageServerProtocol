@@ -42,12 +42,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install swiftly
-        run:
-          - curl -O https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz
-          - tar zxf swiftly-$(uname -m).tar.gz
-          - ./swiftly init --quiet-shell-followup
-          - . ~/.local/share/swiftly/env.sh
-          - hash -r
+        run: |
+          curl -O https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz && \
+          tar zxf swiftly-$(uname -m).tar.gz && \
+          ./swiftly init --quiet-shell-followup && \
+          . ~/.local/share/swiftly/env.sh && \
+          hash -r
       - name: Install the latest Swift toolchain
         run: swiftly install latest
       - name: Test
