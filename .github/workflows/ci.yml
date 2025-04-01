@@ -41,14 +41,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install swiftly
-        run: |
-          curl -O https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz && \
-          tar zxf swiftly-$(uname -m).tar.gz && \
-          ./swiftly init --quiet-shell-followup && \
-          . ~/.local/share/swiftly/env.sh && \
-          hash -r
-      - name: Install the latest Swift toolchain
-        run: ./swiftly install latest
+      - uses: vapor/swiftly-action@v0.1
+        with:
+          toolchain: "6.1"
       - name: Test
         run: swift test
