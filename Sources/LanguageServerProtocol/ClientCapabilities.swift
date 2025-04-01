@@ -60,28 +60,29 @@ public struct ShowDocumentClientCapabilities: Hashable, Codable, Sendable {
 
 public struct ShowMessageRequestClientCapabilities: Hashable, Codable, Sendable {
 	public struct MessageActionItemCapabilities: Hashable, Codable, Sendable {
-		public var additionalPropertiesSupport: Bool
+		public var additionalPropertiesSupport: Bool?
 
-		public init(additionalPropertiesSupport: Bool) {
+		public init(additionalPropertiesSupport: Bool?) {
 			self.additionalPropertiesSupport = additionalPropertiesSupport
 		}
 	}
 
-	public var messageActionItem: MessageActionItemCapabilities
+	public var messageActionItem: MessageActionItemCapabilities?
 
-	public init(messageActionItem: MessageActionItemCapabilities) {
+	public init(messageActionItem: MessageActionItemCapabilities?) {
 		self.messageActionItem = messageActionItem
 	}
 }
 
 public struct WindowClientCapabilities: Hashable, Codable, Sendable {
-	public var workDoneProgress: Bool
-	public var showMessage: ShowMessageRequestClientCapabilities
-	public var showDocument: ShowDocumentClientCapabilities
+	public var workDoneProgress: Bool?
+	public var showMessage: ShowMessageRequestClientCapabilities?
+	public var showDocument: ShowDocumentClientCapabilities?
 
 	public init(
-		workDoneProgress: Bool, showMessage: ShowMessageRequestClientCapabilities,
-		showDocument: ShowDocumentClientCapabilities
+		workDoneProgress: Bool,
+		showMessage: ShowMessageRequestClientCapabilities?,
+		showDocument: ShowDocumentClientCapabilities?
 	) {
 		self.workDoneProgress = workDoneProgress
 		self.showMessage = showMessage
