@@ -23,7 +23,7 @@ jobs:
     runs-on: macOS-15
     timeout-minutes: 30
     env:
-      DEVELOPER_DIR: /Applications/Xcode_16.3.app
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app
     strategy:
       matrix:
         destination:
@@ -41,13 +41,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install swiftly
-        run: |
-          curl -O https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz && \
-          tar zxf swiftly-$(uname -m).tar.gz && \
-          ./swiftly init --quiet-shell-followup && \
-          . ~/.local/share/swiftly/env.sh && \
-          hash -r
+      - name: Swiftly step 1
+        run: curl -O https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz
+      - name: Swiftly step 2
+        run: tar zxf swiftly-$(uname -m).tar.gz
+      - name: Swiftly step 3
+        run: ./swiftly init --quiet-shell-followup
+      - name: Swiftly step 4
+        run: . ~/.local/share/swiftly/env.sh
+      - name: Swiftly step 5
+        run: hash -r
       - name: Install the latest Swift toolchain
         run: swiftly install latest
       - name: Test
