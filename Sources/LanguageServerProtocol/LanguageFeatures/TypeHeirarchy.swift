@@ -6,6 +6,16 @@ public struct TypeHierarchyRegistrationOptions: Codable, Hashable, Sendable {
 	public let textDocument: TextDocumentIdentifier
 	public let position: Position
 	public let workDoneToken: ProgressToken?
+
+	public init(
+		textDocument: TextDocumentIdentifier,
+		position: Position,
+		workDoneToken: ProgressToken? = nil
+	) {
+		self.textDocument = textDocument
+		self.position = position
+		self.workDoneToken = workDoneToken
+	}
 }
 
 public struct TypeHierarchyPrepareParams: Codable, Hashable, Sendable {

@@ -7,6 +7,13 @@ public typealias DocumentHighlightOptions = WorkDoneProgressOptions
 public struct DocumentHighlightRegistrationOptions: Codable, Hashable, Sendable {
 	public var documentSelector: DocumentSelector?
 	public var workDoneProgress: Bool?
+
+	public init(
+		documentSelector: DocumentSelector? = nil, workDoneProgress: Bool? = nil
+	) {
+		self.documentSelector = documentSelector
+		self.workDoneProgress = workDoneProgress
+	}
 }
 
 public struct DocumentHighlightParams: Codable, Hashable, Sendable {
@@ -35,6 +42,13 @@ public enum DocumentHighlightKind: Int, CaseIterable, Codable, Hashable, Sendabl
 public struct DocumentHighlight: Codable, Hashable, Sendable {
 	public var range: LSPRange
 	public var kind: DocumentHighlightKind?
+
+	public init(
+		range: LSPRange, kind: DocumentHighlightKind? = nil
+	) {
+		self.range = range
+		self.kind = kind
+	}
 }
 
 public typealias DocumentHighlightResponse = [DocumentHighlight]?

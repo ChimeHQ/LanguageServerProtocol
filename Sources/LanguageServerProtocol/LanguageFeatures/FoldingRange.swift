@@ -34,6 +34,17 @@ public struct FoldingRange: Codable, Hashable, Sendable {
 	public let endLine: Int
 	public let endCharacter: Int?
 	public let kind: FoldingRangeKind?
+
+	public init(
+		startLine: Int, startCharacter: Int? = nil, endLine: Int,
+		endCharacter: Int? = nil, kind: FoldingRangeKind? = nil
+	) {
+		self.startLine = startLine
+		self.startCharacter = startCharacter
+		self.endLine = endLine
+		self.endCharacter = endCharacter
+		self.kind = kind
+	}
 }
 
 public typealias FoldingRangeResponse = [FoldingRange]?

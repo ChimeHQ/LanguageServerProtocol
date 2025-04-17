@@ -27,6 +27,11 @@ public struct SelectionRangeParams: Codable, Hashable, Sendable {
 public final class SelectionRange: Codable, Sendable {
 	public let range: LSPRange
 	public let parent: SelectionRange?
+
+	public init(range: LSPRange, parent: SelectionRange?) {
+		self.range = range
+		self.parent = parent
+	}
 }
 
 extension SelectionRange: Equatable {

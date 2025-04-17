@@ -23,6 +23,14 @@ public struct ColorPresentation: Codable, Hashable, Sendable {
 	public let label: String
 	public let textEdit: TextEdit?
 	public let additionalTextEdits: [TextEdit]?
+
+	public init(
+		label: String, textEdit: TextEdit? = nil, additionalTextEdits: [TextEdit]? = nil
+	) {
+		self.label = label
+		self.textEdit = textEdit
+		self.additionalTextEdits = additionalTextEdits
+	}
 }
 
 public typealias ColorPresentationResponse = [ColorPresentation]

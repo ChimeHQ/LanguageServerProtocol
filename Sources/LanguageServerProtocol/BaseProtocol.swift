@@ -24,11 +24,21 @@ public struct CancelParams: Hashable, Codable, Sendable {
 public struct ProgressParams: Hashable, Codable, Sendable {
 	public var token: ProgressToken
 	public var value: LSPAny?
+
+	public init(token: ProgressToken, value: LSPAny? = nil) {
+		self.token = token
+		self.value = value
+	}
 }
 
 public struct LogTraceParams: Hashable, Codable, Sendable {
 	public var string: String
 	public var verbose: String?
+
+	public init(string: String, verbose: String? = nil) {
+		self.string = string
+		self.verbose = verbose
+	}
 }
 
 public enum TraceValue: String, Hashable, Codable, Sendable {

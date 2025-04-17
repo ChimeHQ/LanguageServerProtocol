@@ -74,6 +74,13 @@ public struct CallHierarchyIncomingCallsParams: Codable, Hashable, Sendable {
 public struct CallHierarchyIncomingCall: Codable, Hashable, Sendable {
 	public let from: CallHierarchyItem
 	public let fromRanges: [LSPRange]
+
+	public init(
+		from: CallHierarchyItem, fromRanges: [LSPRange]
+	) {
+		self.from = from
+		self.fromRanges = fromRanges
+	}
 }
 
 public typealias CallHierarchyIncomingCallsResponse = [CallHierarchyIncomingCall]?
@@ -83,6 +90,11 @@ public typealias CallHierarchyOutgoingCallsParams = CallHierarchyIncomingCallsPa
 public struct CallHierarchyOutgoingCall: Codable, Hashable, Sendable {
 	public let to: CallHierarchyItem
 	public let fromRanges: [LSPRange]
+
+	public init(to: CallHierarchyItem, fromRanges: [LSPRange]) {
+		self.to = to
+		self.fromRanges = fromRanges
+	}
 }
 
 public typealias CallHierarchyOutgoingCallsResponse = [CallHierarchyOutgoingCall]?

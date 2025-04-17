@@ -8,6 +8,20 @@ public struct StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions:
 	public var position: Position
 	public var documentSelector: DocumentSelector?
 	public var id: String?
+
+	public init(
+		workDoneProgress: Bool? = nil,
+	 	textDocument: TextDocumentIdentifier,
+		position: Position,
+		documentSelector: DocumentSelector? = nil,
+	 	id: String? = nil
+	) {
+		self.workDoneProgress = workDoneProgress
+		self.textDocument = textDocument
+		self.position = position
+		self.documentSelector = documentSelector
+		self.id = id
+	}
 }
 
 public struct PartialResultsWorkDoneProgressTextDocumentRegistrationOptions: Codable, Hashable,
@@ -18,14 +32,36 @@ public struct PartialResultsWorkDoneProgressTextDocumentRegistrationOptions: Cod
 	public var position: Position
 	public var documentSelector: DocumentSelector?
 	public var partialResultToken: ProgressToken?
+
+	public init(
+		workDoneProgress: Bool? = nil,
+		textDocument: TextDocumentIdentifier,
+		position: Position,
+		documentSelector: DocumentSelector? = nil,
+		partialResultToken: ProgressToken? = nil
+	) {
+		self.workDoneProgress = workDoneProgress
+		self.textDocument = textDocument
+		self.position = position
+		self.documentSelector = documentSelector
+		self.partialResultToken = partialResultToken
+	}
 }
 
 public struct WorkDoneProgressOptions: Codable, Hashable, Sendable {
 	public var workDoneProgress: Bool?
+
+	public init(workDoneProgress: Bool? = nil) {
+		self.workDoneProgress = workDoneProgress
+	}
 }
 
 public struct SaveOptions: Codable, Hashable, Sendable {
 	public let includeText: Bool?
+
+	public init(includeText: Bool? = nil) {
+		self.includeText = includeText
+	}
 }
 
 public enum TextDocumentSyncKind: Int, Codable, Hashable, Sendable {
@@ -101,6 +137,16 @@ public struct SignatureHelpOptions: Codable, Hashable, Sendable {
 	public var workDoneProgress: Bool?
 	public var triggerCharacters: [String]?
 	public var retriggerCharacters: [String]?
+
+	public init(
+		workDoneProgress: Bool? = nil,
+	 	triggerCharacters: [String]? = nil,
+		retriggerCharacters: [String]? = nil
+	) {
+		self.workDoneProgress = workDoneProgress
+		self.triggerCharacters = triggerCharacters
+		self.retriggerCharacters = retriggerCharacters
+	}
 }
 
 public typealias DeclarationOptions = WorkDoneProgressOptions
@@ -125,6 +171,11 @@ public typealias ReferenceOptions = WorkDoneProgressOptions
 public struct DocumentSymbolOptions: Codable, Hashable, Sendable {
 	public var workDoneProgress: Bool?
 	public var label: String?
+
+	public init(workDoneProgress: Bool? = nil, label: String? = nil) {
+		self.workDoneProgress = workDoneProgress
+		self.label = label
+	}
 }
 
 public typealias DocumentColorOptions = WorkDoneProgressOptions
@@ -139,6 +190,14 @@ public typealias DocumentRangeFormattingOptions = WorkDoneProgressOptions
 public struct DocumentOnTypeFormattingOptions: Codable, Hashable, Sendable {
 	public var firstTriggerCharacter: String
 	public var moreTriggerCharacter: [String]?
+
+	public init(
+		firstTriggerCharacter: String,
+		moreTriggerCharacter: [String]? = nil
+	) {
+		self.firstTriggerCharacter = firstTriggerCharacter
+		self.moreTriggerCharacter = moreTriggerCharacter
+	}
 }
 
 public typealias FoldingRangeOptions = WorkDoneProgressOptions
@@ -167,7 +226,6 @@ public struct SemanticTokensOptions: Codable, Hashable, Sendable {
 		self.range = range
 		self.full = full
 	}
-
 }
 
 public struct SemanticTokensRegistrationOptions: Codable, Hashable, Sendable {
@@ -201,6 +259,14 @@ public typealias MonikerRegistrationOptions =
 public struct WorkspaceFoldersServerCapabilities: Codable, Hashable, Sendable {
 	public var supported: Bool?
 	public var changeNotifications: TwoTypeOption<String, Bool>?
+
+	public init(
+		supported: Bool? = nil,
+		changeNotifications: TwoTypeOption<String, Bool>? = nil
+	) {
+		self.supported = supported
+		self.changeNotifications = changeNotifications
+	}
 }
 
 public struct ServerCapabilities: Codable, Hashable, Sendable {
