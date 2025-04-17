@@ -122,11 +122,11 @@ public typealias WillSaveWaitUntilResponse = [TextEdit]?
 ///
 /// https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#insertReplaceEdit
 public struct InsertReplaceEdit: Codable, Hashable, Sendable {
-    public let newText: String
-    public let insert: LSPRange
-    public let replace: LSPRange
+	public let newText: String
+	public let insert: LSPRange
+	public let replace: LSPRange
 
-    public init(newText: String, insert: LSPRange, replace: LSPRange) {
+	public init(newText: String, insert: LSPRange, replace: LSPRange) {
 		self.newText = newText
 		self.insert = insert
 		self.replace = replace

@@ -231,9 +231,9 @@ extension ServerConnection {
 		try await sendRequest(.completion(params, ClientRequest.NullHandler))
 	}
 
-    public func completeItemResolve(_ params: CompletionItem) async throws -> CompletionItem {
-        try await sendRequest(.completionItemResolve(params, ClientRequest.NullHandler))
-    }
+	public func completeItemResolve(_ params: CompletionItem) async throws -> CompletionItem {
+		try await sendRequest(.completionItemResolve(params, ClientRequest.NullHandler))
+	}
 
 	@available(*, deprecated, renamed: "hover(_:)")
 	public func hover(params: TextDocumentPositionParams) async throws -> HoverResponse {
@@ -263,7 +263,8 @@ extension ServerConnection {
 		try await declaration(params)
 	}
 
-	public func declaration(_ params: TextDocumentPositionParams) async throws -> DeclarationResponse
+	public func declaration(_ params: TextDocumentPositionParams) async throws
+		-> DeclarationResponse
 	{
 		try await sendRequest(.declaration(params, ClientRequest.NullHandler))
 	}
@@ -273,7 +274,8 @@ extension ServerConnection {
 		try await definition(params)
 	}
 
-	public func definition(_ params: TextDocumentPositionParams) async throws -> DefinitionResponse {
+	public func definition(_ params: TextDocumentPositionParams) async throws -> DefinitionResponse
+	{
 		try await sendRequest(.definition(params, ClientRequest.NullHandler))
 	}
 
@@ -309,7 +311,8 @@ extension ServerConnection {
 		try await documentSymbol(params)
 	}
 
-	public func documentSymbol(_ params: DocumentSymbolParams) async throws -> DocumentSymbolResponse
+	public func documentSymbol(_ params: DocumentSymbolParams) async throws
+		-> DocumentSymbolResponse
 	{
 		try await sendRequest(.documentSymbol(params, ClientRequest.NullHandler))
 	}
@@ -557,7 +560,8 @@ extension ServerConnection {
 		try await executeCommand(params)
 	}
 
-	public func executeCommand(_ params: ExecuteCommandParams) async throws -> ExecuteCommandResponse
+	public func executeCommand(_ params: ExecuteCommandParams) async throws
+		-> ExecuteCommandResponse
 	{
 		try await sendRequest(.workspaceExecuteCommand(params, ClientRequest.NullHandler))
 	}
@@ -659,7 +663,8 @@ extension ServerConnection {
 		try await selectionRange(params)
 	}
 
-	public func selectionRange(_ params: SelectionRangeParams) async throws -> SelectionRangeResponse
+	public func selectionRange(_ params: SelectionRangeParams) async throws
+		-> SelectionRangeResponse
 	{
 		try await sendRequest(.selectionRange(params, ClientRequest.NullHandler))
 	}
@@ -722,11 +727,14 @@ extension ServerConnection {
 		try await sendRequest(.inlayHintResolve(params, ClientRequest.NullHandler))
 	}
 
-	public func typeHierarchySubtypes(_ params: TypeHierarchySubtypesParams) async throws -> TypeHierarchySubtypesResponse {
+	public func typeHierarchySubtypes(_ params: TypeHierarchySubtypesParams) async throws
+		-> TypeHierarchySubtypesResponse
+	{
 		try await sendRequest(.typeHierarchySubtypes(params, ClientRequest.NullHandler))
 	}
 
-	public func typeHierarchySupertypes(_ params: TypeHierarchySupertypesParams) async throws -> TypeHierarchySupertypesResponse
+	public func typeHierarchySupertypes(_ params: TypeHierarchySupertypesParams) async throws
+		-> TypeHierarchySupertypesResponse
 	{
 		try await sendRequest(.typeHierarchySupertypes(params, ClientRequest.NullHandler))
 	}

@@ -11,10 +11,10 @@ public struct StaticRegistrationWorkDoneProgressTextDocumentRegistrationOptions:
 
 	public init(
 		workDoneProgress: Bool? = nil,
-	 	textDocument: TextDocumentIdentifier,
+		textDocument: TextDocumentIdentifier,
 		position: Position,
 		documentSelector: DocumentSelector? = nil,
-	 	id: String? = nil
+		id: String? = nil
 	) {
 		self.workDoneProgress = workDoneProgress
 		self.textDocument = textDocument
@@ -140,7 +140,7 @@ public struct SignatureHelpOptions: Codable, Hashable, Sendable {
 
 	public init(
 		workDoneProgress: Bool? = nil,
-	 	triggerCharacters: [String]? = nil,
+		triggerCharacters: [String]? = nil,
 		retriggerCharacters: [String]? = nil
 	) {
 		self.workDoneProgress = workDoneProgress
@@ -343,7 +343,8 @@ public struct ServerCapabilities: Codable, Hashable, Sendable {
 	public var semanticTokensProvider:
 		TwoTypeOption<SemanticTokensOptions, SemanticTokensRegistrationOptions>?
 	public var monikerProvider: ThreeTypeOption<Bool, MonikerOptions, MonikerRegistrationOptions>?
-	public var typeHierarchyProvider: ThreeTypeOption<Bool, TypeHierarchyOptions, TypeHierarchyRegistrationOptions>?
+	public var typeHierarchyProvider:
+		ThreeTypeOption<Bool, TypeHierarchyOptions, TypeHierarchyRegistrationOptions>?
 	public var inlayHintProvider:
 		ThreeTypeOption<Bool, InlayHintOptions, InlayHintRegistrationOptions>?
 	public var diagnosticProvider: TwoTypeOption<DiagnosticOptions, DiagnosticRegistrationOptions>?

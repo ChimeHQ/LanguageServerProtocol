@@ -53,7 +53,10 @@ public struct ParameterInformation: Codable, Hashable, Sendable {
 	public var label: TwoTypeOption<String, [UInt]>
 	public var documentation: TwoTypeOption<String, MarkupContent>?
 
-	public init(label: TwoTypeOption<String, [UInt]>, documentation: TwoTypeOption<String, MarkupContent>? = nil) {
+	public init(
+		label: TwoTypeOption<String, [UInt]>,
+		documentation: TwoTypeOption<String, MarkupContent>? = nil
+	) {
 		self.label = label
 		self.documentation = documentation
 	}

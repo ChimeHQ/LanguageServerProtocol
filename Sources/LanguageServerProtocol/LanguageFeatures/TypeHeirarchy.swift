@@ -72,7 +72,10 @@ public struct TypeHierarchySubtypesParams: Codable, Hashable, Sendable {
 	public let partialResultToken: ProgressToken?
 	public let item: TypeHierarchyItem
 
-	public init(workDoneToken: ProgressToken? = nil, partialResultToken: ProgressToken? = nil, item: TypeHierarchyItem) {
+	public init(
+		workDoneToken: ProgressToken? = nil, partialResultToken: ProgressToken? = nil,
+		item: TypeHierarchyItem
+	) {
 		self.workDoneToken = workDoneToken
 		self.partialResultToken = partialResultToken
 		self.item = item

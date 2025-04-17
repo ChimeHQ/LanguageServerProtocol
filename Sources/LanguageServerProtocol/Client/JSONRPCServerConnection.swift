@@ -353,7 +353,7 @@ public actor JSONRPCServerConnection: ServerConnection {
 			case .custom:
 				let params = try decodeRequestParams(LSPAny.self, from: data)
 				let reqHandler: ServerRequest.Handler<LSPAny> = makeHandler(handler)
-				
+
 				yield(id: id, request: ServerRequest.custom(methodName, params, reqHandler))
 
 			}
