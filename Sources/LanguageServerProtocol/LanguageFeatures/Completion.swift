@@ -243,6 +243,16 @@ public struct CompletionRegistrationOptions: Codable {
 	public let documentSelector: DocumentSelector?
 	public let triggerCharacters: [String]?
 	public let resolveProvider: Bool?
+
+	public init(
+		documentSelector: DocumentSelector? = nil,
+		triggerCharacters: [String]? = nil,
+		resolveProvider: Bool? = nil
+	) {
+		self.documentSelector = documentSelector
+		self.triggerCharacters = triggerCharacters
+		self.resolveProvider = resolveProvider
+	}
 }
 
 public enum InsertTextMode: Int, CaseIterable, Codable, Hashable, Sendable {

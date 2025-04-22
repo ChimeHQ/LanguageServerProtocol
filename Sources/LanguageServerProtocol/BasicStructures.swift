@@ -136,6 +136,12 @@ public struct Command: Codable, Hashable, Sendable {
 	public let title: String
 	public let command: String
 	public let arguments: [LSPAny]?
+
+	public init(title: String, command: String, arguments: [LSPAny]? = nil) {
+		self.title = title
+		self.command = command
+		self.arguments = arguments
+	}
 }
 
 public enum SymbolKind: Int, CaseIterable, Hashable, Codable, Sendable {
@@ -191,6 +197,11 @@ public struct TextDocumentPositionParams: Codable, Hashable, Sendable {
 public struct LanguageStringPair: Codable, Hashable, Sendable {
 	public let language: LanguageIdentifier
 	public let value: String
+
+	public init(language: LanguageIdentifier, value: String) {
+		self.language = language
+		self.value = value
+	}
 }
 
 public typealias MarkedString = TwoTypeOption<String, LanguageStringPair>
@@ -209,6 +220,11 @@ extension MarkedString {
 public struct MarkupContent: Codable, Hashable, Sendable {
 	public let kind: MarkupKind
 	public let value: String
+
+	public init(kind: MarkupKind, value: String) {
+		self.kind = kind
+		self.value = value
+	}
 }
 
 public struct LocationLink: Codable, Hashable, Sendable {

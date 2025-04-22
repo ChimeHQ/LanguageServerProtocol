@@ -20,6 +20,11 @@ public struct DocumentLinkClientCapabilities: Codable, Hashable, Sendable {
 public struct DocumentLinkOptions: Codable, Hashable, Sendable {
 	public var workDoneProgress: Bool?
 	public var resolveProvider: Bool?
+
+	public init(workDoneProgress: Bool? = nil, resolveProvider: Bool? = nil) {
+		self.workDoneProgress = workDoneProgress
+		self.resolveProvider = resolveProvider
+	}
 }
 
 public struct DocumentLinkRegistrationOptions: Codable, Hashable, Sendable {
@@ -40,6 +45,13 @@ public struct DocumentLinkRegistrationOptions: Codable, Hashable, Sendable {
 public struct DocumentLinkParams: Codable, Hashable, Sendable {
 	public var workDoneToken: ProgressToken?
 	public var partialResultToken: ProgressToken?
+
+	public init(
+		workDoneToken: ProgressToken? = nil, partialResultToken: ProgressToken? = nil
+	) {
+		self.workDoneToken = workDoneToken
+		self.partialResultToken = partialResultToken
+	}
 }
 
 public struct DocumentLink: Codable, Hashable, Sendable {

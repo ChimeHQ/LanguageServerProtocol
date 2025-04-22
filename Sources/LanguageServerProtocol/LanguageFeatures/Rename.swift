@@ -25,6 +25,11 @@ public struct RenameClientCapabilities: Codable, Hashable, Sendable {
 public struct RenameOptions: Codable, Hashable, Sendable {
 	public var workDoneProgress: Bool?
 	public var prepareProvider: Bool?
+
+	public init(workDoneProgress: Bool? = nil, prepareProvider: Bool? = nil) {
+		self.workDoneProgress = workDoneProgress
+		self.prepareProvider = prepareProvider
+	}
 }
 
 public typealias PrepareRenameParams = TextDocumentPositionParams
@@ -44,10 +49,19 @@ public struct RenameParams: Codable, Hashable, Sendable {
 public struct RangeWithPlaceholder: Codable, Hashable, Sendable {
 	public let range: LSPRange
 	public let placeholder: String
+
+	public init(range: LSPRange, placeholder: String) {
+		self.range = range
+		self.placeholder = placeholder
+	}
 }
 
 public struct PrepareRenameDefaultBehavior: Codable, Hashable, Sendable {
 	public let defaultBehavior: Bool
+
+	public init(defaultBehavior: Bool) {
+		self.defaultBehavior = defaultBehavior
+	}
 }
 
 public typealias PrepareRenameResponse = ThreeTypeOption<

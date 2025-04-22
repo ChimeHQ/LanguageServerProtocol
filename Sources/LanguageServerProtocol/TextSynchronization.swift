@@ -46,6 +46,14 @@ public struct DidChangeTextDocumentParams: Codable, Hashable, Sendable {
 public struct TextDocumentChangeRegistrationOptions: Codable, Hashable, Sendable {
 	public let documentSelector: DocumentSelector?
 	public let syncKind: TextDocumentSyncKind
+
+	public init(
+		documentSelector: DocumentSelector?,
+		syncKind: TextDocumentSyncKind
+	) {
+		self.documentSelector = documentSelector
+		self.syncKind = syncKind
+	}
 }
 
 public struct DidSaveTextDocumentParams: Codable, Hashable, Sendable {
@@ -68,6 +76,14 @@ public struct DidSaveTextDocumentParams: Codable, Hashable, Sendable {
 public struct TextDocumentSaveRegistrationOptions: Codable, Hashable, Sendable {
 	public let documentSelector: DocumentSelector?
 	public let includeText: Bool?
+
+	public init(
+		documentSelector: DocumentSelector?,
+		includeText: Bool? = nil
+	) {
+		self.documentSelector = documentSelector
+		self.includeText = includeText
+	}
 }
 
 public struct DidCloseTextDocumentParams: Codable, Hashable, Sendable {
@@ -106,9 +122,15 @@ public typealias WillSaveWaitUntilResponse = [TextEdit]?
 ///
 /// https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#insertReplaceEdit
 public struct InsertReplaceEdit: Codable, Hashable, Sendable {
-    public let newText: String
-    public let insert: LSPRange
-    public let replace: LSPRange
+	public let newText: String
+	public let insert: LSPRange
+	public let replace: LSPRange
+
+	public init(newText: String, insert: LSPRange, replace: LSPRange) {
+		self.newText = newText
+		self.insert = insert
+		self.replace = replace
+	}
 }
 
 public struct TextEdit: Codable, Hashable, Sendable {

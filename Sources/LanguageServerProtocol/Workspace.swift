@@ -142,7 +142,8 @@ public struct RenameFile: Codable, Hashable, Sendable {
 	public let newUri: DocumentUri
 	public let options: RenameFileOptions
 
-	public init(kind: String, oldUri: DocumentUri, newUri: DocumentUri, options: RenameFileOptions) {
+	public init(kind: String, oldUri: DocumentUri, newUri: DocumentUri, options: RenameFileOptions)
+	{
 		self.kind = kind
 		self.oldUri = oldUri
 		self.newUri = newUri
@@ -223,7 +224,9 @@ public struct WorkspaceEdit: Codable, Hashable, Sendable {
 	public let changes: [DocumentUri: [TextEdit]]?
 	public let documentChanges: [WorkspaceEditDocumentChange]?
 
-	public init(changes: [DocumentUri: [TextEdit]]?, documentChanges: [WorkspaceEditDocumentChange]?) {
+	public init(
+		changes: [DocumentUri: [TextEdit]]?, documentChanges: [WorkspaceEditDocumentChange]?
+	) {
 		self.changes = changes
 		self.documentChanges = documentChanges
 	}

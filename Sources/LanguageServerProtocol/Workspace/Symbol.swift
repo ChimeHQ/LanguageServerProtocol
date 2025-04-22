@@ -35,6 +35,11 @@ public struct WorkspaceSymbolClientCapabilities: Codable, Hashable, Sendable {
 public struct WorkspaceSymbolOptions: Codable, Hashable, Sendable {
 	public var workDoneProgress: Bool?
 	public var resolveProvider: Bool?
+
+	public init(workDoneProgress: Bool? = nil, resolveProvider: Bool? = nil) {
+		self.workDoneProgress = workDoneProgress
+		self.resolveProvider = resolveProvider
+	}
 }
 
 public typealias WorkspaceSymbolRegistrationOptions = WorkspaceSymbolOptions
@@ -59,6 +64,18 @@ public struct WorkspaceSymbol: Codable, Hashable, Sendable {
 	public var tags: [SymbolTag]?
 	public var location: TwoTypeOption<Location, TextDocumentIdentifier>?
 	public var containerName: String?
+
+	public init(
+		name: String, kind: SymbolKind, tags: [SymbolTag]? = nil,
+		location: TwoTypeOption<Location, TextDocumentIdentifier>? = nil,
+		containerName: String? = nil
+	) {
+		self.name = name
+		self.kind = kind
+		self.tags = tags
+		self.location = location
+		self.containerName = containerName
+	}
 }
 
 public typealias WorkspaceSymbolResponse = TwoTypeOption<[SymbolInformation], [WorkspaceSymbol]>?
