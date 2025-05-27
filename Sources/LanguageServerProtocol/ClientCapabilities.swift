@@ -33,11 +33,12 @@ public enum FailureHandlingKind: String, Codable, Hashable, Sendable {
 
 public struct WorkspaceClientCapabilityEdit: Codable, Hashable, Sendable {
 	public let documentChanges: Bool?
-	public let resourceOperations: [ResourceOperationKind]
+	public let resourceOperations: [ResourceOperationKind]?
 	public let failureHandling: FailureHandlingKind?
 
 	public init(
-		documentChanges: Bool?, resourceOperations: [ResourceOperationKind],
+		documentChanges: Bool?,
+		resourceOperations: [ResourceOperationKind]?,
 		failureHandling: FailureHandlingKind?
 	) {
 		self.documentChanges = documentChanges
