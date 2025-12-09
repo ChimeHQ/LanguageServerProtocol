@@ -7,10 +7,15 @@ public actor JSONRPCServerConnection: ServerConnection {
 	private var eventTask: Task<Void, Never>?
 
 	private let session: JSONRPCSession
-
-	/// NOTE: The channel will wrapped with message framing
-	public init(dataChannel: DataChannel) {
-		self.session = JSONRPCSession(channel: dataChannel.withMessageFraming())
+	
+	/// Create a JSON-RPC server connection from a data channel.
+	///
+	/// - Parameters:
+	///   - dataChannel: The data channel use by the server connection for communication.
+	///   - framing: Whether to wrap the channel with message framing. The default is to perform wrapping.
+	///   
+	public init(dataChannel: DataChannel, addMessageFraming framing: Bool = true) {
+		self.session = JSONRPCSession(channel: framing ? dataChannel.withMessageFraming() : dataChannel)
 
 		(self.eventSequence, self.eventContinuation) = EventSequence.makeStream()
 
