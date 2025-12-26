@@ -57,16 +57,16 @@ public struct InlayHintParams: Codable, Hashable, Sendable {
 
 public struct InlayHintLabelPart: Codable, Hashable, Sendable {
 	public var value: String
-	public var tooltop: TwoTypeOption<String, MarkupContent>?
+	public var tooltip: TwoTypeOption<String, MarkupContent>?
 	public var location: Location?
 	public var command: Command?
 
 	public init(
-		value: String, tooltop: TwoTypeOption<String, MarkupContent>? = nil,
+		value: String, tooltip: TwoTypeOption<String, MarkupContent>? = nil,
 		location: Location? = nil, command: Command? = nil
 	) {
 		self.value = value
-		self.tooltop = tooltop
+		self.tooltip = tooltip
 		self.location = location
 		self.command = command
 	}
