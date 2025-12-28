@@ -139,7 +139,7 @@ public struct SemanticTokensParams: Codable, Hashable, Sendable {
 }
 
 // https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#documentSelector
-public struct SemanticToken {
+public struct SemanticToken: Codable, Hashable, Sendable {
 	// typealias EncodedTuple = (line: UInt32, char: UInt32, length: UInt32, type: UInt32, modifiers: UInt32)
 
 	public let line: UInt32
