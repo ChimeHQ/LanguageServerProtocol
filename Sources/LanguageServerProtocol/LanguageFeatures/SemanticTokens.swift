@@ -30,8 +30,8 @@ public struct SemanticTokensClientCapabilities: Codable, Hashable, Sendable {
 		public typealias RangeOption = TwoTypeOption<Bool, Range>
 		public typealias FullOption = TwoTypeOption<Bool, Full>
 
-		public var range: RangeOption
-		public var full: FullOption
+		public var range: RangeOption?
+		public var full: FullOption?
 
 		public init(range: Bool = true, delta: Bool = true) {
 			self.range = .optionA(range)
