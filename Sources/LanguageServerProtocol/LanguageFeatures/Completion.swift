@@ -155,8 +155,19 @@ public enum InsertTextFormat: Int, Codable, Hashable, Sendable {
 	case snippet = 2
 }
 
+public struct CompletionItemLabelDetails: Codable, Hashable, Sendable {
+	public let detail: String?
+	public let description: String?
+
+	public init(detail: String? = nil, description: String? = nil) {
+		self.detail = detail
+		self.description = description
+	}
+}
+
 public struct CompletionItem: Codable, Hashable, Sendable {
 	public let label: String
+	public let labelDetails: CompletionItemLabelDetails?
 	public let kind: CompletionItemKind?
 	public let detail: String?
 	public let documentation: TwoTypeOption<String, MarkupContent>?
@@ -174,6 +185,7 @@ public struct CompletionItem: Codable, Hashable, Sendable {
 
 	public init(
 		label: String,
+		labelDetails: CompletionItemLabelDetails? = nil,
 		kind: CompletionItemKind? = nil,
 		detail: String? = nil,
 		documentation: TwoTypeOption<String, MarkupContent>? = nil,
@@ -190,6 +202,7 @@ public struct CompletionItem: Codable, Hashable, Sendable {
 		data: LSPAny? = nil
 	) {
 		self.label = label
+		self.labelDetails = labelDetails
 		self.kind = kind
 		self.detail = detail
 		self.documentation = documentation
