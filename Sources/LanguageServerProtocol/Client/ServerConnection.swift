@@ -339,15 +339,15 @@ extension ServerConnection {
 		try await sendRequest(.prepareRename(params, ClientRequest.NullHandler))
 	}
 
-	@available(*, deprecated, renamed: "prepareTypeHeirarchy(_:)")
+	@available(*, deprecated, renamed: "prepareTypeHierarchy(_:)")
 	public func prepareTypeHeirarchy(params: TypeHierarchyPrepareParams) async throws
 		-> PrepareTypeHeirarchyResponse
 	{
-		try await prepareTypeHeirarchy(params)
+		try await prepareTypeHierarchy(params)
 	}
 
-	public func prepareTypeHeirarchy(_ params: TypeHierarchyPrepareParams) async throws
-		-> PrepareTypeHeirarchyResponse
+	public func prepareTypeHierarchy(_ params: TypeHierarchyPrepareParams) async throws
+		-> PrepareTypeHierarchyResponse
 	{
 		try await sendRequest(.prepareTypeHierarchy(params, ClientRequest.NullHandler))
 	}

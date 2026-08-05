@@ -200,7 +200,7 @@ public enum ClientRequest: Sendable {
 	case linkedEditingRange(LinkedEditingRangeParams, Handler<LinkedEditingRangeResponse>)
 	case prepareCallHierarchy(CallHierarchyPrepareParams, Handler<CallHierarchyPrepareResponse>)
 	case prepareRename(PrepareRenameParams, Handler<PrepareRenameResponse>)
-	case prepareTypeHierarchy(TypeHierarchyPrepareParams, Handler<PrepareTypeHeirarchyResponse>)
+	case prepareTypeHierarchy(TypeHierarchyPrepareParams, Handler<PrepareTypeHierarchyResponse>)
 	case rename(RenameParams, Handler<RenameResponse>)
 	case inlayHint(InlayHintParams, Handler<InlayHintResponse>)
 	case inlayHintResolve(InlayHint, Handler<InlayHintResponse>)

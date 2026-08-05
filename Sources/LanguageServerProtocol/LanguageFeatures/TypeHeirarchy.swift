@@ -65,7 +65,10 @@ public struct TypeHierarchyItem: Codable, Hashable, Sendable {
 	}
 }
 
-public typealias PrepareTypeHeirarchyResponse = [TypeHierarchyItem]?
+public typealias PrepareTypeHierarchyResponse = [TypeHierarchyItem]?
+
+@available(*, deprecated, renamed: "PrepareTypeHierarchyResponse")
+public typealias PrepareTypeHeirarchyResponse = PrepareTypeHierarchyResponse
 
 public struct TypeHierarchySubtypesParams: Codable, Hashable, Sendable {
 	public let workDoneToken: ProgressToken?
