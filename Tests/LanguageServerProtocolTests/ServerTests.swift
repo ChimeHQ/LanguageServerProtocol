@@ -1,5 +1,6 @@
 import XCTest
 import LanguageServerProtocol
+import JSONRPC
 
 final class ServerTests: XCTestCase {
     func testNonOptionalSend() async throws {
@@ -62,5 +63,35 @@ final class ServerTests: XCTestCase {
 		await server.sendMockResponse(data)
 
 		try await server.shutdown()
+	}
+
+	func testServerRequestPreservesJSONRPCError() async {
+		let expected = AnyJSONRPCResponseError(code: -32001, message: "Folder unavailable", data: .string("workspace"))
+		let response = expectation(description: "workspace folders reply")
+		let request = ServerRequest.workspaceFolders { result in
+			if case let .failure(error) = result {
+				XCTAssertEqual(error, expected)
+			} else {
+				XCTFail("Expected an error reply")
+			}
+			response.fulfill()
+		}
+
+		await request.relyWithError(expected)
+		await fulfillment(of: [response], timeout: 1)
+	}
+
+	func testServerRequestDescribesSwiftError() async {
+		enum RefreshError: Error { case refreshCancelled }
+		let response = expectation(description: "code lens refresh reply")
+		let request = ServerRequest.workspaceCodeLensRefresh { error in
+			XCTAssertEqual(error?.code, JSONRPCErrors.internalError)
+			XCTAssertEqual(error?.message, "refreshCancelled")
+			XCTAssertNil(error?.data)
+			response.fulfill()
+		}
+
+		await request.relyWithError(RefreshError.refreshCancelled)
+		await fulfillment(of: [response], timeout: 1)
 	}
 }

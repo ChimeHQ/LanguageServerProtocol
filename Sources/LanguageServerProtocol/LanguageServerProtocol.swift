@@ -550,8 +550,8 @@ public enum ServerRequest: Sendable {
 	}
 
 	public func relyWithError(_ error: Error) async {
-		let protocolError = AnyJSONRPCResponseError(
-			code: JSONRPCErrors.internalError, message: "unsupported", data: nil)
+		let protocolError = error as? AnyJSONRPCResponseError ?? AnyJSONRPCResponseError(
+			code: JSONRPCErrors.internalError, message: String(describing: error))
 
 		switch self {
 		case let .workspaceConfiguration(_, handler):
