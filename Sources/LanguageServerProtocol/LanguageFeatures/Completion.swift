@@ -76,6 +76,23 @@ public struct CompletionClientCapabilities: Codable, Hashable, Sendable {
 		self.insertTextMode = insertTextMode
 		self.completionList = completionList
 	}
+
+	public init(from decoder: Decoder) throws {
+		// LSP clients may omit valueSet when they support only the original completion kinds.
+		struct ItemKinds: Decodable {
+			let valueSet: [CompletionItemKind]?
+		}
+
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		let kinds = try container.decodeIfPresent(ItemKinds.self, forKey: .completionItemKind)
+		self.init(
+			dynamicRegistration: try container.decodeIfPresent(Bool.self, forKey: .dynamicRegistration),
+			completionItem: try container.decodeIfPresent(CompletionItem.self, forKey: .completionItem),
+			completionItemKind: kinds?.valueSet.map(ValueSet.init(valueSet:)),
+			contextSupport: try container.decodeIfPresent(Bool.self, forKey: .contextSupport),
+			insertTextMode: try container.decodeIfPresent(InsertTextMode.self, forKey: .insertTextMode),
+			completionList: try container.decodeIfPresent(CompletionList.self, forKey: .completionList))
+	}
 }
 
 public enum CompletionTriggerKind: Int, Codable, Hashable, Sendable {
