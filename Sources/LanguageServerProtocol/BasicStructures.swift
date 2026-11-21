@@ -71,7 +71,7 @@ public struct LSPRange: Codable, Hashable, Sendable {
 
 	/// Returns true iff there is any position contained both in `self` and `other`.
 	public func intersects(_ other: LSPRange) -> Bool {
-		return contains(other.start) || contains(other.end)
+		return max(start, other.start) < min(end, other.end)
 	}
 
 	public var isEmpty: Bool {
