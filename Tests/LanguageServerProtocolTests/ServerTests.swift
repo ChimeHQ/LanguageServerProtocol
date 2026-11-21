@@ -83,15 +83,37 @@ final class ServerTests: XCTestCase {
 
 	func testServerRequestDescribesSwiftError() async {
 		enum RefreshError: Error { case refreshCancelled }
+		await assertServerError(RefreshError.refreshCancelled, hasMessage: "refreshCancelled")
+	}
+
+	func testServerRequestUsesLocalizedErrorMessage() async {
+		enum FolderError: LocalizedError {
+			case offline
+			var errorDescription: String? { "The workspace is offline." }
+		}
+		await assertServerError(FolderError.offline, hasMessage: "The workspace is offline.")
+	}
+
+	func testServerRequestSendsOnlyNSErrorMessage() async {
+		let error = NSError(domain: "Workspace", code: 1, userInfo: [
+			NSLocalizedDescriptionKey: "Could not open the workspace.",
+			"internalContext": "local diagnostic details",
+		])
+		await assertServerError(error, hasMessage: "Could not open the workspace.")
+	}
+
+	private func assertServerError(_ supplied: Error, hasMessage message: String,
+		file: StaticString = #filePath, line: UInt = #line
+	) async {
 		let response = expectation(description: "code lens refresh reply")
 		let request = ServerRequest.workspaceCodeLensRefresh { error in
-			XCTAssertEqual(error?.code, JSONRPCErrors.internalError)
-			XCTAssertEqual(error?.message, "refreshCancelled")
-			XCTAssertNil(error?.data)
+			XCTAssertEqual(error?.code, JSONRPCErrors.internalError, file: file, line: line)
+			XCTAssertEqual(error?.message, message, file: file, line: line)
+			XCTAssertNil(error?.data, file: file, line: line)
 			response.fulfill()
 		}
 
-		await request.relyWithError(RefreshError.refreshCancelled)
+		await request.relyWithError(supplied)
 		await fulfillment(of: [response], timeout: 1)
 	}
 }

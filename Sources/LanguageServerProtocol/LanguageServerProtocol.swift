@@ -1,3 +1,4 @@
+import Foundation
 import JSONRPC
 
 public typealias UnusedResult = LSPAny?
@@ -549,9 +550,20 @@ public enum ServerRequest: Sendable {
 		}
 	}
 
+	private static func replyMessage(for error: Error) -> String {
+		if let message = (error as? LocalizedError)?.errorDescription {
+			return message
+		}
+		// Every Swift Error bridges to NSError. Use its localized description for native NSErrors only.
+		if type(of: error) is NSError.Type {
+			return error.localizedDescription
+		}
+		return String(describing: error)
+	}
+
 	public func relyWithError(_ error: Error) async {
 		let protocolError = error as? AnyJSONRPCResponseError ?? AnyJSONRPCResponseError(
-			code: JSONRPCErrors.internalError, message: String(describing: error))
+			code: JSONRPCErrors.internalError, message: Self.replyMessage(for: error))
 
 		switch self {
 		case let .workspaceConfiguration(_, handler):
