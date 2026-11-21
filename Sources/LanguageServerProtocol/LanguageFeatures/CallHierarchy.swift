@@ -23,6 +23,15 @@ public struct CallHierarchyPrepareParams: Codable, Hashable, Sendable {
 }
 
 public struct CallHierarchyItem: Codable, Hashable, Sendable {
+	private enum CodingKeys: String, CodingKey {
+		case name, kind, detail, uri, range, selectionRange, data
+		case tag = "tags"
+	}
+
+	private enum LegacyCodingKeys: String, CodingKey {
+		case tag
+	}
+
 	public let name: String
 	public let kind: SymbolKind
 	public let tag: [SymbolTag]?
@@ -50,6 +59,24 @@ public struct CallHierarchyItem: Codable, Hashable, Sendable {
 		self.range = range
 		self.selectionRange = selectionRange
 		self.data = data
+	}
+
+	public init(from decoder: Decoder) throws {
+		let item = try decoder.container(keyedBy: CodingKeys.self)
+		if item.contains(.tag) {
+			tag = try item.decodeIfPresent([SymbolTag].self, forKey: .tag)
+		} else {
+			// Older versions encoded this property under its Swift name.
+			let legacy = try decoder.container(keyedBy: LegacyCodingKeys.self)
+			tag = try legacy.decodeIfPresent([SymbolTag].self, forKey: .tag)
+		}
+		name = try item.decode(String.self, forKey: .name)
+		kind = try item.decode(SymbolKind.self, forKey: .kind)
+		detail = try item.decodeIfPresent(String.self, forKey: .detail)
+		uri = try item.decode(DocumentUri.self, forKey: .uri)
+		range = try item.decode(LSPRange.self, forKey: .range)
+		selectionRange = try item.decode(LSPRange.self, forKey: .selectionRange)
+		data = try item.decodeIfPresent(LSPAny.self, forKey: .data)
 	}
 }
 
