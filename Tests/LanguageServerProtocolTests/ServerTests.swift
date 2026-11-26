@@ -81,9 +81,10 @@ final class ServerTests: XCTestCase {
 		await fulfillment(of: [response], timeout: 1)
 	}
 
-	func testServerRequestDescribesSwiftError() async {
+	func testServerRequestUsesFoundationFallbackForPlainError() async {
 		enum RefreshError: Error { case refreshCancelled }
-		await assertServerError(RefreshError.refreshCancelled, hasMessage: "refreshCancelled")
+		let error = RefreshError.refreshCancelled
+		await assertServerError(error, hasMessage: error.localizedDescription)
 	}
 
 	func testServerRequestUsesLocalizedErrorMessage() async {
@@ -92,6 +93,18 @@ final class ServerTests: XCTestCase {
 			var errorDescription: String? { "The workspace is offline." }
 		}
 		await assertServerError(FolderError.offline, hasMessage: "The workspace is offline.")
+	}
+
+	func testServerRequestUsesCustomNSErrorMessage() async {
+		enum FolderError: CustomNSError {
+			case offline
+
+			var errorUserInfo: [String: Any] {
+				[NSLocalizedDescriptionKey: "Could not reach the workspace."]
+			}
+		}
+
+		await assertServerError(FolderError.offline, hasMessage: "Could not reach the workspace.")
 	}
 
 	func testServerRequestSendsOnlyNSErrorMessage() async {
