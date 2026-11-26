@@ -1,3 +1,4 @@
+import Foundation
 import JSONRPC
 
 public typealias UnusedResult = LSPAny?
@@ -550,8 +551,8 @@ public enum ServerRequest: Sendable {
 	}
 
 	public func relyWithError(_ error: Error) async {
-		let protocolError = AnyJSONRPCResponseError(
-			code: JSONRPCErrors.internalError, message: "unsupported", data: nil)
+		let protocolError = error as? AnyJSONRPCResponseError ?? AnyJSONRPCResponseError(
+			code: JSONRPCErrors.internalError, message: error.localizedDescription)
 
 		switch self {
 		case let .workspaceConfiguration(_, handler):
